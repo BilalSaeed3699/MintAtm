@@ -1,0 +1,1121 @@
+﻿
+<head>
+    @*<link rel="stylesheet" href="~/assets/plugins/datatables/datatables.min.css">*@
+    @*<link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" />
+        <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.7/css/responsive.dataTables.min.css" />
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">*@
+
+    <link href="~/assets/css/datatable/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="~/assets/css/buttons.dataTables.min.css" rel="stylesheet" />
+    <link href="~/assets/css/datatable/responsive.dataTables.min.css" rel="stylesheet" />
+
+    <link href="~/assets/css/sweetalert.min.css" rel="stylesheet" />
+
+
+
+    <style>
+        table.table td h2 span {
+            color: white !important;
+        }
+
+        .dataTables_wrapper .dataTables_filter {
+            float: left;
+            text-align: right;
+        }
+
+        .dataTables_wrapper .dataTables_length {
+            float: right;
+        }
+
+        .bold {
+            font-weight: Bold;
+        }
+
+        .modal-header {
+            background-color: #8dc745 !important;
+            color: white;
+            padding: 10px;
+        }
+
+        .modal-body {
+            padding: 0.9rem !important;
+        }
+
+        .card-body {
+            padding: 1rem !important;
+        }
+
+
+        div.dt-buttons {
+            position: relative;
+            float: right;
+            padding-left: 10px !important;
+        }
+
+            div.dt-buttons button {
+                background-color: #8dc745 !important;
+                color: white !important;
+                border: 1px solid #8dc745 !important;
+            }
+    </style>
+</head>
+
+<div class="content container-fluid">
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="row">
+            <div class="col-sm-4 col-auto">
+                <h3 class="page-title">Terminal Manager</h3>
+
+            </div>
+            <div class="col-md-4">
+                <label id="lblTerminalSyncMessage" style="display:none;float:right;padding:14px;border-color:#c3e6cb;background-color: #d4edda;color: #155724;font-size:14px;"> Terminal Sync Successfully</label>
+
+
+
+            </div>
+            <div class="col-sm-4 col">
+
+                @*<div id="wait" >*@
+                <img id="Loader" src="~/assets/img/loader.gif" style="display:none; width: 12%; float: right; height: 100%; position: absolute; top: 8%; left: 43%;" />
+                @*<br>Wait...*@
+                @*</div>*@
+
+                <a id="btnSyncTerminalData" onclick="SyncTerminalData()" style="        Color: white;
+        background-color: #8dc745 !important;
+        border: 1px solid #8dc745
+" class="btn btn-primary float-right mt-2">Sync Terminal Data</a>
+            </div>
+        </div>
+    </div>
+    <!-- /Page Header -->
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    @*<div class="table-responsive">*@
+                    <div>
+                        <table class="table table-hover table-center mb-0 " id="example">
+                            <thead>
+                                <tr>
+                                    <th>Terminal ID</th>
+                                    <th>Location Name</th>
+
+                                    @*<th>Address</th>*@
+                                    <th>City</th>
+                                    <th>Region</th>
+                                    <th>Relationship Owner</th>
+
+
+                                    <th>Location Contact</th>
+                                    <th>Location Phone</th>
+
+
+                                    @*<th>Postal Code</th>*@
+                                    @*<th>Make And Model</th>*@
+
+                                    @*<th>Status</th>*@
+                                    @*<th class="text-right">Actions</th>*@
+                                    @*<th>Location Type</th>
+                                        <th>Serial Number</th>*@
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in ViewBag.TerminalsList)
+                                {
+                                    <tr>
+
+                                        <td>
+                                            <h2 class="table-avatar">
+                                                <a onclick="GetTerminalDetails('@item.TerminalKey', '@item.LocationName', '@item.LocationType', '@item.ContactName',
+        '@item.City', '@item.Region', '@item.ContactPhone', '@item.MakeAndModel', '@item.SerialNumber', '@item.Comment', '@item.Address',
+        '@item.ContactName', '@item.ContactPhone',@item.RelationshipId,@item.ProgramaTypeId,@item.CommunicationTypeId, '@item.EmailAddress',@item.Surcharge,
+    '@item.CommunicationSerialNumber')" style="color:deepskyblue"
+                                                   data-toggle="modal" data-target="#edit_specialities_details">@item.TerminalKey</a>
+
+
+                                                @*<a onclick="GetTerminalDetails('@item.TerminalKey', '@item.LocationName', '@item.LocationType', '@item.Address',
+                                                    '@item.City','@item.Region','@item.PostalCode','@item.MakeAndModel','@item.SerialNumber','@item.Comment')" style="color:deepskyblue"
+                                                                   data-toggle="modal" data-target="#edit_specialities_details">@item.TerminalKey</a>*@
+                                            </h2>
+                                        </td>
+                                        <td>
+                                            <h2 class="table-avatar">
+                                                <a>@item.LocationName</a>
+                                            </h2>
+                                        </td>
+
+                                        @*<td>
+                                                <h2 class="table-avatar">
+                                                    <a>@item.Address</a>
+                                                </h2>
+                                            </td>*@
+                                        <td>
+                                            <h2 class="table-avatar">
+                                                <a>@item.City</a>
+                                            </h2>
+                                        </td>
+                                        <td>
+                                            <h2 class="table-avatar">
+                                                <a>@item.Region</a>
+                                            </h2>
+                                        </td>
+
+                                        <td>
+                                            <h2 class="table-avatar">
+                                                <a>@item.Region</a>
+                                            </h2>
+                                        </td>
+
+                                        <td>
+                                            <h2 class="table-avatar">
+                                                <a>@item.ContactName</a>
+                                            </h2>
+                                        </td>
+
+                                        <td>
+                                            <h2 class="table-avatar">
+                                                <a>@item.ContactPhone</a>
+                                            </h2>
+                                        </td>
+
+                                        @*<td>
+                                                <h2 class="table-avatar">
+                                                    <a>@item.PostalCode</a>
+                                                </h2>
+                                            </td>*@
+                                        @*<td>
+                                                <h2 class="table-avatar">
+                                                    <a>@item.MakeAndModel</a>
+                                                </h2>
+                                            </td>*@
+
+                                        @*<td>
+                                                <h2 class="table-avatar">
+                                                    <a>
+                                                        @if (item.IsActive == 1)
+                                                        {
+                                                            <span class="badge badge-success">Active</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="badge badge-danger">De-Active</span>
+                                                        }
+                                                    </a>
+                                                </h2>
+                                            </td>*@
+
+
+                                        @*<td class="text-right">
+                                                <div class="actions">
+                                                    <a class="btn btn-sm bg-success-light" data-toggle="modal" href="#edit_specialities_details">
+                                                        <i class="fe fe-pencil"></i> Edit
+                                                    </a>
+
+                                                </div>
+                                            </td>*@
+
+                                        @*<td>
+                                                <h2 class="table-avatar">
+                                                    <a>@item.LocationType</a>
+                                                </h2>
+                                            </td>
+
+                                            <td>
+                                                <h2 class="table-avatar">
+                                                    <a>@item.SerialNumber</a>
+                                                </h2>
+                                            </td>*@
+                                    </tr>
+                                }
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade bd-example-modal-xl" id="edit_specialities_details" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myLargeModalLabel">
+                    <i class="fe fe-vector"></i>   Terminal Details
+                    &nbsp;&nbsp; <label id="lblTerminalSaveMessage" style="display:none;border-color:#c3e6cb; float:right;background-color: #d4edda;color: #155724;padding: 5px;font-size:14px;"> Terminal Update Successfully</label>
+                </h4>
+                <button style="color:white !important" class="close" type="button" data-dismiss="modal" aria-label="Close" data-original-title="" title=""><span aria-hidden="true">×</span></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="bold">Terminal </label>
+                            @*<input id="txtTerminalName" type="text" class="form-control">*@
+                            <p id="txtTerminalName" style="font-weight:bold !important;font-size:20px !important"></p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="bold">Terminal List:</label>
+                            @*@Html.DropDownList("TerminalList", ViewBag.TerminalDropdownList as IEnumerable<SelectListItem>, "Select Terminal",
+                                new { @class = "form-control js-example-basic-multiple", @required = "required", @id = "ddlTerminal" })*@
+
+
+
+                            <select id="ddlTerminal" required name="ddlTerminal" class="form-control js-example-basic-single">
+                                <option value="0">Select Terminal</option>
+                                @foreach (var item in ViewBag.TerminalDropdownList)
+                                {
+                                    <text>
+                                        <option value="@item.Value">@item.Text</option>
+                                    </text>
+                                }
+
+                            </select>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <form action="#">
+                            <div class="row">
+                                <div class="col-md-12">
+
+
+                                    @*First*@
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="bold">Location Name:</label>
+
+                                                <p id="txtLocationName"></p>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="bold">Make & Model:</label>
+                                                <p id="txtMaleAndModel"></p>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+
+
+
+                                            <div class="form-group">
+                                                <label class="bold">Relationship Owner :</label>
+
+                                                <p id="txtRelationShipOwner" hidden></p>
+
+                                                <select id="ddlRelationshipOwner" required name="ddlRelationshipOwner" class="form-control js-example-basic-single">
+                                                    <option value="0">Select Relationship Owner</option>
+                                                    @foreach (var item in ViewBag.RelationShipDropdownList)
+                                                    {
+                                                        <text>
+                                                            <option value="@item.Value">@item.Text</option>
+                                                        </text>
+                                                    }
+
+                                                </select>
+                                            </div>
+
+
+                                        </div>
+
+
+
+
+                                    </div>
+
+
+                                    @*Second*@
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="bold">City:</label>
+                                                <p id="txtCity"></p>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="bold">Serial Number:</label>
+
+                                                <p id="txtserailnumber"></p>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+
+
+
+                                            <div class="form-group">
+                                                <label class="bold">Program  Type :</label>
+
+                                                <select id="ddlProgramType" required name="ddlProgramType" class="form-control js-example-basic-single">
+                                                    <option value="0">Select Program Type</option>
+                                                    @foreach (var item in ViewBag.ProgramTypeDropdownList)
+                                                    {
+                                                        <text>
+                                                            <option value="@item.Value">@item.Text</option>
+                                                        </text>
+                                                    }
+
+                                                </select>
+                                            </div>
+
+
+                                        </div>
+
+
+
+
+                                    </div>
+
+
+                                    @*third*@
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="bold">Address:</label>
+                                                <p id="txtAddress"></p>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="bold">Communication Type:</label>
+
+                                                <select id="ddlCommunicationType" required name="ddlCommunicationType" class="form-control js-example-basic-single">
+                                                    <option value="0">Select Communication Type</option>
+                                                    @foreach (var item in ViewBag.CommunicationTypeDropdownList)
+                                                    {
+                                                        <text>
+                                                            <option value="@item.Value">@item.Text</option>
+                                                        </text>
+                                                    }
+
+                                                </select>
+
+                                                <input id="CommuicationSerialNumber" style="display:none;margin-top:10px !important;width:50% !important" value="" />
+                                            </div>
+                                        </div>
+
+
+
+
+                                        <div class="col-md-4">
+
+
+
+                                            <div class="form-group">
+                                                <label class="bold">Location Contact:</label>
+
+                                                <p id="txtContactName"></p>
+                                            </div>
+
+
+                                        </div>
+
+
+
+
+                                    </div>
+
+
+                                    @*fourth*@
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="bold">Region:</label>
+                                                <p id="txtRegion"></p>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="bold">Surcharge ($):</label> <br />
+                                                @*<p id="txtSurcharge"></p>*@
+                                                <input id="txtSurcharge" value="0" style="width:100% !important" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+
+
+                                            <div class="form-group">
+                                                <label class="bold">Location Phone:</label>
+
+                                                <p id="txtPhone"></p>
+                                            </div>
+
+
+
+                                        </div>
+
+
+
+
+                                    </div>
+
+
+                                    @*Fifth*@
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="bold">Postal Code:</label>
+                                                <p id="txtPostalCode"></p>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="bold">LocationType:</label>
+                                                <p id="txtLocationtype"></p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+
+
+                                            <div class="form-group">
+                                                <label class="bold">Email Address:</label> <br />
+
+                                                <input type="email" style="width:100% !important" id="txtEmailAddress" value="" />
+                                            </div>
+
+
+
+                                        </div>
+
+
+
+
+                                    </div>
+
+
+
+
+
+
+
+                                    @*Fifth*@
+                                    @*<div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label class="bold">Region:</label>
+                                                    <p id="txtRegion"></p>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label class="bold">Surcharge:</label>
+                                                    <p id="txtSurcharge"></p>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+
+
+                                                <div class="form-group">
+                                                    <label class="bold">Contact Phone:</label>
+
+                                                    <p id="txtPostalCode"></p>
+                                                </div>
+
+
+
+                                            </div>
+
+
+
+
+                                        </div>*@
+
+
+
+
+
+
+
+
+
+
+
+                                    @*<div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label class="bold">Location Name:</label>
+
+                                                    <p id="txtLocationName"></p>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label class="bold">Make & Model:</label>
+                                                    <p id="txtMaleAndModel"></p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+
+
+
+
+
+                                                <div class="form-group">
+                                                    <label class="bold">Contact Name:</label>
+
+                                                    <p id="txtAddressss"></p>
+                                                </div>
+
+
+                                            </div>
+
+
+
+
+                                        </div>*@
+
+
+                                    @*<div class="row">
+                                            <div class="col-md-6">
+
+                                            </div>
+                                            <div class="col-md-6">
+
+
+
+
+                                            </div>
+                                        </div>*@
+
+                                    @*<div class="row">
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label class="bold">Location Type:</label>
+                                                                        <p id="txtLocationtype"></p>
+
+
+
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-md-6">
+
+                                                                    <div class="form-group">
+                                            <label class="bold">Postal Code:</label>
+
+                                            <p id="txtPostalCode"></p>
+                                        </div>
+                                                                </div>
+                                                            </div>*@
+
+
+
+
+
+
+
+
+                                    @*<div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="bold">Region:</label>
+                                                    <p id="txtRegion"></p>
+
+                                                </div>
+                                            </div>
+
+
+                                        </div>*@
+
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label class="bold">Comment</label>
+                                            <textarea rows="3" id="txtComment" class="form-control service-desc" name="Comment"></textarea>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal" data-original-title="" title="">Close</button>
+                <button onclick="SaveTerminalComments()" style="        background-color: #8dc745 !important;
+        border: 1px solid #8dc745
+" class="btn btn-primary" type="button" data-original-title="" title="">
+                    Save
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="delete_modal" aria-hidden="true" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            @*<div class="modal-header" style="background-color:#1b5a90">
+                    <h5 class="modal-title">Delete User</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>*@
+            <div class="modal-body">
+                <div class="form-content p-2">
+                    <h4 class="modal-title">Delete</h4>
+                    <p class="mb-4">Are you sure want to delete?</p>
+                    <button type="button" class="btn btn-primary">Save </button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@*<script src="~/assets/js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('#tblTerminal').DataTable({
+
+                "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                "pageLength": -1,
+                "searching": true,
+
+            });
+    </script>*@
+
+
+
+@*<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+     <script src="https://cdn.datatables.net/responsive/2.2.7/js/dataTables.responsive.min.js"></script>*@
+
+<script src="~/assets/js/jquery-3.5.1.js"></script>
+<script src="~/assets/js/sweetalert.min.js"></script>
+<script src="~/assets/js/datatable/jquery.dataTables.min.js"></script>
+<script src="~/assets/js/datatable/dataTables.responsive.min.js"></script>
+
+<script src="~/assets/js/dataTables.buttons.min.js"></script>
+<script src="~/assets/js/jszip.min.js"></script>
+<script src="~/assets/js/pdfmake.min.js"></script>
+<script src="~/assets/js/vfs_fonts.js"></script>
+<script src="~/assets/js/buttons.html5.min.js"></script>
+<script src="~/assets/js/buttons.print.min.js"></script>
+<script>
+
+
+    $(document).ready(function () {
+        $('#example').DataTable({
+            dom: 'lBfrtip',
+
+            "lengthMenu": [[100, 250, 500, 1000, -1], [100, 250, 500, 1000, "All"]],
+            "pageLength": 100,
+
+            /*dom: 'flit',*/
+            buttons: [
+                //'excel',
+                //text: 'Custom text'
+
+                { extend: 'excel', text: 'Export List to Excel', filename: 'Terminal Manager List',title:'Terminal Manager List'}
+            ],
+
+            "searching": true
+            ,
+            responsive: true,
+            paging: true
+
+            /*,*/
+            //columnDefs: [
+            //    //{ responsivePriority: 1, targets: 0 },
+            //    //{ responsivePriority: 10001, targets: 4 },
+            //    { responsivePriority: 0, targets: -7 }
+            //]
+        });
+
+        jQuery('#ddlLocation').select2();
+        jQuery('#ddlTerminal').select2();
+        jQuery('#ddlRegion').select2();
+        jQuery('#ddlMakeModel').select2();
+        jQuery('#ddlRelationshipOwner').select2();
+        jQuery('#ddlProgramType').select2();
+
+        jQuery('#ddlCommunicationType').select2();
+
+
+
+
+        $(".nav li").removeClass("active");
+        $('#Terminal').addClass('active');
+
+    });
+
+    function SyncTerminalData() {
+
+
+
+        $("#Loader").css("display", "block");
+
+
+        document.getElementById("btnSyncTerminalData").innerHTML = "Please Wait...";
+        document.getElementById("btnSyncTerminalData").style.backgroundColor = 'Black';
+        document.getElementById("btnSyncTerminalData").style.borderColor = "Black";
+        document.getElementById("btnSyncTerminalData").style.pointerEvents = "none";
+        document.getElementById("btnSyncTerminalData").style.cursor = "default";
+
+
+        $.ajax({
+            url: '@Url.Action("SyncTerminalData", "Terminal")',
+            /*url: 'Terminal/SyncTerminalData',*/
+            type: "GET",
+            dataType: 'JSON',
+            success: function (result) {
+
+                if (result == "1") {
+
+                    document.getElementById("btnSyncTerminalData").innerHTML = "Sync Terminal Data";
+                    document.getElementById("btnSyncTerminalData").style.backgroundColor = '#8dc745';
+                    document.getElementById("btnSyncTerminalData").style.borderColor = "#8dc745";
+                    document.getElementById("btnSyncTerminalData").style.pointerEvents = "auto";
+                    document.getElementById("btnSyncTerminalData").style.cursor = "pointer";
+                    $("#Loader").css("display", "none");
+                    swal({
+                        title: "Sync Terminal Data ", text: "Terminal data Sync Successfully", type: "success"
+                        ,
+                        timer: 3000,
+                        showConfirmButton: false
+                    }, function () {
+                        location.reload();
+                    });
+                    //},
+                    //    function () {
+                    //        location.reload();
+                    //    }
+                    //);
+                }
+                else if (result != "1") {
+                    var resultmessage = "Webmon login authentication failed. Verify webmon username/password";
+
+                    document.getElementById("btnSyncTerminalData").innerHTML = "Sync Report Data";
+                    document.getElementById("btnSyncTerminalData").style.backgroundColor = '#8dc745';
+                    document.getElementById("btnSyncTerminalData").style.borderColor = "#8dc745";
+                    document.getElementById("btnSyncTerminalData").style.pointerEvents = "auto";
+                    document.getElementById("btnSyncTerminalData").style.cursor = "pointer";
+                    $("#Loader").css("display", "none");
+                    swal({
+                        title: "Sync Terminal Data?",
+                        text: resultmessage,
+                        type: "warning",
+                        showCancelButton: true,
+                        closeOnConfirm: false
+                    },
+                    );
+
+                }
+
+
+            },
+            error: function (err) {
+
+            }
+        });
+
+
+    }
+
+
+    $("#ddlCommunicationType").change(function (event) {
+
+
+        var CommunicationType = $("#ddlCommunicationType").val();
+        if (CommunicationType == 1 || CommunicationType == 4) {
+
+            document.getElementById('CommuicationSerialNumber').style.display = 'block';
+        }
+        else {
+            document.getElementById('CommuicationSerialNumber').style.display = 'none';
+        }
+
+    });
+
+
+    $("#ddlTerminal").change(function (event) {
+        var TerminalKey = $("#ddlTerminal").val();
+
+
+        $.ajax({
+          /*  url: 'Terminal/GetTerminalInformation',*/
+            url: '@Url.Action("GetTerminalInformation", "Terminal")',
+            type: "GET",
+            dataType: 'JSON',
+            data: { TerminalKey: TerminalKey },
+            success: function (result) {
+
+                if (result.length > 0) {
+
+                    $("#ddlTerminal").val(result[0].TerminalKey);
+
+                    document.getElementById("txtMaleAndModel").innerHTML = result[0].MakeAndModel;
+                    document.getElementById("txtRelationShipOwner").innerHTML = "";
+
+
+                    $("#ddlRelationshipOwner").val(result[0].RelationshipId);
+                    $('#ddlRelationshipOwner').trigger('change');
+
+                    $("#ddlProgramType").val(result[0].ProgramaTypeId);
+                    $('#ddlProgramType').trigger('change');
+
+                    $("#ddlCommunicationType").val(result[0].CommunicationTypeId);
+                    $('#ddlCommunicationType').trigger('change');
+
+
+
+
+                    if (result[0].CommunicationTypeId == 1 || result[0].CommunicationTypeId == 4) {
+                        document.getElementById('CommuicationSerialNumber').style.display = 'block';
+                        $("#CommuicationSerialNumber").val(result[0].CommunicationSerialNumber);
+                    }
+                    else {
+                        document.getElementById('CommuicationSerialNumber').style.display = 'none';
+                        $("#CommuicationSerialNumber").val("");
+                    }
+
+
+
+
+
+                    $("#txtSurcharge").val(result[0].Surcharge);
+                    $("#txtEmailAddress").val(result[0].EmailAddress);
+
+                    document.getElementById("txtTerminalName").innerHTML = result[0].TerminalKey;
+
+
+                    document.getElementById("txtLocationName").innerHTML = result[0].LocationName;
+
+                    document.getElementById("txtLocationtype").innerHTML = result[0].LocationType;
+
+                    document.getElementById("txtAddress").innerHTML = result[0].Address;
+
+
+                    document.getElementById("txtCity").innerHTML = result[0].City;
+
+
+
+                    document.getElementById("txtRegion").innerHTML = result[0].Region;
+
+                    document.getElementById("txtPostalCode").innerHTML = result[0].PostalCode;
+
+                    document.getElementById("txtContactName").innerHTML = result[0].ContactName;
+
+                    document.getElementById("txtPhone").innerHTML = result[0].ContactPhone;
+
+
+                    document.getElementById("txtMaleAndModel").innerHTML = result[0].MakeAndModel;
+
+
+                    document.getElementById("txtserailnumber").innerHTML = result[0].SerialNumber;
+
+
+                    $("#txtComment").val(result[0].Comment);
+
+
+
+
+                    //document.getElementById("txtMaleAndModel").innerHTML = MakeAndModel;
+                    //document.getElementById("txtCity").innerHTML = City;
+                    //document.getElementById("txtserailnumber").innerHTML = SerialNumber;
+
+                    //document.getElementById("txtAddress").innerHTML = Address;
+
+                    //document.getElementById("txtContactName").innerHTML = ContactName;
+
+                    //document.getElementById("txtRegion").innerHTML = Region;
+                    //document.getElementById("txtSurcharge").innerHTML = 0;
+                    //document.getElementById("txtPhone").innerHTML = ContactPhone;
+
+                    //document.getElementById("txtTerminalName").innerHTML = TerminalKey;
+
+
+
+                    //document.getElementById("txtLocationName").innerHTML = LocationName;
+
+
+                    //document.getElementById("txtLocationtype").innerHTML = LocationType;
+
+
+                    //document.getElementById("txtAddress").innerHTML = Address;
+
+
+                    //document.getElementById("txtPostalCode").innerHTML = PostalCode;
+
+
+                    //$("#txtComment").val(Comment);
+
+
+
+
+                    //$("#txtSurcharge").val(Surcharge);
+                    //$("#txtEmailAddress").val(EmailAddress);
+
+
+
+
+
+                }
+            },
+            error: function (err) {
+
+            }
+        });
+
+
+
+    });
+
+    //Function to save terminal comments
+    function SaveTerminalComments() {
+
+        /*var TerminalKey = $("#txtTerminalName").val();*/
+
+        var TerminalKey = document.getElementById("txtTerminalName").innerHTML;
+
+        var Comments = $("#txtComment").val();
+        var ddlRelationshipowner = $("#ddlRelationshipOwner").val();
+        var ddlProgramType = $("#ddlProgramType").val();
+        var ddlCommunicationType = $("#ddlCommunicationType").val();
+        var txtSurcharge = $("#txtSurcharge").val();
+        var txtEmailAddress = $("#txtEmailAddress").val();
+        var CommuicationSerialNumber = $("#CommuicationSerialNumber").val();
+
+
+        $.ajax({
+       /*     url: 'Terminal/SaveTerminalComments',*/
+             url: '@Url.Action("SaveTerminalComments", "Terminal")',
+            type: "POST",
+            dataType: 'JSON',
+            data: {
+                SerialNumber: CommuicationSerialNumber,Comments: Comments, RelationId: ddlRelationshipowner, ProgramId: ddlProgramType, CommunicationId: ddlCommunicationType,
+                Surcharge: txtSurcharge, Email: txtEmailAddress,TerminalKey: TerminalKey
+            },
+            success: function (result) {
+                var Documents;
+                if (result == "1") {
+                    //$("#lblTerminalSaveMessage").fadeIn();
+                    //$("#lblTerminalSaveMessage").fadeOut(5000);
+                    $("html, body").animate({ scrollTop: 0 }, "slow");
+
+                    swal({ title: "Terminal Comments: ", text: "Terminal Comments Save Successfully", type: "success" },
+                        function () {
+                            location.reload();
+                        });
+                }
+                else if (result != "1") {
+                    swal({
+                        title: "Save Terminal Comments?",
+                        text: result,
+                        type: "warning",
+                        showCancelButton: true,
+                        closeOnConfirm: false
+                    },
+                    );
+                }
+
+            },
+            error: function (err) {
+
+            }
+        });
+
+
+    }
+
+    //Function to load Terminal detais  on model opening
+    function GetTerminalDetails(TerminalKey, LocationName, LocationType, Address, City, Region, PostalCode, MakeAndModel, SerialNumber, Comment, Address, ContactName, ContactPhone,
+        RelationshipId, ProgramaTypeId, CommunicationTypeId, EmailAddress, Surcharge, CommunicationSerialNumber) {
+
+
+        document.getElementById("txtMaleAndModel").innerHTML = MakeAndModel;
+        document.getElementById("txtRelationShipOwner").innerHTML = "";
+        document.getElementById("txtCity").innerHTML = City;
+        document.getElementById("txtserailnumber").innerHTML = SerialNumber;
+
+        document.getElementById("txtAddress").innerHTML = Address;
+
+        document.getElementById("txtContactName").innerHTML = ContactName;
+
+        document.getElementById("txtRegion").innerHTML = Region;
+        document.getElementById("txtSurcharge").innerHTML = 0;
+        document.getElementById("txtPhone").innerHTML = ContactPhone;
+
+        document.getElementById("txtTerminalName").innerHTML = TerminalKey;
+
+
+
+        document.getElementById("txtLocationName").innerHTML = LocationName;
+
+
+        document.getElementById("txtLocationtype").innerHTML = LocationType;
+
+
+        document.getElementById("txtAddress").innerHTML = Address;
+
+
+        document.getElementById("txtPostalCode").innerHTML = PostalCode;
+
+
+
+
+
+
+
+        $("#txtComment").val(Comment);
+
+
+        $("#ddlRelationshipOwner").val(RelationshipId);
+        $('#ddlRelationshipOwner').trigger('change');
+
+        $("#ddlProgramType").val(ProgramaTypeId);
+        $('#ddlProgramType').trigger('change');
+
+        $("#ddlCommunicationType").val(CommunicationTypeId);
+        $('#ddlCommunicationType').trigger('change');
+
+
+
+        if (CommunicationTypeId == 1 || CommunicationTypeId == 4) {
+            document.getElementById('CommuicationSerialNumber').style.display = 'block';
+            $("#CommuicationSerialNumber").val(CommunicationSerialNumber);
+        }
+        else {
+            document.getElementById('CommuicationSerialNumber').style.display = 'none';
+            $("#CommuicationSerialNumber").val("");
+        }
+
+
+
+        $("#txtSurcharge").val(Surcharge);
+        $("#txtEmailAddress").val(EmailAddress);
+
+
+
+
+
+    }
+
+</script>

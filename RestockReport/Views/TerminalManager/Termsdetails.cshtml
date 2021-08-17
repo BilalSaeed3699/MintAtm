@@ -1,0 +1,1347 @@
+﻿@using RestockReport.Models;
+
+@{
+    ViewBag.Title = "Termsdetails";
+}
+
+<head>
+    <link href="~/assets/css/sweetalert.min.css" rel="stylesheet" />
+    <style>
+
+        .bold {
+            font-weight: bold;
+        }
+
+        .myAlert-bottom {
+            position: fixed;
+            bottom: 5px;
+            width: 50%;
+            left: 50%;
+        }
+
+        .alert-danger {
+            display: none;
+        }
+
+        .alert {
+            display: none;
+        }
+    </style>
+</head>
+<div class="content container-fluid">
+
+    <div class="page-header" style="margin-bottom:0px !important;background-color:#8dc745 !important;padding:10px !important">
+        <div class="row">
+            <div class="col-sm-3 col-md-offset-1 col-auto">
+                <h3 class="page-title" style="color:white !important">Terms Details</h3>
+
+
+            </div>
+
+            <div class="col-md-6">
+                <input id="txtTerminalId" value="@ViewBag.TerminalId" hidden />
+                <h4 style="font-weight:Bold;text-align:center">@ViewBag.TerminalId - @ViewBag.LocationName</h4>
+            </div>
+
+            <div class="col-md-3">
+                <a href="@Url.Action("Index","TerminalManager")" style="float:right !important;background-color:#7f7f7f !important;border: 1px solid #7f7f7f" class="btn btn-primary float-right mt-2">Terms Manager</a>
+            </div>
+        </div>
+    </div>
+
+    <br />
+
+    @*<div class="row">
+            <div class="col-md-12">
+
+
+            </div>
+        </div>*@
+
+    <!-- /Page Header -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <ul class="nav nav-tabs nav-tabs-solid" style="background-color:white !important">
+                                <li style="        border: 1px solid #8dc745
+" class="nav-item"><a id="UserDetails" class="nav-link active" href="#solid-tab1" data-toggle="tab">Surcharge Splits</a></li>
+                                <li style="        border: 1px solid #8dc745
+" class="nav-item"><a id="Terminals" class="nav-link" href="#solid-tab2" data-toggle="tab">Interchange Splits</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-md-5">
+                            @*<div class="alert alert-success d-flex align-items-center" role="alert"  style="display:none !important">
+
+            <div>
+                <i class="fa fa-check-circle"></i> <small style="font-size:15px !important">Total Surcharge Amount not equal to Total Surcharge Assigned</small>
+            </div>
+        </div>*@
+
+                            <div id="alertsurchargedanger" style="display:none !important;color:#f8d7da !important; background-color : #f8d7da !important;color:#721c24 !important;padding:8px !important">
+                                <i class="fa fa-times-circle"></i>
+                                <small style="font-size:15px !important" id="ComparisonMessage">Total Surcharge Amount not equal to Total Surcharge Assigned</small>
+                            </div>
+
+                            <div id="alertInterchangedanger" style="display:none !important;color:#f8d7da !important; background-color : #f8d7da !important;color:#721c24 !important;padding:8px !important">
+                                <i class="fa fa-times-circle"></i>
+                                <small style="font-size:15px !important" id="ComparisonMessage">Total Interchange Amount not equal to Total Interchange Assigned</small>
+                            </div>
+                            @*<div  class="alert alert-danger d-flex align-items-center" role="alert" >
+
+            <div>
+
+            </div>
+        </div>*@
+
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group" style="float:right !important">
+                                <label class="bold">Vault Cash Account:</label>
+                                <select id="ddlVaultCashAccount" required name="ddlVaultCashAccount" class="form-control js-example-basic-single">
+                                    @foreach (var item in ViewBag.BankNameList)
+                                    {
+                                        <text>
+                                            <option value="@item.BankAccountId">@item.Nickname</option>
+
+                                        </text>
+                                    }
+
+
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="tab-content" style="padding-top:0px !important">
+                        <div class="tab-pane show active" id="solid-tab1">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="cold-md-2">
+                                            <h6 style="font-weight:bold">TOTAL TERMINAL SURCHARGE AMOUNT:</h6>
+
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <input type="number" oninput="validate(this,2)" id="txttotalsurchargeamount" />
+                                        </div>
+                                    </div>
+
+                                    <br />
+
+                                    @*First Row*@
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label style="font-weight:bold">Surcharge  Split #1: <small id="lblAccessLevelError" style="color: red;display: none"> Select Access Level </small></label>
+                                            <select id="ddlSurchargesplit1" required name="ddlSurchargesplit1" class="form-control js-example-basic-single">
+                                                @foreach (var item in ViewBag.TermsDetailBankNameList)
+                                                {
+                                                    <text>
+                                                        <option value="@item.BankAccountId">@item.NickName</option>
+
+                                                    </text>
+                                                }
+
+
+                                            </select>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <label style="font-weight:bold">Amount</label>
+                                            <input onblur="GetTotalSurchargeAssigned()" id="txtAmount1" type="number" style="width:100% !important;padding:4px !important;font-size:14px !important" oninput="validate(this,4)" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label style="font-weight:bold">Settlement Source: <small id="lblAccessLevelError" style="color: red;display: none"> Select Access Level </small></label>
+                                            <select id="ddlSettlementSource1" required name="ddlSettlementSource1" class="form-control js-example-basic-single">
+                                                <option value="0" selected>---</option>
+                                                <option value="1">Direct Deposit Via Switch</option>
+                                                <option value="2">Direct Deposit Via Mint</option>
+                                                <option value="3">Monthly Cheque Issued </option>
+
+
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-1">
+                                            <label style="font-weight:bold">Segmented</label>
+                                            <div class="status-toggle">
+
+                                                <input name="DashboardFilter1" type="checkbox" id="rdb1" class="check">
+                                                <label for="rdb1" class="checktoggle">checkbox </label>
+
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label style="font-weight:bold;float:right">If segmented, Remainder to: <small id="lblAccessLevelError" style="color: red;display: none"> Select Access Level </small></label>
+                                            <select id="ddlSegmented1" required name="ddlSegmented1" class="form-control js-example-basic-single">
+
+                                                @foreach (var item in ViewBag.TermsDetailSegmentedBankNameList)
+                                                {
+
+                                                    <text>
+                                                        <option value="@item.BankAccountId">@item.NickName</option>
+
+                                                    </text>
+                                                }
+
+
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    @*Second Row*@
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label style="font-weight:bold">Surcharge  Split #2: <small id="lblAccessLevelError" style="color: red;display: none"> Select Access Level </small></label>
+                                            <select id="ddlSurchargesplit2" required name="ddlSurchargesplit2" class="form-control js-example-basic-single">
+                                                @foreach (var item in ViewBag.TermsDetailBankNameList)
+                                                {
+                                                    <text>
+                                                        <option value="@item.BankAccountId">@item.NickName</option>
+
+                                                    </text>
+                                                }
+
+
+                                            </select>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <label style="font-weight:bold;visibility:hidden">Amount</label>
+                                            <input onblur="GetTotalSurchargeAssigned()" id="txtAmount2" type="number" style="width:100% !important;padding:4px !important;font-size:14px !important" oninput="validate(this,4)" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label style="font-weight:bold;visibility:hidden">Settlement Source: <small id="lblAccessLevelError" style="color: red;display: none"> Select Access Level </small></label>
+                                            <select id="ddlSettlementSource2" required name="ddlSettlementSource2" class="form-control js-example-basic-single">
+                                                <option value="0" selected>---</option>
+                                                <option value="1">Direct Deposit Via Switch</option>
+                                                <option value="2">Direct Deposit Via Mint</option>
+                                                <option value="3">Monthly Cheque Issued </option>
+
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-1">
+                                            <label style="font-weight:bold;visibility:hidden">Segmented</label>
+                                            <div class="status-toggle">
+
+                                                <input name="DashboardFilter2" type="checkbox" id="rdb2" class="check">
+                                                <label for="rdb2" class="checktoggle">checkbox </label>
+
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label style="font-weight:bold;float:right;visibility:hidden">If segmented, Remainder to: <small id="lblAccessLevelError" style="color: red;display: none"> Select Access Level </small></label>
+                                            <select id="ddlSegmented2" required name="ddlSegmented2" class="form-control js-example-basic-single">
+
+                                                @foreach (var item in ViewBag.TermsDetailSegmentedBankNameList)
+                                                {
+                                                    <text>
+                                                        <option value="@item.BankAccountId">@item.NickName</option>
+
+                                                    </text>
+                                                }
+
+
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+
+
+
+                                    @*Third Row*@
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label style="font-weight:bold">Surcharge  Split #3: <small id="lblAccessLevelError" style="color: red;display: none"> Select Access Level </small></label>
+                                            <select id="ddlSurchargesplit3" required name="ddlSurchargesplit3" class="form-control js-example-basic-single">
+                                                @foreach (var item in ViewBag.TermsDetailBankNameList)
+                                                {
+                                                    <text>
+                                                        <option value="@item.BankAccountId">@item.NickName</option>
+
+                                                    </text>
+                                                }
+
+
+                                            </select>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <label style="font-weight:bold;visibility:hidden">Amount</label>
+                                            <input onblur="GetTotalSurchargeAssigned()" id="txtAmount3" type="number" style="width:100% !important;padding:4px !important;font-size:14px !important" oninput="validate(this,4)" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label style="font-weight:bold;visibility:hidden">Settlement Source: <small id="lblAccessLevelError" style="color: red;display: none"> Select Access Level </small></label>
+                                            <select id="ddlSettlementSource3" required name="ddlSettlementSource3" class="form-control js-example-basic-single">
+                                                <option value="0" selected>---</option>
+                                                <option value="1">Direct Deposit Via Switch</option>
+                                                <option value="2">Direct Deposit Via Mint</option>
+                                                <option value="3">Monthly Cheque Issued </option>
+
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-1">
+                                            <label style="font-weight:bold;visibility:hidden">Segmented</label>
+                                            <div class="status-toggle">
+
+                                                <input name="DashboardFilter3" type="checkbox" id="rdb3" class="check">
+                                                <label for="rdb3" class="checktoggle">checkbox </label>
+
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label style="font-weight:bold;float:right;visibility:hidden">If segmented, Remainder to: <small id="lblAccessLevelError" style="color: red;display: none"> Select Access Level </small></label>
+                                            <select id="ddlSegmented3" required name="ddlSegmented3" class="form-control js-example-basic-single">
+
+                                                @foreach (var item in ViewBag.TermsDetailSegmentedBankNameList)
+                                                {
+                                                    <text>
+                                                        <option value="@item.BankAccountId">@item.NickName</option>
+
+                                                    </text>
+                                                }
+
+
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    @*Fourth Row*@
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label style="font-weight:bold">Surcharge  Split #4: <small id="lblAccessLevelError" style="color: red;display: none"> Select Access Level </small></label>
+                                            <select id="ddlSurchargesplit4" required name="ddlSurchargesplit4" class="form-control js-example-basic-single">
+                                                @foreach (var item in ViewBag.TermsDetailBankNameList)
+                                                {
+                                                    <text>
+                                                        <option value="@item.BankAccountId">@item.NickName</option>
+
+                                                    </text>
+                                                }
+
+
+                                            </select>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <label style="font-weight:bold;visibility:hidden">Amount</label>
+                                            <input onblur="GetTotalSurchargeAssigned()" id="txtAmount4" type="number" style="width:100% !important;padding:4px !important;font-size:14px !important" oninput="validate(this,4)" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label style="font-weight:bold;visibility:hidden">Settlement Source: <small id="lblAccessLevelError" style="color: red;display: none"> Select Access Level </small></label>
+                                            <select id="ddlSettlementSource4" required name="ddlSettlementSource4" class="form-control js-example-basic-single">
+                                                <option value="0" selected>---</option>
+                                                <option value="1">Direct Deposit Via Switch</option>
+                                                <option value="2">Direct Deposit Via Mint</option>
+                                                <option value="3">Monthly Cheque Issued </option>
+
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-1">
+                                            <label style="font-weight:bold;visibility:hidden">Segmented</label>
+                                            <div class="status-toggle">
+
+                                                <input name="DashboardFilter4" type="checkbox" id="rdb4" class="check">
+                                                <label for="rdb4" class="checktoggle">checkbox </label>
+
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label style="font-weight:bold;float:right;visibility:hidden">If segmented, Remainder to: <small id="lblAccessLevelError" style="color: red;display: none"> Select Access Level </small></label>
+                                            <select id="ddlSegmented4" required name="ddlSegmented4" class="form-control js-example-basic-single">
+
+                                                @foreach (var item in ViewBag.TermsDetailSegmentedBankNameList)
+                                                {
+                                                    <text>
+                                                        <option value="@item.BankAccountId">@item.NickName</option>
+
+                                                    </text>
+                                                }
+
+
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+
+                                    @*Fifth Row*@
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label style="font-weight:bold">Surcharge  Split #5: <small id="lblAccessLevelError" style="color: red;display: none"> Select Access Level </small></label>
+                                            <select id="ddlSurchargesplit5" required name="ddlSurchargesplit5" class="form-control js-example-basic-single">
+                                                @foreach (var item in ViewBag.TermsDetailBankNameList)
+                                                {
+                                                    <text>
+                                                        <option value="@item.BankAccountId">@item.NickName</option>
+
+                                                    </text>
+                                                }
+
+
+                                            </select>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <label style="font-weight:bold;visibility:hidden">Amount</label>
+                                            <input onblur="GetTotalSurchargeAssigned()" id="txtAmount5" type="number" style="width:100% !important;padding:4px !important;font-size:14px !important" oninput="validate(this,4)" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label style="font-weight:bold;visibility:hidden">Settlement Source: <small id="lblAccessLevelError" style="color: red;display: none"> Select Access Level </small></label>
+                                            <select id="ddlSettlementSource5" required name="ddlSettlementSource5" class="form-control js-example-basic-single">
+                                                <option value="0" selected>---</option>
+                                                <option value="1">Direct Deposit Via Switch</option>
+                                                <option value="2">Direct Deposit Via Mint</option>
+                                                <option value="3">Monthly Cheque Issued </option>
+
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-1">
+                                            <label style="font-weight:bold;visibility:hidden">Segmented</label>
+                                            <div class="status-toggle">
+
+                                                <input name="DashboardFilter5" type="checkbox" id="rdb5" class="check">
+                                                <label for="rdb5" class="checktoggle">checkbox </label>
+
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label style="font-weight:bold;float:right;visibility:hidden">If segmented, Remainder to: <small id="lblAccessLevelError" style="color: red;display: none"> Select Access Level </small></label>
+                                            <select id="ddlSegmented5" required name="ddlSegmented5" class="form-control js-example-basic-single">
+
+                                                @foreach (var item in ViewBag.TermsDetailSegmentedBankNameList)
+                                                {
+                                                    <text>
+                                                        <option value="@item.BankAccountId">@item.NickName</option>
+
+                                                    </text>
+                                                }
+
+
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row">
+                                        <div class="col-md-1"></div>
+                                        <div class="col-md-3 ">
+                                            <strong>TOTAL SURCHARGE ASSIGNED:</strong>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <strong id="TotalSurchargeAssigned"></strong>
+                                            <input id="txtTotalSurchargeAssigned" hidden value="0" />
+                                        </div>
+                                    </div>
+
+
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="solid-tab2">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="cold-md-2">
+                                            <h6 style="font-weight:bold">TOTAL INTERCHANGE AMOUNT:</h6>
+
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <input type="number" id="txttotalInterchangeamount" value="0.675" />
+                                        </div>
+                                    </div>
+
+                                    <br />
+
+                                    @*First Row*@
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label style="font-weight:bold">Interchange  Split #1 (Remainder) <small id="lblAccessLevelError" style="color: red;display: none"> Select Access Level </small></label>
+                                            <input id="txtInterchangeSplit1" style="width:100% !important" hidden />
+                                            <select id="ddlInterchangesplit1" required name="ddlInterchangesplit1" class="form-control js-example-basic-single">
+                                                @foreach (var item in ViewBag.TermsDetailBankNameList)
+                                                {
+                                                    <text>
+                                                        @if (item.BankAccountId == 3)
+                                                        {
+                                                            <option selected value="@item.BankAccountId">@item.NickName</option>
+                                                        }
+                                                        else
+                                                        {
+                                                            <option value="@item.BankAccountId">@item.NickName</option>
+                                                        }
+
+
+                                                    </text>
+                                                }
+
+
+                                            </select>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <label style="font-weight:bold">Amount</label>
+                                            <input id="txtInterchangeAmount1" type="number" style="width:100% !important;padding:4px !important;font-size:14px !important" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label style="font-weight:bold">Settlement Source: <small id="lblAccessLevelError" style="color: red;display: none"> Select Access Level </small></label>
+
+                                        </div>
+
+
+                                    </div>
+
+                                    @*Second Row*@
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label style="font-weight:bold">Interchange  Split #2: <small id="lblAccessLevelError" style="color: red;display: none"> Select Access Level </small></label>
+                                            <select id="ddlInterchangesplit2" required name="ddlInterchangesplit2" class="form-control js-example-basic-single">
+                                                @foreach (var item in ViewBag.TermsDetailBankNameList)
+                                                {
+                                                    <text>
+                                                        <option value="@item.BankAccountId">@item.NickName</option>
+
+                                                    </text>
+                                                }
+
+
+                                            </select>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <label style="font-weight:bold;visibility:hidden">Amount</label>
+                                            <input onfocusout="GetTotalInterchangeAssigned()" id="txtInterchangeAmount2" type="number" style="width:100% !important;padding:4px !important;font-size:14px !important" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label style="font-weight:bold;visibility:hidden">Settlement Source: <small id="lblAccessLevelError" style="color: red;display: none"> Select Access Level </small></label>
+                                            <select id="ddlInterchangeSettlementSource2" required name="ddlInterchangeSettlementSource2" class="form-control js-example-basic-single">
+                                                <option value="0" selected>---</option>
+                                                <option value="1">Direct Deposit Via Switch</option>
+                                                <option value="2">Direct Deposit Via Mint</option>
+
+
+                                            </select>
+                                        </div>
+
+
+                                    </div>
+
+
+
+
+
+                                    @*Third Row*@
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label style="font-weight:bold">Interchange  Split #3: <small id="lblAccessLevelError" style="color: red;display: none"> Select Access Level </small></label>
+                                            <select id="ddlInterchangesplit3" required name="ddlInterchangesplit3" class="form-control js-example-basic-single">
+                                                @foreach (var item in ViewBag.TermsDetailBankNameList)
+                                                {
+                                                    <text>
+                                                        <option value="@item.BankAccountId">@item.NickName</option>
+
+                                                    </text>
+                                                }
+
+
+                                            </select>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <label style="font-weight:bold;visibility:hidden">Amount</label>
+                                            <input onfocusout="GetTotalInterchangeAssigned()" id="txtInterchangeAmount3" type="number" style="width:100% !important;padding:4px !important;font-size:14px !important" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label style="font-weight:bold;visibility:hidden">Settlement Source: <small id="lblAccessLevelError" style="color: red;display: none"> Select Access Level </small></label>
+                                            <select id="ddlInterchangeSettlementSource3" required name="ddlInterchangeSettlementSource3" class="form-control js-example-basic-single">
+                                                <option value="0" selected>---</option>
+                                                <option value="1">Direct Deposit Via Switch</option>
+                                                <option value="2">Direct Deposit Via Mint</option>
+
+
+                                            </select>
+                                        </div>
+
+
+                                    </div>
+
+                                    @*Fourth Row*@
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label style="font-weight:bold">Interchange  Split #4: <small id="lblAccessLevelError" style="color: red;display: none"> Select Access Level </small></label>
+                                            <select id="ddlInterchangesplit4" required name="ddlInterchangesplit4" class="form-control js-example-basic-single">
+                                                @foreach (var item in ViewBag.TermsDetailBankNameList)
+                                                {
+                                                    <text>
+                                                        <option value="@item.BankAccountId">@item.NickName</option>
+
+                                                    </text>
+                                                }
+
+
+                                            </select>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <label style="font-weight:bold;visibility:hidden">Amount</label>
+                                            <input onfocusout="GetTotalInterchangeAssigned()" id="txtInterchangeAmount4" type="number" style="width:100% !important;padding:4px !important;font-size:14px !important" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label style="font-weight:bold;visibility:hidden">Settlement Source: <small id="lblAccessLevelError" style="color: red;display: none"> Select Access Level </small></label>
+                                            <select id="ddlInterchangeSettlementSource4" required name="ddlInterchangeSettlementSource4" class="form-control js-example-basic-single">
+                                                <option value="0" selected>---</option>
+                                                <option value="1">Direct Deposit Via Switch</option>
+                                                <option value="2">Direct Deposit Via Mint</option>
+
+
+                                            </select>
+                                        </div>
+
+
+                                    </div>
+
+
+
+                                    @*Fifth Row*@
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label style="font-weight:bold">Interchange  Split #5: <small id="lblAccessLevelError" style="color: red;display: none"> Select Access Level </small></label>
+                                            <select id="ddlInterchangesplit5" required name="ddlInterchangesplit5" class="form-control js-example-basic-single">
+                                                @foreach (var item in ViewBag.TermsDetailBankNameList)
+                                                {
+                                                    <text>
+                                                        <option value="@item.BankAccountId">@item.NickName</option>
+
+                                                    </text>
+                                                }
+
+
+                                            </select>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <label style="font-weight:bold;visibility:hidden">Amount</label>
+                                            <input onfocusout="GetTotalInterchangeAssigned()" id="txtInterchangeAmount5" type="number" style="width:100% !important;padding:4px !important;font-size:14px !important" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label style="font-weight:bold;visibility:hidden">Settlement Source: <small id="lblAccessLevelError" style="color: red;display: none"> Select Access Level </small></label>
+                                            <select id="ddlInterchangeSettlementSource5" required name="ddlInterchangeSettlementSource5" class="form-control js-example-basic-single">
+                                                <option value="0" selected>---</option>
+                                                <option value="1">Direct Deposit Via Switch</option>
+                                                <option value="2">Direct Deposit Via Mint</option>
+
+
+                                            </select>
+                                        </div>
+
+
+                                    </div>
+
+
+                                    <div class="row">
+                                        <div class="col-md-1"></div>
+                                        <div class="col-md-3">
+                                            <strong>TOTAL INTERCHANGE ASSIGNED:</strong>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <strong id="TotalInterchangeAssigned"></strong>
+                                            <input id="txtTotalInterchangeAssigned" hidden Value="0" />
+                                        </div>
+                                    </div>
+
+
+
+
+
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="row" style="background-color: #fafafa">
+                            <div class="col-md-9"></div>
+                            <div class="col-md-3">
+                                <label style="visibility:hidden">Access Level:</label>
+
+                                <button onclick="ReloadPage()" style=" background-color: black !important;border: 1px solid black" type="button" class="btn btn-primary" id="Register">
+                                    Cancel
+                                </button>
+
+                                <button onclick="SaveTermDetails()" style="background-color: #8dc745 !important;border: 1px solid #8dc745" type="button" class="btn btn-primary" id="Register">
+                                    Submit
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+
+                </div>
+                <div class="col-md-8">
+                    <div id="Alertdiv" class="myAlert-bottom alert alert-success">
+                        @*<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>*@
+                        <strong id="Message"></strong>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/assets/js/jquery-3.5.1.js"></script>
+<script src="~/assets/js/sweetalert.min.js"></script>
+<script src="~/assets/js/datatable/jquery.dataTables.min.js"></script>
+<script src="~/assets/js/datatable/dataTables.responsive.min.js"></script>
+
+<script>
+
+    var validate = function (e, Figure) {
+        if (Figure == 2) {
+            var t = e.value;
+            e.value = (t.indexOf(".") >= 0) ? (t.substr(0, t.indexOf(".")) + t.substr(t.indexOf("."), 3)) : t;
+        }
+        else if (Figure == 4) {
+            var t = e.value;
+            e.value = (t.indexOf(".") >= 0) ? (t.substr(0, t.indexOf(".")) + t.substr(t.indexOf("."), 5)) : t;
+        }
+        else if (Figure == 3) {
+            var t = e.value;
+            e.value = (t.indexOf(".") >= 0) ? (t.substr(0, t.indexOf(".")) + t.substr(t.indexOf("."), 4)) : t;
+        }
+
+
+    }
+
+    $(document).ready(function () {
+        jQuery('#ddlVaultCashAccount').select2();
+
+        /*For surcharge */
+        jQuery('#ddlSurchargesplit1').select2();
+        jQuery('#ddlSettlementSource1').select2();
+        jQuery('#ddlSegmented1').select2();
+
+        jQuery('#ddlSurchargesplit2').select2();
+        jQuery('#ddlSettlementSource2').select2();
+        jQuery('#ddlSegmented2').select2();
+
+
+        jQuery('#ddlSurchargesplit3').select2();
+        jQuery('#ddlSettlementSource3').select2();
+        jQuery('#ddlSegmented3').select2();
+
+
+
+        jQuery('#ddlSurchargesplit4').select2();
+        jQuery('#ddlSettlementSource4').select2();
+        jQuery('#ddlSegmented4').select2();
+
+
+
+        jQuery('#ddlSurchargesplit5').select2();
+        jQuery('#ddlSettlementSource5').select2();
+        jQuery('#ddlSegmented5').select2();
+
+        /*For Interchange*/
+        jQuery('#ddlInterchangesplit1').select2();
+        jQuery('#ddlInterchangeSettlementSource1').select2();
+
+        jQuery('#ddlInterchangesplit2').select2();
+        jQuery('#ddlInterchangeSettlementSource2').select2();
+
+        jQuery('#ddlInterchangesplit3').select2();
+        jQuery('#ddlInterchangeSettlementSource3').select2();
+
+        jQuery('#ddlInterchangesplit4').select2();
+        jQuery('#ddlInterchangeSettlementSource4').select2();
+
+        jQuery('#ddlInterchangesplit5').select2();
+        jQuery('#ddlInterchangeSettlementSource5').select2();
+
+
+
+    });
+
+    function ReloadPage() {
+        location.reload();
+    }
+
+    function GetTotalSurchargeAssigned() {
+        var SurchargeAmount1 = $("#txtAmount1").val();
+        var SurchargeAmount2 = $("#txtAmount2").val();
+        var SurchargeAmount3 = $("#txtAmount3").val();
+        var SurchargeAmount4 = $("#txtAmount4").val();
+        var SurchargeAmount5 = $("#txtAmount5").val();
+
+        if (SurchargeAmount1 == "") {
+            SurchargeAmount1 = 0;
+        }
+        if (SurchargeAmount2 == "") {
+            SurchargeAmount2 = 0;
+        }
+        if (SurchargeAmount3 == "") {
+            SurchargeAmount3 = 0;
+        }
+        if (SurchargeAmount4 == "") {
+            SurchargeAmount4 = 0;
+        }
+        if (SurchargeAmount5 == "") {
+            SurchargeAmount5 = 0;
+        }
+
+        var TotalSurchargeAssigned = parseFloat(SurchargeAmount1) + parseFloat(SurchargeAmount2) + parseFloat(SurchargeAmount3) + parseFloat(SurchargeAmount4) + parseFloat(SurchargeAmount5);
+
+        var TotalSurchargeAmount = parseFloat($("#txttotalsurchargeamount").val()).toFixed(3);
+        $("#TotalSurchargeAssigned").text("$" + TotalSurchargeAssigned);
+        $("#txtTotalSurchargeAssigned").val(TotalSurchargeAssigned);
+
+
+        if (parseFloat(TotalSurchargeAssigned).toFixed(2) != parseFloat(TotalSurchargeAmount).toFixed(2)) {
+
+            $("#alertsurchargedanger").fadeIn();
+
+
+        }
+        else {
+
+
+            $("#alertsurchargedanger").css("display", "none");
+
+
+        }
+
+
+
+    }
+
+
+    ////$("#txtInterchangeAmount2").blur(function () {
+
+        
+    ////    $("#TotalInterchangeAssigned").text("");
+    ////    $("#txtTotalInterchangeAssigned").val(parseFloat(0));
+
+    ////    var InterchangeAmount1 = $("#txtInterchangeAmount1").val();
+    ////    var InterchangeAmount2 = $("#txtInterchangeAmount2").val();
+    ////    var InterchangeAmount3 = $("#txtInterchangeAmount3").val();
+    ////    var InterchangeAmount4 = $("#txtInterchangeAmount4").val();
+    ////    var InterchangeAmount5 = $("#txtInterchangeAmount5").val();
+
+    ////    if (InterchangeAmount1 == "") {
+    ////        InterchangeAmount1 = 0;
+    ////    }
+    ////    if (InterchangeAmount2 == "") {
+    ////        InterchangeAmount2 = 0;
+    ////    }
+    ////    if (InterchangeAmount3 == "") {
+    ////        InterchangeAmount3 = 0;
+    ////    }
+    ////    if (InterchangeAmount4 == "") {
+    ////        InterchangeAmount4 = 0;
+    ////    }
+    ////    if (InterchangeAmount5 == "") {
+    ////        InterchangeAmount5 = 0;
+    ////    }
+
+
+
+
+    ////    var TotalInterchangeAmount = parseFloat($("#txttotalInterchangeamount").val()).toFixed(3);
+    ////    var TotalInterchangeSplit = parseFloat(InterchangeAmount2) + parseFloat(InterchangeAmount3) + parseFloat(InterchangeAmount4) + parseFloat(InterchangeAmount5);
+    ////    var InterchangeSpliOneValue = (parseFloat(TotalInterchangeAmount) - parseFloat(TotalInterchangeSplit)).toFixed(3);
+
+    ////    if (InterchangeSpliOneValue < 0.000) {
+    ////        InterchangeSpliOneValue = 0;
+    ////    }
+
+    ////    $("#txtInterchangeAmount1").val(InterchangeSpliOneValue);
+
+
+    ////    var TotalInterchangeAssigned = (parseFloat(InterchangeSpliOneValue) + parseFloat(InterchangeAmount2) + parseFloat(InterchangeAmount3) + parseFloat(InterchangeAmount4) + parseFloat(InterchangeAmount5)).toFixed(3);
+    ////    /*var TotalInterchangeAssigned = parseFloat(InterchangeAmount1) + parseFloat(InterchangeAmount2) + parseFloat(InterchangeAmount3) + parseFloat(InterchangeAmount4) + parseFloat(InterchangeAmount5);*/
+
+    ////    //console.log(parseFloat(InterchangeSpliOneValue) + " ," +  parseFloat(InterchangeAmount2) + " ," + parseFloat(InterchangeAmount3) + " ," + parseFloat(InterchangeAmount4) + "," + parseFloat(InterchangeAmount5));
+    ////    $("#TotalInterchangeAssigned").text("$" + parseFloat(TotalInterchangeAssigned).toFixed(3));
+    ////    $("#txtTotalInterchangeAssigned").val(parseFloat(TotalInterchangeAssigned).toFixed(3));
+
+
+    ////    console.log(TotalInterchangeAssigned + " , " + TotalInterchangeAmount);
+
+
+    ////    if (parseFloat(TotalInterchangeAssigned) != parseFloat(TotalInterchangeAmount)) {
+    ////        console.log(TotalInterchangeAssigned + " , " + TotalInterchangeAmount + " not equal");
+    ////        /*document.getElementById("alertdanger").style.display = "block";*/
+    ////        $("#alertdanger").fadeIn();
+
+
+    ////    }
+    ////    else {
+    ////        console.log(TotalInterchangeAssigned + " , " + TotalInterchangeAmount + "equal");
+    ////        /*document.getElementById("alertdanger").style.display = "none";*/
+
+    ////        $("#alertdanger").css("display", "none");
+    ////    /*       $("#alertdanger").fadeOut();*/
+
+    ////        alert('Test');
+
+    ////    }
+
+    ////});
+
+    function GetTotalInterchangeAssigned() {
+
+        $("#TotalInterchangeAssigned").text("");
+        $("#txtTotalInterchangeAssigned").val(parseFloat(0));
+
+        var InterchangeAmount1 = $("#txtInterchangeAmount1").val();
+        var InterchangeAmount2 = $("#txtInterchangeAmount2").val();
+        var InterchangeAmount3 = $("#txtInterchangeAmount3").val();
+        var InterchangeAmount4 = $("#txtInterchangeAmount4").val();
+        var InterchangeAmount5 = $("#txtInterchangeAmount5").val();
+
+        if (InterchangeAmount1 == "") {
+            InterchangeAmount1 = 0;
+        }
+        if (InterchangeAmount2 == "") {
+            InterchangeAmount2 = 0;
+        }
+        if (InterchangeAmount3 == "") {
+            InterchangeAmount3 = 0;
+        }
+        if (InterchangeAmount4 == "") {
+            InterchangeAmount4 = 0;
+        }
+        if (InterchangeAmount5 == "") {
+            InterchangeAmount5 = 0;
+        }
+
+
+
+
+        var TotalInterchangeAmount = parseFloat( $("#txttotalInterchangeamount").val()).toFixed(3);
+        var TotalInterchangeSplit = parseFloat(InterchangeAmount2) + parseFloat(InterchangeAmount3) + parseFloat(InterchangeAmount4) + parseFloat(InterchangeAmount5);
+        var InterchangeSpliOneValue = (parseFloat(TotalInterchangeAmount) - parseFloat(TotalInterchangeSplit)).toFixed(3);
+
+        if (InterchangeSpliOneValue < 0.000) {
+            InterchangeSpliOneValue = 0;
+        }
+
+        $("#txtInterchangeAmount1").val(InterchangeSpliOneValue);
+
+
+        var TotalInterchangeAssigned = (parseFloat(InterchangeSpliOneValue) + parseFloat(InterchangeAmount2) + parseFloat(InterchangeAmount3) + parseFloat(InterchangeAmount4) + parseFloat(InterchangeAmount5)).toFixed(3);
+        /*var TotalInterchangeAssigned = parseFloat(InterchangeAmount1) + parseFloat(InterchangeAmount2) + parseFloat(InterchangeAmount3) + parseFloat(InterchangeAmount4) + parseFloat(InterchangeAmount5);*/
+
+        //console.log(parseFloat(InterchangeSpliOneValue) + " ," +  parseFloat(InterchangeAmount2) + " ," + parseFloat(InterchangeAmount3) + " ," + parseFloat(InterchangeAmount4) + "," + parseFloat(InterchangeAmount5));
+        $("#TotalInterchangeAssigned").text("$" + parseFloat(TotalInterchangeAssigned).toFixed(3));
+        $("#txtTotalInterchangeAssigned").val(parseFloat(TotalInterchangeAssigned).toFixed(3));
+
+
+
+        if (parseFloat(TotalInterchangeAssigned) != parseFloat(TotalInterchangeAmount)) {
+      
+            $("#alertInterchangedanger").fadeIn();
+          
+            
+        }
+        else {
+         
+
+            $("#alertInterchangedanger").css("display", "none");
+    
+            
+        }
+    }
+
+    //function GetTotalInterchangeAssigned() {
+
+    //    var InterchangeAmount2 = $("#txtInterchangeAmount2").val();
+    //    var InterchangeAmount3 = $("#txtInterchangeAmount3").val();
+    //    var InterchangeAmount4 = $("#txtInterchangeAmount4").val();
+    //    var InterchangeAmount5 = $("#txtInterchangeAmount5").val();
+
+    //    //if (InterchangeAmount1 == "") {
+    //    //    InterchangeAmount1 = 0;
+    //    //}
+
+    //    if (InterchangeAmount2 == "") {
+    //        InterchangeAmount2 = 0.000;
+    //    }
+    //    if (InterchangeAmount3 == "") {
+    //        InterchangeAmount3 = 0.000;
+    //    }
+    //    if (InterchangeAmount4 == "") {
+    //        InterchangeAmount4 = 0.000;
+    //    }
+    //    if (InterchangeAmount5 == "") {
+    //        InterchangeAmount5 = 0.000;
+    //    }
+
+
+    //    var TotalInterchangeAmount = $("#txttotalInterchangeamount").val();
+
+    //    var TotalInterchangeSplit = parseFloat(InterchangeAmount2).toFixed(3) + parseFloat(InterchangeAmount3).toFixed(3) + parseFloat(InterchangeAmount4).toFixed(3) + parseFloat(InterchangeAmount5).toFixed(3);
+    //    var InterchangeSpliOneValue = parseFloat(TotalInterchangeAmount).toFixed(3) - parseFloat(TotalInterchangeSplit).toFixed(3);
+
+
+    //    $("#txtInterchangeAmount1").val(parseFloat(InterchangeSpliOneValue).toFixed(3));
+
+
+
+    //    var InterchangeAmount1 = $("#txtInterchangeAmount1").val();
+    //    var TotalInterchangeAssigned = parseFloat(InterchangeAmount1).toFixed(3) + parseFloat(InterchangeAmount2).toFixed(3) + parseFloat(InterchangeAmount3).toFixed(3) + parseFloat(InterchangeAmount4).toFixed(3) + parseFloat(InterchangeAmount5).toFixed(3);
+
+    ///*var TotalInterchangeAssigned = parseFloat(InterchangeAmount1) + parseFloat(InterchangeAmount2) + parseFloat(InterchangeAmount3) + parseFloat(InterchangeAmount4) + parseFloat(InterchangeAmount5);*/
+
+    //    $("#TotalInterchangeAssigned").text("$" + parseFloat(TotalInterchangeAssigned).toFixed(3));
+    //    $("#txtTotalInterchangeAssigned").val(parseFloat(TotalInterchangeAssigned).toFixed(3));
+
+
+
+
+    //    var txtTotalInterchangeAssigned = $("#txtTotalInterchangeAssigned").val();
+
+    //    var txttotalInterchangeamount = $("#txttotalInterchangeamount").val();
+
+    //    console.log(txtTotalInterchangeAssigned + " " + parseFloat(InterchangeAmount2).toFixed(3));
+
+    //   /*alert("Assigned:" + txtTotalInterchangeAssigned + "  Amount:" + txttotalInterchangeamount);*/
+    //    if (parseFloat(txtTotalInterchangeAssigned).toFixed(3) != parseFloat(txttotalInterchangeamount).toFixed(3)) {
+
+
+    //        $("#alertdanger").fadeIn();
+    //        /*$("#Alertdiv").fadeOut(10000);*/
+    //        return;
+    //    }
+    //    else if (parseFloat(txtTotalInterchangeAssigned).toFixed(3) == parseFloat(txttotalInterchangeamount).toFixed(3)) {
+
+    //        $("#alertdanger").fadeOut();
+    //    }
+
+
+
+    //}
+
+    function SaveTermDetails() {
+
+
+        var SurchargeAccountCount = 0;
+        var InterchangeAccountCount = 0;
+
+
+
+        var TermsDetailInfo = {};
+        var TerminalId = $("#txtTerminalId").val();
+        var ddlVaultCashAccount = $("#ddlVaultCashAccount").val();
+        var txttotalsurchargeamount = $("#txttotalsurchargeamount").val();
+
+        /*One Surcharge*/
+        var ddlSurchargesplit1 = $("#ddlSurchargesplit1").val();
+        var txtAmount1 = $("#txtAmount1").val();
+        var ddlSettlementSource1 = $("#ddlSettlementSource1").val();
+        var rdb1 = $("#rdb1").is(":checked");
+
+        if (rdb1 == true) {
+            rdb1 = 1;
+        }
+        else
+        {
+            rdb1 = 0;
+        }
+        var ddlSegmented1 = $("#ddlSegmented1").val();
+
+        /*Two Surcharge*/
+        var ddlSurchargesplit2 = $("#ddlSurchargesplit2").val();
+        var txtAmount2 = $("#txtAmount2").val();
+        var ddlSettlementSource2 = $("#ddlSettlementSource2").val();
+        var rdb2 = $("#rdb2").is(":checked");
+
+        if (rdb2 == true) {
+            rdb2 = 1;
+        }
+        else {
+            rdb2 = 0;
+        }
+        var ddlSegmented2 = $("#ddlSegmented2").val();
+
+        /*Three Surcharge*/
+        var ddlSurchargesplit3 = $("#ddlSurchargesplit3").val();
+        var txtAmount3 = $("#txtAmount3").val();
+        var ddlSettlementSource3 = $("#ddlSettlementSource3").val();
+        var rdb3 = $("#rdb3").is(":checked");
+
+        if (rdb3 == true) {
+            rdb3 = 1;
+        }
+        else {
+            rdb3 = 0;
+        }
+        var ddlSegmented3 = $("#ddlSegmented3").val();
+
+
+        /*Four Surcharge*/
+        var ddlSurchargesplit4 = $("#ddlSurchargesplit4").val();
+        var txtAmount4 = $("#txtAmount4").val();
+        var ddlSettlementSource4 = $("#ddlSettlementSource4").val();
+        var rdb4 = $("#rdb4").is(":checked");
+
+        if (rdb4 == true) {
+            rdb4 = 1;
+        }
+        else {
+            rdb4 = 0;
+        }
+        var ddlSegmented4 = $("#ddlSegmented4").val();
+
+
+        /*Five Surcharge*/
+        var ddlSurchargesplit5 = $("#ddlSurchargesplit5").val();
+        var txtAmount5 = $("#txtAmount5").val();
+        var ddlSettlementSource5 = $("#ddlSettlementSource5").val();
+        var rdb5 = $("#rdb5").is(":checked");
+
+        if (rdb5 == true) {
+            rdb5 = 1;
+        }
+        else {
+            rdb5 = 0;
+        }
+        var ddlSegmented5 = $("#ddlSegmented5").val();
+
+        var Totalsurchargeassigned = $("#txtTotalSurchargeAssigned").val();
+
+
+        /*Interchange*/
+        /*Interchange 1*/
+
+        var TotalInterchangeAmount = $("#txttotalInterchangeamount").val();
+
+        var InterchangeSplitRemainder1 = $("#txtInterchangeSplit1").val();
+        var InterchangeSplitAmount1 = $("#txtInterchangeAmount1").val();
+
+
+        var InterchangeSplit1 = $("#ddlInterchangesplit1").val();
+
+
+        var InterchangeSplit2 = $("#ddlInterchangesplit2").val();
+        var InterchangeSplitAmount2 = $("#txtInterchangeAmount2").val();
+        var Interchangesettlementsource1 = $("#ddlInterchangeSettlementSource2").val();
+
+        var InterchangeSplit3 = $("#ddlInterchangesplit3").val();
+        var InterchangeSplitAmount3 = $("#txtInterchangeAmount3").val();
+        var Interchangesettlementsource2 = $("#ddlInterchangeSettlementSource3").val();
+
+        var InterchangeSplit4 = $("#ddlInterchangesplit4").val();
+        var InterchangeSplitAmount4= $("#txtInterchangeAmount4").val();
+        var Interchangesettlementsource3 = $("#ddlInterchangeSettlementSource4").val();
+
+        var InterchangeSplit5 = $("#ddlInterchangesplit5").val();
+        var InterchangeSplitAmount5 = $("#txtInterchangeAmount5").val();
+        var Interchangesettlementsource4 = $("#ddlInterchangeSettlementSource5").val();
+
+
+        var TotalInterchangeassigned = $("#txtTotalInterchangeAssigned").val();
+
+
+        TermsDetailInfo.TerminalKey = TerminalId;
+        TermsDetailInfo.VaultCashID = ddlVaultCashAccount;
+        TermsDetailInfo.Totalterminalsurchageamount = txttotalsurchargeamount;
+
+        TermsDetailInfo.SurchargesplitId1 = ddlSurchargesplit1;
+        TermsDetailInfo.Surchargesplitamount1 = txtAmount1;
+        TermsDetailInfo.Surchargesettlementsource1 = ddlSettlementSource1;
+        TermsDetailInfo.IsSurchargesegmented1 = rdb1;
+        TermsDetailInfo.SurchargesegmentedID1 = ddlSegmented1;
+
+        TermsDetailInfo.SurchargesplitId2 = ddlSurchargesplit2;
+        TermsDetailInfo.Surchargesplitamount2 = txtAmount2;
+        TermsDetailInfo.Surchargesettlementsource2 = ddlSettlementSource2;
+        TermsDetailInfo.IsSurchargesegmented2 = rdb2;
+        TermsDetailInfo.SurchargesegmentedID2 = ddlSegmented2;
+
+        TermsDetailInfo.SurchargesplitId3 = ddlSurchargesplit3;
+        TermsDetailInfo.Surchargesplitamount3 = txtAmount3;
+        TermsDetailInfo.Surchargesettlementsource3 = ddlSettlementSource3;
+        TermsDetailInfo.IsSurchargesegmented3 = rdb3;
+        TermsDetailInfo.SurchargesegmentedID3 = ddlSegmented3;
+
+        TermsDetailInfo.SurchargesplitId4 = ddlSurchargesplit4;
+        TermsDetailInfo.Surchargesplitamount4 = txtAmount4;
+        TermsDetailInfo.Surchargesettlementsource4 = ddlSettlementSource4;
+        TermsDetailInfo.IsSurchargesegmented4 = rdb4;
+        TermsDetailInfo.SurchargesegmentedID4 = ddlSegmented4;
+
+        TermsDetailInfo.SurchargesplitId5 = ddlSurchargesplit5;
+        TermsDetailInfo.Surchargesplitamount5 = txtAmount5;
+        TermsDetailInfo.Surchargesettlementsource5 = ddlSettlementSource5;
+        TermsDetailInfo.IsSurchargesegmented5 = rdb5;
+        TermsDetailInfo.SurchargesegmentedID5 = ddlSegmented5;
+        TermsDetailInfo.Totalsurchargeassigned = Totalsurchargeassigned;
+
+
+        TermsDetailInfo.TotalInterchangeAmount = TotalInterchangeAmount;
+        TermsDetailInfo.InterchangeSplitRemainder1 = InterchangeSplitRemainder1;
+        TermsDetailInfo.InterchangeSplitAmount1 = InterchangeSplitAmount1;
+        TermsDetailInfo.InterchangeSplit2 = InterchangeSplit2;
+        TermsDetailInfo.InterchangeSplitAmount2 = InterchangeSplitAmount2;
+        TermsDetailInfo.Interchangesettlementsource1 = Interchangesettlementsource1;
+        TermsDetailInfo.InterchangeSplit3 = InterchangeSplit3;
+        TermsDetailInfo.InterchangeSplitAmount3 = InterchangeSplitAmount3;
+        TermsDetailInfo.Interchangesettlementsource2 = Interchangesettlementsource2;
+        TermsDetailInfo.InterchangeSplit4 = InterchangeSplit4;
+        TermsDetailInfo.InterchangeSplitAmount4 = InterchangeSplitAmount4;
+        TermsDetailInfo.Interchangesettlementsource3 = Interchangesettlementsource3;
+        TermsDetailInfo.InterchangeSplit5 = InterchangeSplit5;
+        TermsDetailInfo.InterchangeSplitAmount5 = InterchangeSplitAmount5;
+        TermsDetailInfo.Interchangesettlementsource4 = Interchangesettlementsource4;
+        TermsDetailInfo.TotalInterchangeassigned = TotalInterchangeassigned;
+        TermsDetailInfo.InterchangeSplit1 = InterchangeSplit1;
+
+
+        SurchargeAccountCount = 0;
+        InterchangeAccountCount = 0;
+
+        if (ddlSurchargesplit1 > 0)
+        {
+            SurchargeAccountCount = parseInt(SurchargeAccountCount) + 1;
+        }
+        if (ddlSurchargesplit2 > 0) {
+            SurchargeAccountCount = parseInt(SurchargeAccountCount) + 1;
+        }
+        if (ddlSurchargesplit3 > 0) {
+            SurchargeAccountCount = parseInt(SurchargeAccountCount) + 1;
+        }
+        if (ddlSurchargesplit4 > 0) {
+            SurchargeAccountCount = parseInt(SurchargeAccountCount) + 1;
+        }
+        if (ddlSurchargesplit5 > 0) {
+            SurchargeAccountCount = parseInt(SurchargeAccountCount) + 1;
+        }
+
+
+        if (InterchangeSplitRemainder1 !="") {
+            InterchangeAccountCount = parseInt(InterchangeAccountCount) + 1;
+        }
+        if (InterchangeSplit2 > 0) {
+            InterchangeAccountCount = parseInt(InterchangeAccountCount) + 1;
+        }
+        if (InterchangeSplit3 > 0) {
+            InterchangeAccountCount = parseInt(InterchangeAccountCount) + 1;
+        }
+        if (InterchangeSplit4 > 0) {
+            InterchangeAccountCount = parseInt(InterchangeAccountCount) + 1;
+        }
+        if (InterchangeSplit5 > 0) {
+            InterchangeAccountCount = parseInt(InterchangeAccountCount) + 1;
+        }
+
+
+
+
+
+        TermsDetailInfo.SurchargeAccountCount = SurchargeAccountCount;
+        TermsDetailInfo.InterchangeAccountCount = InterchangeAccountCount;
+
+
+        var txttotalsurchargeamount = $("#txttotalsurchargeamount").val();
+
+        var txtTotalSurchargeAssigned = $("#txtTotalSurchargeAssigned").val();
+
+        //alert(parseFloat(txttotalsurchargeamount).toFixed(2) + " " + parseFloat(txtTotalSurchargeAssigned).toFixed(2));
+        //return;
+
+        if (parseFloat(txttotalsurchargeamount) != parseFloat(txtTotalSurchargeAssigned)) {
+            document.getElementById("Message").innerHTML = "TOTAL TERMINAL SURCHARGE AMOUNT Not Equal to TOTAL SURCHARGE ASSIGNED ";
+            document.getElementById("Message").style.color = "#a94442";
+            document.getElementById("Alertdiv").style.backgroundColor = '#f2dede';
+            document.getElementById("Alertdiv").style.borderColor = "#ebcccc";
+
+            $("#Alertdiv").fadeIn();
+            $("#Alertdiv").fadeOut(10000);
+            return;
+        }
+        else {
+            $("#Alertdiv").fadeOut();
+        }
+
+
+        var txtTotalInterchangeAssigned = $("#txtTotalInterchangeAssigned").val();
+
+        var txttotalInterchangeamount = $("#txttotalInterchangeamount").val();
+
+
+
+        if (parseFloat(txtTotalInterchangeAssigned) != parseFloat(txttotalInterchangeamount)) {
+            document.getElementById("Message").innerHTML = "TOTAL INTERCHANGE AMOUNT Not Equal to TOTAL INTERCHANGE ASSIGNED";
+            document.getElementById("Message").style.color = "#a94442";
+            document.getElementById("Alertdiv").style.backgroundColor = '#f2dede';
+            document.getElementById("Alertdiv").style.borderColor = "#ebcccc";
+
+            $("#Alertdiv").fadeIn();
+            $("#Alertdiv").fadeOut(10000);
+            return;
+        }
+        else {
+            $("#Alertdiv").fadeOut();
+        }
+
+        $.ajax({
+
+                url: '@Url.Action("SaveTermsDetails", "TerminalManager")',
+            type: "POST",
+
+              data: '{TermsDetailInfo: ' + JSON.stringify(TermsDetailInfo) + '}',
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (result) {
+                if (result.status == "1") {
+
+                    swal({
+                        title: "Terms Details: " + result.terminal, text: "Terms Details Updated Successfully", type: "success",
+                        timer: 2000,
+                        showConfirmButton: false
+                    }, function () {
+                        window.location.href = result.url;
+                    });
+
+                }
+                else if (result.status != "1") {
+                    swal({
+                        title: "Terms Details:",
+                        text: result.data,
+                        type: "warning",
+                        showCancelButton: true,
+                        closeOnConfirm: false
+                    },
+                    );
+                }
+            },
+            error: function () {
+                alert("Error while inserting data");
+            }
+        });
+
+    }
+</script>

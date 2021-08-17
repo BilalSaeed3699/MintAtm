@@ -1,0 +1,684 @@
+﻿@using RestockReport.Models;
+@model RestockReport.Models.tblUser
+<head>
+
+    @*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">*@
+    <link href="~/assets/css/sweetalert.min.css" rel="stylesheet" />
+</head>
+<div class="content container-fluid">
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="row">
+            <div class="col-sm-7 col-auto">
+                <h3 class="page-title">Add New User</h3>
+            </div>
+            <div class="col-sm-5 col">
+                <a href="@Url.Action("Index","User")" style="        background-color: #8dc745 !important;
+        border: 1px solid #8dc745
+" class="btn btn-primary float-right mt-2">User List</a>
+            </div>
+        </div>
+    </div>
+    <!-- /Page Header -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <ul class="nav nav-tabs nav-tabs-solid">
+                        <li class="nav-item"><a class="nav-link active" href="#solid-tab1" data-toggle="tab">USER DETAILS</a></li>
+                        @*<li class="nav-item"><a class="nav-link" href="#solid-tab2" data-toggle="tab">Terminals</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#solid-tab3" data-toggle="tab">Permissions</a></li>*@
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane show active" id="solid-tab1">
+                            <div class="card">
+                                <div class="card-body">
+                                    @*@using (Html.BeginForm("Create", "User", FormMethod.Post))
+                                        {
+                                            @Html.AntiForgeryToken()*@
+                                    <form>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label>
+                                                                User ID: <small id="lblUserIdError" style="color: red;display: none"> Enter User ID. </small>
+
+
+                                                                <small id="lblUserIdDuplicate" style="color: red;display: none">User Already Register </small>
+
+
+
+
+                                                            </label>
+
+
+                                                            @*<input  value="" name="UserID" type="text" class="form-control" >*@
+                                                            <input id="txtUser_ID" type="text" class="form-control">
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label>Status:</label>
+                                                            <select id="ddlUserStatus" class="select select2-hidden-accessible" tabindex="-1" aria-hidden="true" name="IsActive">
+                                                                @*<option value="-1">Select Status</option>*@
+                                                                <option selected value="1">Active</option>
+                                                                <option value="0">Disable</option>
+
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label>Password: <small id="lblUserPassword" style="color: red;display: none"> Enter User Password. </small></label>
+                                                            <input id="txtUser_Password" type="password" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label>
+                                                                Confirm Password: <small id="lblUserConfirmPassword" style="color: red;display: none"> Enter Password </small>
+
+                                                                <small id="lblUserPasswordUnMatched" style="color: red;display: none"> Password Not Match </small>
+                                                            </label>
+                                                            <input id="txtUser_Confirm_Password" type="password" class="form-control">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label>First Name:</label>
+                                                            <input id="txtFirstName" type="text" class="form-control" name="FirstName">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label>Last Name:</label>
+                                                            <input id="txtLastName" type="text" class="form-control" name="LastName">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label>Title:</label>
+                                                            <select id="ddlUserTitle" class="select select2-hidden-accessible" tabindex="-1" aria-hidden="true" name="Title">
+                                                                <option value="0">Select Title</option>
+                                                                <option value="1">Owner</option>
+                                                                <option value="2">Manager</option>
+                                                                <option value="3">Tech</option>
+                                                                <option value="4">Cash Loader</option>
+                                                                <option value="5">Other</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label>Company:</label>
+                                                            <input id="txtCompany" type="text" class="form-control" name="Company">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label>Address:</label>
+                                                            <input id="txtAddress" type="text" class="form-control" name="Address">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label>City:</label>
+                                                            <input id="txtCity" type="text" class="form-control" name="City">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label>Province:</label>
+                                                            @*<input id="txtProvince" type="text" class="form-control" name="Province">*@
+                                                            @Html.DropDownList("ddlRegion", ViewBag.RegionList as IEnumerable<SelectListItem>, "Select Region",
+    new { @class = "form-control js-example-basic-multiple", @required = "required", @id = "ddlRegion" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label>Postal Code:</label>
+                                                            <input id="txtPostalCode" type="text" class="form-control" name="Postalcode">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label>Phone Cell:</label>
+                                                            <input id="txtPhone" type="text" class="form-control" name="Phonecell">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label>Phone Other:</label>
+                                                            <input id="txtPhoneOther" type="text" class="form-control" name="Phoneother">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label>Email Address:</label>
+                                                            <input id="txtUserEmail" type="text" class="form-control" name="Email_Adress">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label>Roll Assigned:</label>
+                                                            <select id="ddlUserRoll" class="select select2-hidden-accessible" tabindex="-1" aria-hidden="true" name="RollAssigned">
+                                                                <option value="0">Select Roll</option>
+                                                                <option value="1">Merchant</option>
+                                                                <option value="2">ISO</option>
+                                                                <option value="3">Super User</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>Access Level: <small id="lblAccessLevelError" style="color: red;display: none"> Select Access Level </small></label>
+                                                    <select id="ddlUserAccessLevel" required name="ddlUserAccessLevel" class="form-control js-example-basic-single">
+                                                        <option value="0">Select Acceess Level</option>
+                                                        @foreach (var item in ViewBag.Access_Level)
+                                                        {
+                                                            <text>
+
+                                                                @if (ViewBag.Access_Level_Id != null && ViewBag.Access_Level_Id == item.Access_ID)
+                                                                {
+                                                                    <option selected value="@item.Access_ID">@item.Access_Level_Type</option>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <option value="@item.Access_ID">@item.Access_Level_Type</option>
+                                                                }
+
+
+                                                            </text>
+                                                        }
+
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label style="visibility:hidden">Access Level:</label>
+
+                                                <button onclick="SaveUserInformation()" style="        background-color: #8dc745 !important;
+        border: 1px solid #8dc745
+" type="button" class="btn btn-primary" id="Register">
+                                                    Submit
+                                                </button>
+
+                                            </div>
+                                            @*<div class="col-md-7"></div>*@
+
+                                        </div>
+                                    </form>
+                                    @*}*@
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="solid-tab2">
+                            <div class="card">
+                                <h5 class="card-title">Assign Terminal Visible to User</h5>
+                                <div class="card-body">
+                                    <form action="#">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <h6 class="card-title">Available:</h6>
+                                                            </div>
+                                                            <div class="col-md-6 text-right">
+
+                                                                <div class="actions ">
+                                                                    <a class="btn btn-sm bg-success-light">
+                                                                        Add All  <i class="fa fa-angle-right"></i><i class="fa fa-angle-right"></i>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+
+
+                                                        </div>
+
+                                                        <div class="table-responsive">
+                                                            <table class="datatable table table-hover table-center mb-0">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td>#SP001 Abdul</td>
+                                                                        <td class="text-right">
+                                                                            <div class="actions">
+                                                                                <a class="btn btn-sm bg-success-light">
+                                                                                    Add<i class="fa fa-angle-right"></i>
+                                                                                </a>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+
+                                                                <div class="actions">
+                                                                    <a class="btn btn-sm bg-danger-light">
+                                                                        <i class="fa fa-angle-left"></i><i class="fa fa-angle-left"></i> Remove All
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6 text-right">
+                                                                <h6 class="card-title">Assigned:</h6>
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="table-responsive">
+                                                            <table class="datatable table table-hover table-center mb-0">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td class="text-left">
+                                                                            <div class="actions">
+                                                                                <div class="actions">
+                                                                                    <a class="btn btn-sm bg-danger-light">
+                                                                                        <i class="fa fa-angle-left"></i> Remove
+                                                                                    </a>
+                                                                                </div>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>#SP001 -- Urban Choice Market</td>
+                                                                    </tr>
+
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            @*<div class="card">
+                                    <h5 class="card-title">Set Transaction Segment for User</h5>
+                                    <div class="card-body">
+                                        <form action="#">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <h6 class="card-title">Assigned:</h6>
+                                                                </div>
+                                                                <div class="col-md-6 text-right">
+
+                                                                    <div class="actions ">
+                                                                        <a class="btn btn-sm bg-success-light">
+                                                                            Add All  <i class="fa fa-angle-right"></i><i class="fa fa-angle-right"></i>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+
+
+                                                            </div>
+
+                                                            <div class="table-responsive">
+                                                                <table class="datatable table table-hover table-center mb-0">
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td>#SP001 Abdul</td>
+                                                                            <td class="text-right">
+                                                                                <div class="actions">
+                                                                                    <a class="btn btn-sm bg-success-light">
+                                                                                        Add<i class="fa fa-angle-right"></i>
+                                                                                    </a>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+
+                                                                    <div class="actions">
+                                                                        <a class="btn btn-sm bg-danger-light">
+                                                                            <i class="fa fa-angle-left"></i><i class="fa fa-angle-left"></i> Remove All
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-6 text-right">
+                                                                    <h6 class="card-title">Segmented:</h6>
+                                                                </div>
+
+                                                            </div>
+
+                                                            <div class="table-responsive">
+                                                                <table class="datatable table table-hover table-center mb-0">
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td class="text-left">
+                                                                                <div class="actions">
+                                                                                    <div class="actions">
+                                                                                        <a class="btn btn-sm bg-danger-light">
+                                                                                            <i class="fa fa-angle-left"></i> Remove
+                                                                                        </a>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>#SP001 -- Urban Choice Market</td>
+                                                                        </tr>
+
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>*@
+                        </div>
+                        <div class="tab-pane" id="solid-tab3">
+                            <div class="card">
+                                <h5 class="card-title">Permission assign to User</h5>
+                                <div class="card-body">
+                                    <form action="#">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <div class="table-responsive">
+                                                            <table class="datatable table table-hover table-center mb-0">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Menu Name</th>
+                                                                        <th>Permission</th>
+
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td>Terminal</td>
+                                                                        <td>
+                                                                            <div class="status-toggle">
+                                                                                <input type="checkbox" id="status_1" class="check" checked>
+                                                                                <label for="status_1" class="checktoggle">checkbox</label>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>User Management</td>
+                                                                        <td>
+                                                                            <div class="status-toggle">
+                                                                                <input type="checkbox" id="status_2" class="check" checked>
+                                                                                <label for="status_2" class="checktoggle">checkbox</label>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Reports</td>
+                                                                        <td>
+                                                                            <div class="status-toggle">
+                                                                                <input type="checkbox" id="status_3" class="check" checked>
+                                                                                <label for="status_3" class="checktoggle">checkbox</label>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/assets/js/jquery-3.2.1.min.js"></script>
+@*<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>*@
+
+<script src="~/assets/js/sweetalert.min.js"></script>
+
+<script type="text/javascript">
+
+    $("#txtUser_ID").blur(function () {
+        var UserId = $("#txtUser_ID").val();
+        $.ajax({
+            /*url: 'User/VerifyUserId',*/
+             url: '@Url.Action("VerifyUserId", "User")',
+            type: "GET",
+            dataType: 'JSON',
+            data: { UserId: UserId },
+            success: function (result) {
+
+                if (result == "1") {
+
+                    $("#lblUserIdDuplicate").fadeIn();
+                    $("#lblUserIdDuplicate").fadeOut(9000);
+                    $("#txtUser_ID").focus();
+                    return;
+
+                }
+                else {
+                    $("#lblUserIdDuplicate").css("display", "none");
+                }
+                //else if (result != "0" && result != "1") {
+                //    $("#lblUserIdDuplicate").fadeIn();
+                //    document.getElementById("lblUserIdDuplicate").innerHTML = result;
+                //    $("#txtUser_ID").focus();
+                //    return;
+                //}
+
+            },
+            error: function (err) {
+
+            }
+        });
+    });
+
+
+
+
+    function SaveUserInformation() {
+        var UserId = $("#txtUser_ID").val();
+        var ddlUserStatus = $("#ddlUserStatus").val();
+        var txtUser_Password = $("#txtUser_Password").val();
+        var txtUser_Confirm_Password = $("#txtUser_Confirm_Password").val();
+        var txtFirstName = $("#txtFirstName").val();
+        var txtLastName = $("#txtLastName").val();
+        var ddlUserTitle = $("#ddlUserTitle").val();
+        var txtCompany = $("#txtCompany").val();
+        var txtAddress = $("#txtAddress").val();
+        var txtCity = $("#txtCity").val();
+        var ddlRegion = $("#ddlRegion").val();
+        var txtPostalCode = $("#txtPostalCode").val();
+        var txtPhone = $("#txtPhone").val();
+        var txtPhoneOther = $("#txtPhoneOther").val();
+        var txtUserEmail = $("#txtUserEmail").val();
+        var ddlUserRoll = $("#ddlUserRoll").val();
+        var ddlUserAccessLevel = $("#ddlUserAccessLevel").val();
+
+
+
+        if (UserId == "") {
+            $("#lblUserIdError").fadeIn();
+            $("#lblUserIdError").fadeOut(7000);
+            $("#txtUser_ID").focus();
+            return;
+        }
+
+        if (txtUser_Password == "") {
+            $("#lblUserPassword").fadeIn();
+            $("#lblUserPassword").fadeOut(7000);
+            $("#txtUser_Password").focus();
+            return;
+        }
+
+        if (txtUser_Confirm_Password == "") {
+            $("#lblUserConfirmPassword").fadeIn();
+            $("#lblUserConfirmPassword").fadeOut(7000);
+            $("#txtUser_Confirm_Password").focus();
+            return;
+        }
+
+        else if (txtUser_Confirm_Password != txtUser_Password) {
+            $("#lblUserPasswordUnMatched").fadeIn();
+            $("#lblUserPasswordUnMatched").fadeOut(7000);
+            $("#txtUser_Confirm_Password").focus();
+            return;
+        }
+
+
+        //if (ddlUserAccessLevel == 0) {
+        //    $("#lblAccessLevelError").fadeIn();
+        //    $("#lblAccessLevelError").fadeOut(7000);
+        //    $("#ddlUserAccessLevel").focus();
+        //    return;
+        //}
+
+        var UserStaus;
+        if (ddlUserStatus == "1") {
+            UserStaus = true;
+        }
+        else if (ddlUserStatus == "0") {
+            UserStaus = false;
+        }
+
+        if (txtFirstName == "") {
+            txtFirstName = " ";
+        }
+        if (txtLastName == "") {
+            txtLastName = " ";
+        }
+        if (txtCompany == "") {
+            txtCompany = " ";
+        }
+        if (txtAddress == "") {
+            txtAddress = " ";
+        }
+        if (txtCity == "") {
+            txtCity = " ";
+        }
+        if (txtPostalCode == "") {
+            txtPostalCode = " ";
+        }
+        if (txtPhone == "") {
+            txtPhone = " ";
+        }
+        if (txtPhoneOther == "") {
+            txtPhoneOther = " ";
+        }
+        if (txtUserEmail == "") {
+            txtUserEmail = " ";
+        }
+
+
+
+
+
+        var UserInfo = {};
+        UserInfo.UserID = UserId;
+        UserInfo.Password = txtUser_Password;
+        UserInfo.Email_Adress = txtUserEmail;
+        UserInfo.IsActive = UserStaus;
+        UserInfo.FirstName = txtFirstName;
+        UserInfo.LastName = txtLastName;
+        UserInfo.Title = ddlUserTitle;
+
+        UserInfo.Company = txtCompany;
+        UserInfo.Address = txtAddress;
+        UserInfo.City = txtCity;
+        UserInfo.Province = ddlRegion;
+        UserInfo.Postalcode = txtPostalCode;
+        UserInfo.Phonecell = txtPhone;
+        UserInfo.Phoneother = txtPhoneOther;
+        UserInfo.RollAssigned = ddlUserRoll;
+        UserInfo.Access_Level_ID = ddlUserAccessLevel;
+
+
+        $.ajax({
+            type: "POST",
+          url: '@Url.Action("SaveUser", "User")',
+            data: '{UserInformation: ' + JSON.stringify(UserInfo) + '}',
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (result) {
+                if (result.status == "1") {
+
+                    swal({
+                        title: "New User: " + result.userid, text: "User Added Successfully", type: "success",
+                        timer: 2000,
+                        showConfirmButton: false
+                    }, function () {
+                            window.location.href = result.url;
+                    });
+
+                }
+                else if (result.status != "1") {
+                    swal({
+                        title: "Add New User:",
+                        text: result,
+                        type: "warning",
+                        showCancelButton: true,
+                        closeOnConfirm: false
+                    },
+                    );
+                }
+            },
+            error: function () {
+                alert("Error while inserting data");
+            }
+        });
+
+    }
+
+    $(document).ready(function () {
+
+        jQuery('#ddlRegion').select2();
+        jQuery('#ddlUserAccessLevel').select2();
+
+        $(".nav li").removeClass("active");
+        $('#UserManagement').addClass('active');
+
+    });
+
+
+
+    //$('#newPassword, #confirm_password').on('keyup', function () {
+    //    if ($('#newPassword').val() == $('#confirm_password').val()) {
+    //        $('#message').html('Matching').css('color', 'white');
+    //        document.getElementById("Register").disabled = false;
+    //    } else {
+    //        $('#message').html('Not Matching').css('color', 'red');
+    //        document.getElementById("Register").disabled = true;
+    //    }
+    //});
+</script>

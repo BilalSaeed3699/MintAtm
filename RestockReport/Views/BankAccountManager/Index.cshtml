@@ -1,0 +1,209 @@
+﻿@using RestockReport.Models;
+@model RestockReport.Models.tblUser
+@{
+    List<Sp_Get_Bank_Detail_List_Result> list = (List<Sp_Get_Bank_Detail_List_Result>)ViewBag.BankDetailList;
+}
+<head>
+    @*<link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" />
+        <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.7/css/responsive.dataTables.min.css" />*@
+
+
+    <link href="~/assets/css/datatable/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="~/assets/css/buttons.dataTables.min.css" rel="stylesheet" />
+
+    <style>
+
+        table.table td h2 span {
+            color: white !important;
+        }
+
+        .dataTables_wrapper .dataTables_filter {
+            float: left;
+            text-align: right;
+        }
+
+        .dataTables_wrapper .dataTables_length {
+            float: right;
+        }
+        div.dt-buttons {
+            position: relative;
+            float: right;
+            padding-left: 10px !important;
+        }
+
+            div.dt-buttons button {
+                background-color: #8dc745 !important;
+                color: white !important;
+                border: 1px solid #8dc745 !important;
+            }
+    </style>
+</head><div class="content container-fluid">
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="row">
+            <div class="col-sm-7 col-auto">
+                <h3 class="page-title">Bank Account Manager</h3>
+
+            </div>
+            <div class="col-sm-5 col">
+                <a href="@Url.Action("New","BankAccountManager")" style="background-color: #8dc745 !important;
+        border: 1px solid #8dc745
+" class="btn btn-primary float-right mt-2">Add New Account</a>
+            </div>
+        </div>
+    </div>
+    <!-- /Page Header -->
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-center mb-0 " id="tblUserList">
+                            <thead>
+                                <tr>
+                                    <th hidden>User_ID</th>
+                                    <th>RTA</th>
+                                    <th>Nickname</th>
+                                    <th>Account Holder</th>
+                                    <th>Current Status</th>
+                                    <th>Account Usage</th>
+                                    <th class="text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in list)
+                                {
+                                    <tr>
+                                        <td class="User_ID" hidden>@item.BankAccountId</td>
+                                        <td><a style="color:deepskyblue" href="@Url.Action("Edit","BankAccountManager",new { UserId=item.BankAccountId})">@item.RTA</a></td>
+
+                                        <td>
+                                            <h2 class="table-avatar">
+                                                <a href="@Url.Action("Edit","BankAccountManager",new { UserId=item.BankAccountId})">@item.Nickname</a>
+                                            </h2>
+                                        </td>
+                                        <td>@item.Accountholdername</td>
+                                        <td>@item.AccountStatus</td>
+                                        <td>@item.AccountUsage</td>
+
+                                        <td class="text-right">
+                                            <div class="actions">
+                                                <a class="btn btn-sm bg-success-light" href="@Url.Action("Edit","BankAccountManager",new { UserId=item.BankAccountId})">
+                                                    <i class="fe fe-pencil"></i> Edit
+                                                </a>
+
+                                                 <a data-toggle="modal" data-target="#delete_modal" class="btn btn-sm bg-danger" style="color:white"  onclick="DeleteBankInformation(@item.BankAccountId,'@item.RTA')">
+                                                    <i class="fe fe-trash" style="color:white"></i> Delete
+                                                </a>
+
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="delete_modal" aria-hidden="true" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#8dc745 !important">
+                    <h5 class="modal-title" style="color:white">Delete Bank Account</h5> 
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color:white">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("Delete", "User", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    <form>
+                        <div class="form-content p-2">
+                            <input id="txtBankAccountId" hidden />
+                            <p class="modal-title" id="BankAccountNumber"></p>
+                            <input type="text" id="User_ID" name="User_ID" class="form-control" hidden />
+                            <p class="mb-4"  >Are you sure to delete bank account?</p>
+                            <div >
+                                <button type="button" onclick="DeleteBankAccount()" class="btn btn-danger">Delete </button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+
+                            </div>
+                        </div>
+                    </form>
+                }
+            </div>
+            <div class="modal-footer"></div>
+        </div>
+    </div>
+</div>
+@*<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.7/js/dataTables.responsive.min.js"></script>*@
+
+
+<script src="~/assets/js/jquery-3.5.1.js"></script>
+<script src="~/assets/js/sweetalert.min.js"></script>
+<script src="~/assets/js/datatable/jquery.dataTables.min.js"></script>
+
+
+<script>
+    $(document).on("click", ".open-AddBookDialog1", function () {
+        var myModal = $('#delete_modal');
+        var User_ID = $(this).closest('tr').find('.User_ID').text();
+        $("#User_ID", myModal).val(User_ID);
+    });
+
+    $(document).ready(function () {
+        $('#tblUserList').DataTable({
+            dom: 'lBfrtip',
+
+            "lengthMenu": [[100, 250, 500, 1000, -1], [100, 250, 500, 1000, "All"]],
+            "pageLength": 100,
+
+            /*dom: 'flit',*/
+            buttons: [
+                //'excel',
+                //text: 'Custom text'
+
+                { extend: 'excel', text: 'Export List to Excel', filename: 'Bank Account Manager List', title: 'Bank Account Manager List' }
+            ],
+
+            searching: true, paging: true
+        });
+
+        $(".nav li").removeClass("active");
+        $('#Bankaccountmanager').addClass('active');
+    });
+
+    function DeleteBankInformation(BankId,BankNumber) {
+
+        $("#txtBankAccountId").val(BankId);
+        
+        document.getElementById("BankAccountNumber").innerHTML = "<strong> RTA:  </strong>" + BankNumber;
+    }
+
+    function DeleteBankAccount() {
+        var txtBankAccountId = $("#txtBankAccountId").val();
+        $.ajax({
+            url: '@Url.Action("UpdateBankStatus", "BankAccountManager")',
+            type: "POST",
+            dataType: 'JSON',
+            data: { BankAccountId: txtBankAccountId },
+            success: function (result) {
+                window.location = result.url;
+            },
+            error: function (err) {
+
+            }
+        });
+    }
+
+
+</script>

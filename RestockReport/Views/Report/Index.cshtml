@@ -1,0 +1,558 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    List<string> AtmTerminalKeyList = new List<string>();
+}
+
+<head>
+    @*<link rel="stylesheet" href="~/assets/plugins/datatables/datatables.min.css">*@
+    @*<link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" />
+        <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.7/css/responsive.dataTables.min.css" />
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">*@
+
+    <link href="~/assets/css/datatable/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="~/assets/css/datatable/responsive.dataTables.min.css" rel="stylesheet" />
+
+    <link href="~/assets/css/sweetalert.min.css" rel="stylesheet" />
+
+    <style>
+        table.table td h2 span {
+            color: white !important;
+        }
+
+        .dataTables_wrapper .dataTables_filter {
+            float: left;
+            text-align: right;
+        }
+
+        .dataTables_wrapper .dataTables_length {
+            float: right;
+        }
+
+        .bold {
+            font-weight: Bold;
+        }
+
+        .modal-header {
+            background-color: #8dc745 !important;
+            color: white;
+            padding: 10px;
+        }
+
+        .modal-body {
+            padding: 0.9rem !important;
+        }
+
+        .card-body {
+            padding: 1rem !important;
+        }
+
+
+
+        .select2-container .select2-selection--single {
+            height: 40px !important;
+        }
+
+
+        table.dataTable thead th, table.dataTable thead td {
+            padding: 10px 18px;
+            border-bottom: 1px solid #8dc745 !important;
+            background-color: #8dc745 !important;
+            color: white !important;
+        }
+
+        button.dt-button.buttons-pdf.buttons-html5 {
+            background-color: darkcyan !important;
+            color: white;
+            border: 1px solid darkcyan;
+            padding: 5px 15px 5px 15px;
+        }
+
+        .dt-buttons {
+            margin-bottom: 10px !important;
+        }
+    </style>
+</head>
+
+<div class="content container-fluid">
+    <form method="get">
+        <!-- Page Header -->
+        <div class="page-header" style="margin-bottom:0px !important">
+            <div class="row">
+                <div class="col-sm-4 col-auto">
+                    <h3 class="page-title">Daily Transaction Detail Report</h3>
+
+                    <input hidden id="txtUserId" name="UserID" value="@ViewBag.UserID" />
+                </div>
+                <div class="col-md-8" style="float:right !important">
+
+
+                    <img id="Loader" src="~/assets/img/loader.gif" style="display:none;width: 7%; float: right; height: 100%; position: absolute; top: 8%; left: 70%;" />
+
+                    <a id="btnSyncReport" onclick="SyncReportData('@ViewBag.UserID')" style="        Color: white;background-color: #8dc745 !important;
+        border: 1px solid #8dc745;float:right;
+" class="btn btn-primary float-right mt-2">Sync Report Data</a>
+                </div>
+
+
+                @*<div class="col-md-4">
+                        <label id="lblTerminalSyncMessage" style="display:none;float:right;padding:14px;border-color:#c3e6cb;background-color: #d4edda;color: #155724;font-size:14px;"> Terminal Sync Successfully</label>
+
+
+                    </div>*@
+
+            </div>
+        </div>
+
+        <br />
+        <!-- /Page Header -->
+
+
+
+        <div class="row card">
+            <div class="col-md-12 card-body">
+
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="bold">Choose ATM</label>
+
+                            @if (ViewBag.ddlTerminlKey != null)
+                            {
+                                foreach (var terminalitem in ViewBag.ReportData)
+                                {
+
+                                    if (AtmTerminalKeyList.Count == 0)
+                                    {
+                                        AtmTerminalKeyList.Add(terminalitem.AtmTerminalKey);
+
+                                    }
+                                    else if (AtmTerminalKeyList.Count > 0)
+                                    {
+                                        if (!AtmTerminalKeyList.Contains(terminalitem.AtmTerminalKey))
+                                        {
+                                            AtmTerminalKeyList.Add(terminalitem.AtmTerminalKey);
+                                        }
+
+                                    }
+
+                                }
+                            }
+
+
+
+                            <select id="ddlTerminalKey" name="ddlTerminalKey" class="form-control js-example-basic-single">
+                                <option value="0">Select Terminal</option>
+                                @foreach (var item in ViewBag.TerminalList)
+                                {
+                                    <text>
+
+                                        @*@if (AtmTerminalKeyList.Contains(item.TerminalKey))
+                                            {
+                                                <option selected value="@item.TerminalKey">@item.TerminalName</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@item.TerminalKey">@item.TerminalName</option>
+                                            }*@
+
+
+                                        @if (ViewBag.ddlTerminlKey != null && ViewBag.ddlTerminlKey == item.TerminalKey)
+                                        {
+                                            <option selected value="@item.TerminalKey">@item.TerminalName</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.TerminalKey">@item.TerminalName</option>
+                                        }
+
+
+                                    </text>
+                                }
+
+                            </select>
+
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="bold">Report Date</label>
+                        <input name="ReportDate" id="txtReportDate" type="date" value="@ViewBag.ReportDate.ToString("yyyy-MM-dd")" class="form-control">
+
+                    </div>
+
+                    <div class="col-md-2">
+                        <br />
+                        <label class="radio-inline">
+                            <input value="1" type="radio" name="optradio" checked> Display on Screen
+                        </label>
+                        <br />
+                        <label class="radio-inline">
+                            <input value="2" type="radio" name="optradio"> Download PDF format
+                        </label>
+
+                    </div>
+
+
+                    <div class="col-md-2">
+                        <label id="click" style="visibility:hidden"> Click</label> <br />
+                        <button style="width: 80%;Color: white;background-color: #8dc745 !important;border: 1px solid #8dc745" class="btn btn-primary" type="submit">
+                            GET
+                        </button>
+
+
+                    </div>
+
+
+
+                    @*<div class="col-md-2" style="float:right">
+                                                                    <label id="click" style="visibility:hidden">All Records</label> <br />
+                                                                    <button onclick="GetReportAllRecords()" style="float: right;
+
+                            Color: white;
+                            background-color: darkgreen !important;
+                            border: 1px solid darkgreen
+                        " class="btn btn-primary" type="button">
+                                                                        All Records
+                                                                    </button>
+
+
+                                                                </div>*@
+
+
+                </div>
+
+
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-hover table-center mb-0 " id="tblReportList">
+                                        <thead>
+                                            <tr>
+                                                <th>Terminal</th>
+                                                <th>SEQ NUM</th>
+                                                <th>DATE TIME</th>
+                                                <th>CARD#</th>
+                                                <th>REQUESTED</th>
+                                                <th>DISPENSED</th>
+                                                <th>SURCHARGE</th>
+                                                <th>TOTAL</th>
+                                                <th>STATUS</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @{var DateTimes = "";}
+                                            @{var Time = "";}
+                                            @foreach (var item in ViewBag.ReportData)
+                                            {
+                                                DateTimes = item.TransactionDate.ToString("yyyy-MM-dd");
+
+                                                //Time = item.TransactionTime.Substring(, 2);
+
+                                                Time = item.TransactionTime.Substring(0, 2) + ":" + item.TransactionTime.Substring(2, 2) + ":" + item.TransactionTime.Substring(4, 2);
+                                                <tr>
+                                                    <td>@item.AtmTerminalKey</td>
+                                                    <td>@item.TransactionSequenceNumber</td>
+                                                    <td>
+                                                        <h2 class="table-avatar">
+                                                            @*<a>@item.HostDate.ToString("yyyy-MM-dd")</a>*@
+                                                            <a>@DateTimes <br />  @Time </a>
+                                                        </h2>
+                                                    </td>
+
+
+                                                    <td>
+                                                        @item.MaskedCardHolderCardNumber
+                                                    </td>
+                                                    <td>@item.RequestCashWithDrawlAmount.ToString("0.00")</td>
+                                                    <td>@item.DispensedCashAmount.ToString("0.00")</td>
+                                                    <td>@item.SurchargeFee.ToString("0.00")</td>
+                                                    <td>
+
+                                                        @{
+                                                            var RemaininAmount = item.RequestCashWithDrawlAmount + item.SurchargeFee;
+                                                        }
+
+                                                        @RemaininAmount.ToString("0.00")
+
+                                                        @*@item.RequestCashWithDrawlAmount + @item.SurchargeFee*@
+                                                    </td>
+                                                    <td>
+                                                        <h2 class="table-avatar">
+                                                            @*@if (item.TransactionResponseCode == "0")
+                            {
+                                <label>Approved</label>
+                            }*@
+
+                                                            <label>@item.TransactionStatus</label>
+
+
+                                                        </h2>
+                                                    </td>
+                                                    @*<td>
+                        @item.AtmTerminalKey
+
+                    </td>
+                    <td>
+                        @item.TransactionNetwork
+
+                    </td>*@
+
+                                                </tr>
+                                            }
+
+
+                                        </tbody>
+
+                                        <tfoot style="background-color: #8dc745 !important;color:white !important;border:1px solid #8dc745 !important">
+                                            <tr>
+                                                <th colspan="5"></th>
+                                                <th id="total_Dispensed"></th>
+                                                <th id="total_Surcharge"></th>
+                                                <th id="total_Sum"></th>
+                                                <th id="total_Status"></th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+
+        </div>
+
+
+
+
+    </form>
+
+
+
+
+</div>
+
+@*<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+     <script src="https://cdn.datatables.net/responsive/2.2.7/js/dataTables.responsive.min.js"></script>*@
+
+<script src="~/assets/js/jquery-3.5.1.js"></script>
+<script src="~/assets/js/sweetalert.min.js"></script>
+<script src="~/assets/js/datatable/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.7.0/js/dataTables.buttons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.print.min.js"></script>
+<script src="~/assets/js/datatable/dataTables.responsive.min.js"></script>
+
+<script>
+
+
+    function GetReportAllRecords() {
+
+
+
+        $.ajax({
+            /*url: 'Report/ReportAllRecord',*/
+            url: '@Url.Action("ReportAllRecord", "Report")',
+            type: "POST",
+            dataType: 'JSON',
+            data: { UserID: $("#txtUserId").val(), ReportDate: $("#txtReportDate").val() },
+            success: function (result) {
+                window.location = result.url;
+            },
+            error: function (err) {
+
+            }
+        });
+
+        //$.get("/User/Edit",
+        //    { User_ID: $("#txtUserId").val(), ddlAccessLevel: $("#ddlAccessLevel").val() },
+
+        //    function (response) {
+        //        alert(response);
+        //    /*    alert("Hello: " + response.Name + " .\nCurrent Date and Time: " + response.DateTime);*/
+        //        location.reload();
+        //    }
+        //);
+    }
+
+
+
+    $(document).ready(function () {
+        var ReportData = @Html.Raw(Json.Encode(ViewBag.ReportData));
+        //Loop through each of the admin users, if any of
+        //the admin users match the current user, hide the delete column.   
+        var TotalDispensed = 0;
+        var TotalSurcharge = 0;
+        var TotalSum = 0;
+        var TotalStatus = 0;
+
+
+        for (var i = 0; i < ReportData.length; i++) {
+            TotalDispensed += ReportData[i].DispensedCashAmount;
+            TotalSurcharge += ReportData[i].SurchargeFee;
+            TotalSum += ReportData[i].DispensedCashAmount + ReportData[i].SurchargeFee;
+
+            if (ReportData[i].TransactionStatus == "Approved") {
+                TotalStatus = TotalStatus + 1;
+            }
+            
+        } 
+       
+
+        $('#tblReportList').DataTable({
+
+            //dom: 'Bfrtip',
+            //buttons: [
+            //    { extend: 'pdf', text: 'Download PDF format' }
+            //],
+            searching: false, paging: false, sorting: false,
+            drawCallback: function () {
+                $('#total_Dispensed').html(TotalDispensed.toFixed(2));
+                $('#total_Surcharge').html(TotalSurcharge.toFixed(2));
+                $('#total_Sum').html(TotalSum.toFixed(2));
+                $('#total_Status').html(TotalStatus);
+
+                }
+            });
+
+
+        jQuery('#ddlTerminalKey').select2();
+
+        $(".nav li ul li").removeClass("active");
+        $('#DailyTransactionReport').addClass('active');
+        $("#Report a").addClass('subdrop');
+        $("#Report  ul").first().css('display', 'block');
+
+    });
+
+
+    function SyncReportData(UserID) {
+        var ReportDate = $("#txtReportDate").val();
+        $("#Loader").css("display", "block");
+
+
+        document.getElementById("btnSyncReport").innerHTML = "Please Wait...";
+        document.getElementById("btnSyncReport").style.backgroundColor = 'Black';
+        document.getElementById("btnSyncReport").style.borderColor = "Black";
+        document.getElementById("btnSyncReport").style.pointerEvents = "none";
+        document.getElementById("btnSyncReport").style.cursor = "default";
+
+
+        $.ajax({
+            /*url: 'Report/SyncReportData',*/
+            url: '@Url.Action("SyncReportData", "Report")',
+            type: "GET",
+            dataType: 'JSON',
+            data: { UserID: UserID, ReportDate: ReportDate },
+            success: function (result) {
+
+
+                if (result.ResponseStaus == "1") {
+                    $("#Loader").css("display", "none");
+
+                    document.getElementById("btnSyncReport").innerHTML = "Sync Report Data";
+                    document.getElementById("btnSyncReport").style.backgroundColor = '#8dc745';
+                    document.getElementById("btnSyncReport").style.borderColor = "#8dc745";
+                    document.getElementById("btnSyncReport").style.pointerEvents = "auto";
+                    document.getElementById("btnSyncReport").style.cursor = "pointer";
+
+
+
+                    //swal({ title: "Sync Report Data: ", text: "Report data Sync Successfully", type: "success" },
+                    //    function () {
+                    //        location.reload();
+                    //    }
+                    //);
+
+                    swal({
+                        title: "Sync Report Data", text: "Report data Sync Successfully", type: "success",
+                        timer: 3000,
+                        showConfirmButton: false
+                    }, function () {
+                        window.location.href = result.url;
+                    });
+
+
+                }
+                else if (result.ResponseStaus == "0") {
+                    document.getElementById("btnSyncReport").innerHTML = "Sync Report Data";
+                    document.getElementById("btnSyncReport").style.backgroundColor = '#8dc745';
+                    document.getElementById("btnSyncReport").style.borderColor = "#8dc745";
+                    document.getElementById("btnSyncReport").style.pointerEvents = "auto";
+                    document.getElementById("btnSyncReport").style.cursor = "pointer";
+
+                    $("#Loader").css("display", "none");
+                    swal({
+                        title: "Sync Report Data?",
+                        text: "No Record Found",
+                        type: "warning",
+                        showCancelButton: true,
+                        closeOnConfirm: false
+                    },
+                    );
+                }
+
+                else if (result.ResponseStaus != "1" && result.ResponseStaus != "0") {
+
+                    var Responseresult = "";
+
+
+                    if (result.ResponseStaus == "-1") {
+                        Responseresult = "Webmon login authentication failed. Verify webmon username/password";
+                    }
+                    else if (result.ResponseStaus == "-2") {
+                        Responseresult = "Soap Service Response! (-2 = Error during database query)";
+                    }
+                    else if (result.ResponseStaus == "-3") {
+                        Responseresult = "Soap Service Response ! (-3 = Zip File not available)";
+                    }
+                    else if (result.ResponseStaus == "-4") {
+                        Responseresult = "Soap Service Response! (-4 = Invalid Password Hash Value)";
+                    }
+                    else if (result.ResponseStaus == "-5") {
+                        Responseresult = "Soap Service Response! (-5 = Invalid Date Value)";
+                    }
+
+                    document.getElementById("btnSyncReport").innerHTML = "Sync Report Data";
+                    document.getElementById("btnSyncReport").style.backgroundColor = '#8dc745';
+                    document.getElementById("btnSyncReport").style.borderColor = "#8dc745";
+                    document.getElementById("btnSyncReport").style.pointerEvents = "auto";
+                    document.getElementById("btnSyncReport").style.cursor = "pointer";
+                    $("#Loader").css("display", "none");
+                    swal({
+                        title: "Sync Report Data?",
+                        text: Responseresult,
+                        type: "warning",
+                        showCancelButton: true,
+                        closeOnConfirm: false
+                    },
+                    );
+
+                }
+
+
+            },
+            error: function (err) {
+
+            }
+        });
+
+
+    }
+
+
+</script>

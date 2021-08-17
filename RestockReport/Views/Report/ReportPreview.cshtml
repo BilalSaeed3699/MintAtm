@@ -1,0 +1,259 @@
+﻿
+@{
+    ViewBag.Title = "ReportPreview";
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Mint Leaf</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+
+    <!-- Favicons -->
+    <link rel="shortcut icon" type="image/x-icon" href="~/assets/img/Mint_Leaf.png">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="~/assets/Reportcss/bootstrap.min.css">
+
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" href="~/assets/plugins/fontawesome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="~/assets/plugins/fontawesome/css/all.min.css">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="~/assets/Reportcss/style.css">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="~/assets/js/html5shiv.min.js"></script>
+        <script src="~/assets/js/respond.min.js"></script>
+    <![endif]-->
+
+    <Style>
+        .invoice-item .customer-text {
+            font-size: 15px !important;
+        }
+    </Style>
+
+
+    @*<script src="https://code.jquery.com/jquery-3.5.1.js"></script>*@
+    <script src="~/assets/js/jquery-3.5.1.js"></script>
+    <script src="~/assets/js/Chart.bundle.js"></script>
+    <script src="~/assets/js/chart.js"></script>
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.2.2/Chart.bundle.min.js"></script>*@
+    <script>
+
+        var barChartData =
+            {
+                labels: [@Html.Raw(ViewBag.MonthGraphList)],
+                datasets: [{
+                    label: 'ATM Transaction History',
+                    backgroundColor: [
+                        "#7dc576",
+                        "#7dc576",
+                        //"#aad2ed",
+                        //"#9966FF",
+                        //"#99e5e5",
+                        //"#f7bd83",
+                    ],
+                    borderWidth: 2,
+                    data: [@ViewBag.TransactionGraphList]
+                }]
+            };
+
+            window.onload = function () {
+                var ctx1 = document.getElementById("barcanvas").getContext("2d");
+                window.myBar = new Chart(ctx1,
+                    {
+                        type: 'bar',
+                        data: barChartData,
+                        options:
+                            {
+
+                                responsive: true,
+                                maintainAspectRatio: true
+                            }
+                    });
+            }
+    </script>
+</head>
+<body>
+
+
+
+
+
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+
+
+        <!-- Page Content -->
+        <div class="content">
+
+
+            <div class="container-fluid">
+
+                <div class="row">
+                    <div class="col-lg-8 offset-lg-2">
+                        <div class="invoice-content">
+                            <div class="invoice-item" style="height:60px !important">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="invoice-logo">
+                                            <img style="width:40%;height:30%" src="~/assets/img/MyMint_Logo.png" alt="logo">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p class="invoice-details">
+                                            <strong>MONTHLY STATEMENT TRANSACTIONS</strong>  <br />
+                                            <strong style="color:orange !important">@ViewBag.CurrentMonthYear</strong>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            @{string Merchantname = @ViewBag.WebMoonUser;}
+
+
+
+                            <!-- Invoice Item -->
+                            <div class="invoice-item">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="invoice-info">
+                                            <strong class="customer-text" style="background-color:black !important;color:white;text-align:center">MERCHANT DETAILS</strong>
+                                            <p class="invoice-details invoice-details-two">
+                                                <label style="float:left">@Merchantname</label>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="invoice-info invoice-info2">
+                                            <strong class="customer-text" style="background-color:black !important;color:white;text-align:center">ATM LOCATION INFORMATION</strong>
+                                            <p class="invoice-details invoice-details-two">
+                                                @*Walter Roberson <br>
+                                                    299 Star Trek Drive, Panama City, <br>
+                                                    Florida, 32405, USA <br>*@
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /Invoice Item -->
+                            <!-- Invoice Item -->
+                            <div class="invoice-item">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="invoice-info">
+                                            <strong class="customer-text" style="background-color:black !important;color:white;text-align:center">SUMMARY</strong>
+                                            <div class="row">
+                                                <div class="col-md-1"><strong> Month</strong> </div>
+                                                <div class="col-md-3"><strong> Interac Withdrawl Trans</strong></div>
+                                                <div class="col-md-3"><strong> Monthly Commission Paid</strong></div>
+                                                <div class="col-md-5" style="text-align:right"><strong> Payment Method: EFT Monthly</strong></div>
+
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-1"><strong>@ViewBag.MonthShortName</strong> </div>
+                                                @*<div class="col-md-3"><strong style="text-align:center"> Interac Withdrawl Trans</strong></div>
+                                                    <div class="col-md-3"><strong> Monthly Commission Paid</strong></div>
+                                                    <div class="col-md-5" style="text-align:right"><strong> Payment Method: EFT Monthly</strong></div>*@
+
+                                            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                            <!--<div class="row">
+                                                <div class="col-md-1"><strong> @ViewBag.MonthShortName</strong></div>-->
+                                            @*<div class="col-md-3"><strong> Interac Withdrawl Trans</strong></div>
+                                                <div class="col-md-3"><strong> Monthly Commission Paid</strong></div>
+                                                <div class="col-md-5" style="text-align:right"><strong> Payment Method: EFT Monthly</strong></div>*@
+                                            <!--</div>-->
+                                            @*<strong>Month</strong> &nbsp;&nbsp;&nbsp;<strong>Interac Withdrawl Trans</strong> &nbsp;&nbsp;&nbsp; <strong>Monthly Commission Paid</strong> &nbsp;&nbsp;&nbsp;
+                                                <strong style="float:right">Payment Method: EFT Monthly</strong>*@
+
+
+
+                                            @*<p class="invoice-details invoice-details-two">
+                                                    <strong>APR</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>310</strong> &nbsp;&nbsp;&nbsp; <strong>Monthly Commission Paid</strong> &nbsp;&nbsp;&nbsp;
+                                                    <strong style="float:right">Payment Method: EFT Monthly</strong>
+                                                </p>*@
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /Invoice Item -->
+
+
+
+                            <div class="invoice-item">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="invoice-info">
+                                            <strong class="customer-text" style="background-color:black !important;color:white;text-align:center">TRANSACTION HISTORY</strong>
+                                            <div style="text-align: center">
+                                                <canvas id="barcanvas"></canvas>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="invoice-item">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="invoice-info" style="margin-bottom:0px !important">
+                                            <strong class="customer-text" style="background-color:black !important;color:white;text-align:center">NEWS & NOTICES</strong>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <!-- /Page Content -->
+
+
+    </div>
+    <!-- /Main Wrapper -->
+    <!-- jQuery -->
+    <script src="~/assets/js/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JS -->
+    <script src="~/assets/js/popper.min.js"></script>
+    <script src="~/assets/js/bootstrap.min.js"></script>
+
+    <!-- Custom JS -->
+    <script src="~/assets/js/script.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            window.print();
+
+
+        });
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="9c55026db02d4cea8854e9bb25efbecb" Name="Diagram1">
+        <EntityTypeShape EntityType="RestockReportsModel.tblMenu" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RestockReportsModel.tblSetting" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RestockReportsModel.tblTerminal" Width="1.5" PointX="0.75" PointY="6.75" />
+        <EntityTypeShape EntityType="RestockReportsModel.tblTerminalSurchargeAccount" Width="1.5" PointX="7.375" PointY="3.75" />
+        <EntityTypeShape EntityType="RestockReportsModel.tblRegion" Width="1.5" PointX="7.375" PointY="7.75" />
+        <EntityTypeShape EntityType="RestockReportsModel.tblUserterminal" Width="1.5" PointX="7.375" PointY="0.75" />
+        <EntityTypeShape EntityType="RestockReportsModel.tblUser_Menu_Right" Width="1.5" PointX="9.375" PointY="0.75" />
+        <EntityTypeShape EntityType="RestockReportsModel.tblReportData" Width="1.5" PointX="9.375" PointY="3.75" />
+        <EntityTypeShape EntityType="RestockReportsModel.tblTitle" Width="1.5" PointX="9.375" PointY="9.75" />
+        <EntityTypeShape EntityType="RestockReportsModel.tblActivationCode" Width="1.5" PointX="5.375" PointY="10.75" />
+        <EntityTypeShape EntityType="RestockReportsModel.GraphDataFilter" Width="1.5" PointX="11.375" PointY="0.75" />
+        <EntityTypeShape EntityType="RestockReportsModel.tblWebmoonUser" Width="1.5" PointX="0.875" PointY="12.5" IsExpanded="false" />
+        <EntityTypeShape EntityType="RestockReportsModel.tblAccess_Level" Width="1.5" PointX="11.375" PointY="3.75" />
+        <EntityTypeShape EntityType="RestockReportsModel.tblAccess_Level_Menu" Width="1.5" PointX="11.375" PointY="6.75" />
+        <EntityTypeShape EntityType="RestockReportsModel.tblterminalsegmented" Width="1.5" PointX="3.375" PointY="3.75" />
+        <EntityTypeShape EntityType="RestockReportsModel.tblMonth" Width="1.5" PointX="3.375" PointY="6.75" />
+        <EntityTypeShape EntityType="RestockReportsModel.tblYear" Width="1.5" PointX="7.375" PointY="12.75" />
+        <EntityTypeShape EntityType="RestockReportsModel.tblCommunicationType" Width="1.5" PointX="13.375" PointY="0.75" />
+        <EntityTypeShape EntityType="RestockReportsModel.tblProgramType" Width="1.5" PointX="13.375" PointY="3.75" />
+        <EntityTypeShape EntityType="RestockReportsModel.tblCompany" Width="1.5" PointX="3.375" PointY="13.75" />
+        <EntityTypeShape EntityType="RestockReportsModel.tblAccountStatu" Width="1.5" PointX="13.75" PointY="6.75" />
+        <EntityTypeShape EntityType="RestockReportsModel.tblAccountType" Width="1.5" PointX="13.75" PointY="9.75" />
+        <EntityTypeShape EntityType="RestockReportsModel.tblBankAccountDetail" Width="1.5" PointX="13.75" PointY="12.75" />
+        <EntityTypeShape EntityType="RestockReportsModel.tblStackHolder" Width="1.5" PointX="0.75" PointY="14.75" />
+        <EntityTypeShape EntityType="RestockReportsModel.tblTerminalManager" Width="1.5" PointX="15.375" PointY="0.75" />
+        <EntityTypeShape EntityType="RestockReportsModel.tblTermsDetail" Width="1.5" PointX="5.375" PointY="15.75" />
+        <EntityTypeShape EntityType="RestockReportsModel.tblUser" Width="1.5" PointX="9.375" PointY="12.75" />
+        <EntityTypeShape EntityType="RestockReportsModel.tblNewletter" Width="1.5" PointX="16.375" PointY="5.75" />
+        <EntityTypeShape EntityType="RestockReportsModel.tblBankAccountList" Width="1.5" PointX="16.375" PointY="8.75" />
+        <EntityTypeShape EntityType="RestockReportsModel.tblReportJobLog" Width="1.5" PointX="16.375" PointY="11.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

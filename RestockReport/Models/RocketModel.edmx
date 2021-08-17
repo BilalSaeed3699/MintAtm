@@ -1,0 +1,1894 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="RestockReportsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'RestockReports.dbo.GraphDataFilter' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="GraphDataFilter">
+          <Key>
+            <PropertyRef Name="Month" />
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Month" Type="varchar" MaxLength="12" Nullable="false" />
+          <Property Name="DateYear" Type="int" />
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="DateFilter" Type="varchar" MaxLength="23" />
+          <Property Name="DateFilterWB" Type="varchar" MaxLength="21" />
+        </EntityType>
+        <EntityType Name="tblAccess_Level">
+          <Key>
+            <PropertyRef Name="Access_ID" />
+          </Key>
+          <Property Name="Access_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Access_Level_Type" Type="varchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblAccess_Level_Menu">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Access_ID" Type="int" />
+          <Property Name="Page_ID" Type="int" />
+        </EntityType>
+        <EntityType Name="tblAccountStatus">
+          <Key>
+            <PropertyRef Name="AccountStatusId" />
+          </Key>
+          <Property Name="AccountStatusId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AccountStatus" Type="varchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblAccountType">
+          <Key>
+            <PropertyRef Name="AccountTypeID" />
+          </Key>
+          <Property Name="AccountTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TypeName" Type="varchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblActivationCode">
+          <Key>
+            <PropertyRef Name="ActivationId" />
+          </Key>
+          <Property Name="ActivationId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UID" Type="int" Nullable="false" />
+          <Property Name="Code" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblBankAccountDetails">
+          <Key>
+            <PropertyRef Name="BankAccountId" />
+          </Key>
+          <Property Name="BankAccountId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AccountTypeId" Type="int" Nullable="false" />
+          <Property Name="Bankname" Type="varchar" MaxLength="300" Nullable="false" />
+          <Property Name="Routingnumber" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Address" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="Transitnumber" Type="varchar" MaxLength="6" Nullable="false" />
+          <Property Name="City" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Accountnumber" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="RegionId" Type="int" Nullable="false" />
+          <Property Name="CurrentstatusId" Type="int" Nullable="false" />
+          <Property Name="Postalcode" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Accountholdername" Type="varchar" MaxLength="300" Nullable="false" />
+          <Property Name="Nickname" Type="varchar" MaxLength="300" Nullable="false" />
+          <Property Name="Stackholdertypeid" Type="int" Nullable="false" />
+          <Property Name="Bankaccountcontactname" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Phonenumber" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="EmailAddress" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Entityname" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="MailingAddress" Type="varchar" MaxLength="300" Nullable="false" />
+          <Property Name="Entitycity" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Entityregion" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Entityregionid" Type="int" Nullable="false" />
+          <Property Name="Entitypostalcode" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="BankNameId" Type="int" Nullable="false" />
+          <Property Name="IsDeleted" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblBankAccountList">
+          <Key>
+            <PropertyRef Name="BankAccountId" />
+          </Key>
+          <Property Name="BankAccountId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="300" Nullable="false" />
+          <Property Name="IsActive" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblCommunicationType">
+          <Key>
+            <PropertyRef Name="CommunicationId" />
+          </Key>
+          <Property Name="CommunicationId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Type" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblCompany">
+          <Key>
+            <PropertyRef Name="CompanyId" />
+          </Key>
+          <Property Name="CompanyId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Companyname" Type="varchar" MaxLength="500" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblMenu">
+          <Key>
+            <PropertyRef Name="Page_ID" />
+          </Key>
+          <Property Name="Page_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Page_Name" Type="varchar" MaxLength="500" />
+          <Property Name="Action_name" Type="varchar" MaxLength="50" />
+          <Property Name="Controller_name" Type="varchar" MaxLength="50" />
+          <Property Name="Icon_Class" Type="varchar" MaxLength="50" />
+          <Property Name="IsParent" Type="int" />
+          <Property Name="ParentId" Type="int" />
+          <Property Name="Count" Type="int" />
+          <Property Name="ElementId" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="tblMonth">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="MonthId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblNewletter">
+          <Key>
+            <PropertyRef Name="NewsletterId" />
+          </Key>
+          <Property Name="NewsletterId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Filename" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="FilePath" Type="varchar" MaxLength="300" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblProgramType">
+          <Key>
+            <PropertyRef Name="ProgramId" />
+          </Key>
+          <Property Name="ProgramId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Type" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblRegion">
+          <Key>
+            <PropertyRef Name="RegionId" />
+          </Key>
+          <Property Name="RegionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RegionName" Type="varchar" MaxLength="5000" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblReportData">
+          <Key>
+            <PropertyRef Name="ReportID" />
+          </Key>
+          <Property Name="ReportID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CompanyName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="HostDate" Type="date" Nullable="false" />
+          <Property Name="RequestCashWithDrawlAmount" Type="numeric" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="DispensedCashAmount" Type="numeric" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="MaskedCardHolderCardNumber" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="TransactionSequenceNumber" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="TransactionResponseCode" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="AtmTerminalKey" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="TransactionDate" Type="date" Nullable="false" />
+          <Property Name="TransactionTime" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="SurchargeFee" Type="numeric" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="TransactionNetwork" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="InterchangeFee" Type="numeric" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="TransactionType" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TransactionBankAccountType" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="NotAcceptable" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="ReportDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblReportJobLogs">
+          <Key>
+            <PropertyRef Name="LogId" />
+          </Key>
+          <Property Name="LogId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Jobtime" Type="datetime" Nullable="false" />
+          <Property Name="Jobfunctionname" Type="varchar" MaxLength="300" Nullable="false" />
+          <Property Name="Recordcount" Type="int" Nullable="false" />
+          <Property Name="Status" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Soapserviceresponsetype" Type="int" Nullable="false" />
+          <Property Name="ScheduleTime" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="ReportDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblSettings">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="500" />
+          <Property Name="Password" Type="nvarchar(max)" />
+          <Property Name="SMTP" Type="nvarchar(max)" />
+          <Property Name="Port" Type="varchar" MaxLength="500" />
+          <Property Name="IsActive" Type="int" />
+        </EntityType>
+        <EntityType Name="tblStackHolder">
+          <Key>
+            <PropertyRef Name="StackHolderId" />
+          </Key>
+          <Property Name="StackHolderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StackHolderName" Type="varchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblTerminal">
+          <Key>
+            <PropertyRef Name="TerminalId" />
+          </Key>
+          <Property Name="TerminalId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TerminalKey" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="LocationName" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="LocationType" Type="varchar" MaxLength="300" Nullable="false" />
+          <Property Name="Address" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="City" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="Region" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="PostalCode" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="MakeAndModel" Type="varchar" MaxLength="1000" Nullable="false" />
+          <Property Name="SerialNumber" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="IsActive" Type="int" Nullable="false" />
+          <Property Name="IsDeleted" Type="int" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Comment" Type="varchar" MaxLength="1000" Nullable="false" />
+          <Property Name="ContactName" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="ContactPhone" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="RelationshipId" Type="int" Nullable="false" />
+          <Property Name="ProgramaTypeId" Type="int" Nullable="false" />
+          <Property Name="CommunicationTypeId" Type="int" Nullable="false" />
+          <Property Name="EmailAddress" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Surcharge" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="CommunicationSerialNumber" Type="varchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblTerminalManager">
+          <Key>
+            <PropertyRef Name="TerminalManagerId" />
+          </Key>
+          <Property Name="TerminalManagerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Type" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="TerminalId" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="FundingType" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="AccountName" Type="varchar" MaxLength="300" Nullable="false" />
+          <Property Name="RoutingNumber" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="TransitNumber" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="AccountNumber" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="DepositAmount" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="TransactionDate" Type="datetime" Nullable="false" />
+          <Property Name="SettlementDate" Type="datetime" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ReportDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblterminalsegmented">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="TerminalKey" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="tblTerminalSurchargeAccount">
+          <Key>
+            <PropertyRef Name="SurchageId" />
+          </Key>
+          <Property Name="SurchageId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TerminalKey" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="AccountHolder" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="AccountRTA" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="SplitType" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="SplitAmount" Type="float" Nullable="false" />
+          <Property Name="PaymentSchedule" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="IsSurchargeAccount" Type="int" Nullable="false" />
+          <Property Name="IsInterchangeAccount" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblTermsDetails">
+          <Key>
+            <PropertyRef Name="TermsDetailId" />
+          </Key>
+          <Property Name="TermsDetailId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TerminalKey" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="VaultCashID" Type="int" Nullable="false" />
+          <Property Name="SurchargeAccountCount" Type="int" Nullable="false" />
+          <Property Name="InterchangeAccountCount" Type="int" Nullable="false" />
+          <Property Name="Totalterminalsurchageamount" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="SurchargesplitId1" Type="int" Nullable="false" />
+          <Property Name="Surchargesplitamount1" Type="numeric" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Surchargesettlementsource1" Type="int" Nullable="false" />
+          <Property Name="IsSurchargesegmented1" Type="int" Nullable="false" />
+          <Property Name="SurchargesegmentedID1" Type="int" Nullable="false" />
+          <Property Name="SurchargesplitId2" Type="int" Nullable="false" />
+          <Property Name="Surchargesplitamount2" Type="numeric" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Surchargesettlementsource2" Type="int" Nullable="false" />
+          <Property Name="IsSurchargesegmented2" Type="int" Nullable="false" />
+          <Property Name="SurchargesegmentedID2" Type="int" Nullable="false" />
+          <Property Name="SurchargesplitId3" Type="int" Nullable="false" />
+          <Property Name="Surchargesplitamount3" Type="numeric" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Surchargesettlementsource3" Type="int" Nullable="false" />
+          <Property Name="IsSurchargesegmented3" Type="int" Nullable="false" />
+          <Property Name="SurchargesegmentedID3" Type="int" Nullable="false" />
+          <Property Name="SurchargesplitId4" Type="int" Nullable="false" />
+          <Property Name="Surchargesplitamount4" Type="numeric" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Surchargesettlementsource4" Type="int" Nullable="false" />
+          <Property Name="IsSurchargesegmented4" Type="int" Nullable="false" />
+          <Property Name="SurchargesegmentedID4" Type="int" Nullable="false" />
+          <Property Name="SurchargesplitId5" Type="int" Nullable="false" />
+          <Property Name="Surchargesplitamount5" Type="numeric" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="Surchargesettlementsource5" Type="int" Nullable="false" />
+          <Property Name="IsSurchargesegmented5" Type="int" Nullable="false" />
+          <Property Name="SurchargesegmentedID5" Type="int" Nullable="false" />
+          <Property Name="Totalsurchargeassigned" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="TotalInterchangeAmount" Type="numeric" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="InterchangeSplitRemainder1" Type="varchar" MaxLength="300" Nullable="false" />
+          <Property Name="InterchangeSplitAmount1" Type="numeric" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="InterchangeSplit1" Type="int" Nullable="false" />
+          <Property Name="InterchangeSplit2" Type="int" Nullable="false" />
+          <Property Name="InterchangeSplitAmount2" Type="numeric" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Interchangesettlementsource1" Type="int" Nullable="false" />
+          <Property Name="InterchangeSplit3" Type="int" Nullable="false" />
+          <Property Name="InterchangeSplitAmount3" Type="numeric" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Interchangesettlementsource2" Type="int" Nullable="false" />
+          <Property Name="InterchangeSplit4" Type="int" Nullable="false" />
+          <Property Name="InterchangeSplitAmount4" Type="numeric" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Interchangesettlementsource3" Type="int" Nullable="false" />
+          <Property Name="InterchangeSplit5" Type="int" Nullable="false" />
+          <Property Name="InterchangeSplitAmount5" Type="numeric" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Interchangesettlementsource4" Type="int" Nullable="false" />
+          <Property Name="TotalInterchangeassigned" Type="numeric" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="CreateBy" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblTitle">
+          <Key>
+            <PropertyRef Name="TitleID" />
+          </Key>
+          <Property Name="TitleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TitleName" Type="varchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblUser">
+          <Key>
+            <PropertyRef Name="User_ID" />
+          </Key>
+          <Property Name="User_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="Email_Adress" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="Title" Type="int" Nullable="false" />
+          <Property Name="Company" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="Address" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="City" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="Province" Type="int" Nullable="false" />
+          <Property Name="Postalcode" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="Phonecell" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="Phoneother" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="RollAssigned" Type="int" Nullable="false" />
+          <Property Name="Create_Date" Type="datetime" Nullable="false" />
+          <Property Name="Access_Level_ID" Type="int" Nullable="false" />
+          <Property Name="IsDeleted" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblUser_Menu_Right">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="User_ID" Type="int" Nullable="false" />
+          <Property Name="Page_ID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblUserterminal">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="TerminalKey" Type="varchar" MaxLength="100" />
+          <Property Name="StartDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tblWebmoonUser">
+          <Key>
+            <PropertyRef Name="User_ID" />
+          </Key>
+          <Property Name="User_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="WebmoonId" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblYear">
+          <Key>
+            <PropertyRef Name="Yearid" />
+          </Key>
+          <Property Name="Yearid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Year" Type="int" Nullable="false" />
+        </EntityType>
+        <Function Name="Sp_Get_AccountHolder_Details" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Type" Type="int" Mode="In" />
+          <Parameter Name="AccountHolderName" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="Sp_Get_AccountHolder_List" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Type" Type="int" Mode="In" />
+          <Parameter Name="AccountHolderName" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="Sp_Get_Bank_Account_UsageDetail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="BankVaultCashId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Sp_Get_Bank_Detail_List" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="Sp_Get_BankNickName_List" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="Sp_Get_Daily_Deposit_Report_Data_List" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ReportDate" Type="datetime" Mode="In" />
+          <Parameter Name="TerminalKey" Type="varchar" Mode="In" />
+          <Parameter Name="UserId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Sp_Get_Daily_Transaction" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="STARTDATE" Type="date" Mode="In" />
+          <Parameter Name="ENDDATE" Type="date" Mode="In" />
+          <Parameter Name="TerminalId" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="Sp_Get_Daily_Transaction_Graph" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="STARTDATE" Type="datetime" Mode="In" />
+          <Parameter Name="ENDDATE" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="Sp_Get_Donut_Revenue_Graph" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Userid" Type="varchar" Mode="In" />
+          <Parameter Name="TerminalKey" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="Sp_Get_Gross_Commision" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="TerminalKey" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="Sp_Get_Report_Data_List" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ReportDate" Type="datetime" Mode="In" />
+          <Parameter Name="TerminalKey" Type="varchar" Mode="In" />
+          <Parameter Name="UserId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Sp_Get_TermsDetails_BankNickName_List" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Type" Type="char" Mode="In" />
+        </Function>
+        <Function Name="Sp_Get_User_Assigned_Terminal_List" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Sp_Get_User_Bank_List" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Userid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Sp_Get_User_Dashboard_Menu_List" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="AccessId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Sp_Get_User_Graph_Data" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Userid" Type="varchar" Mode="In" />
+          <Parameter Name="TerminalKey" Type="varchar" Mode="In" />
+          <Parameter Name="MonthId" Type="int" Mode="In" />
+          <Parameter Name="YearId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Sp_Get_User_Graph_Filter_Data_" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="cWhere" Type="varchar(max)" Mode="In" />
+        </Function>
+        <Function Name="Sp_Get_User_Menu_List" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="AccessId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Sp_Get_User_Segmented_Terminal_List" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Userid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Sp_Get_User_Terminal_List" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Userid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Sp_Load_Bank_Atm" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserId" Type="int" Mode="In" />
+          <Parameter Name="BankId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Sp_Term_Manager_List" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="RestockReportsModelStoreContainer">
+          <EntitySet Name="tblAccess_Level" EntityType="Self.tblAccess_Level" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblAccess_Level_Menu" EntityType="Self.tblAccess_Level_Menu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblAccountStatus" EntityType="Self.tblAccountStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblAccountType" EntityType="Self.tblAccountType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblActivationCode" EntityType="Self.tblActivationCode" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblBankAccountDetails" EntityType="Self.tblBankAccountDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblBankAccountList" EntityType="Self.tblBankAccountList" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblCommunicationType" EntityType="Self.tblCommunicationType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblCompany" EntityType="Self.tblCompany" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblMenu" EntityType="Self.tblMenu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblMonth" EntityType="Self.tblMonth" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblNewletter" EntityType="Self.tblNewletter" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblProgramType" EntityType="Self.tblProgramType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblRegion" EntityType="Self.tblRegion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblReportData" EntityType="Self.tblReportData" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblReportJobLogs" EntityType="Self.tblReportJobLogs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblSettings" EntityType="Self.tblSettings" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblStackHolder" EntityType="Self.tblStackHolder" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblTerminal" EntityType="Self.tblTerminal" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblTerminalManager" EntityType="Self.tblTerminalManager" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblterminalsegmented" EntityType="Self.tblterminalsegmented" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblTerminalSurchargeAccount" EntityType="Self.tblTerminalSurchargeAccount" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblTermsDetails" EntityType="Self.tblTermsDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblTitle" EntityType="Self.tblTitle" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblUser" EntityType="Self.tblUser" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblUser_Menu_Right" EntityType="Self.tblUser_Menu_Right" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblUserterminal" EntityType="Self.tblUserterminal" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblWebmoonUser" EntityType="Self.tblWebmoonUser" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblYear" EntityType="Self.tblYear" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GraphDataFilter" EntityType="Self.GraphDataFilter" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [GraphDataFilter].[Month] AS [Month], 
+    [GraphDataFilter].[DateYear] AS [DateYear], 
+    [GraphDataFilter].[Id] AS [Id], 
+    [GraphDataFilter].[DateFilter] AS [DateFilter], 
+    [GraphDataFilter].[DateFilterWB] AS [DateFilterWB]
+    FROM [dbo].[GraphDataFilter] AS [GraphDataFilter]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="RestockReportsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="tblMenu">
+          <Key>
+            <PropertyRef Name="Page_ID" />
+          </Key>
+          <Property Name="Page_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Page_Name" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Action_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Controller_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Icon_Class" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IsParent" Type="Int32" />
+          <Property Name="ParentId" Type="Int32" />
+          <Property Name="Count" Type="Int32" />
+          <Property Name="ElementId" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tblSetting">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Email" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SMTP" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Port" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Int32" />
+        </EntityType>
+        <EntityContainer Name="RestockReportsEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tblMenus" EntityType="Self.tblMenu" />
+          <EntitySet Name="tblSettings" EntityType="Self.tblSetting" />
+          <EntitySet Name="tblTerminals" EntityType="RestockReportsModel.tblTerminal" />
+          <EntitySet Name="tblTerminalSurchargeAccounts" EntityType="RestockReportsModel.tblTerminalSurchargeAccount" />
+          <EntitySet Name="tblRegions" EntityType="RestockReportsModel.tblRegion" />
+          <EntitySet Name="tblUserterminals" EntityType="RestockReportsModel.tblUserterminal" />
+          <EntitySet Name="tblUser_Menu_Right" EntityType="RestockReportsModel.tblUser_Menu_Right" />
+          <EntitySet Name="tblReportDatas" EntityType="RestockReportsModel.tblReportData" />
+          <FunctionImport Name="Sp_Get_User_Assigned_Terminal_List" ReturnType="Collection(RestockReportsModel.Sp_Get_User_Assigned_Terminal_List_Result)">
+          <Parameter Name="UserId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="tblTitles" EntityType="RestockReportsModel.tblTitle" />
+          <EntitySet Name="tblActivationCodes" EntityType="RestockReportsModel.tblActivationCode" />
+          <EntitySet Name="GraphDataFilters" EntityType="RestockReportsModel.GraphDataFilter" />
+          <EntitySet Name="tblWebmoonUsers" EntityType="RestockReportsModel.tblWebmoonUser" />
+          <EntitySet Name="tblAccess_Level" EntityType="RestockReportsModel.tblAccess_Level" />
+          <EntitySet Name="tblAccess_Level_Menu" EntityType="RestockReportsModel.tblAccess_Level_Menu" />
+          <EntitySet Name="tblterminalsegmenteds" EntityType="RestockReportsModel.tblterminalsegmented" />
+          <FunctionImport Name="Sp_Get_User_Segmented_Terminal_List" ReturnType="Collection(RestockReportsModel.Sp_Get_User_Segmented_Terminal_List_Result)">
+          <Parameter Name="Userid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="tblMonths" EntityType="RestockReportsModel.tblMonth" />
+          <EntitySet Name="tblYears" EntityType="RestockReportsModel.tblYear" />
+          <FunctionImport Name="Sp_Get_User_Graph_Data" ReturnType="Collection(RestockReportsModel.Sp_Get_User_Graph_Data_Result)">
+            <Parameter Name="Userid" Mode="In" Type="String" />
+            <Parameter Name="TerminalKey" Mode="In" Type="String" />
+            <Parameter Name="MonthId" Mode="In" Type="Int32" />
+            <Parameter Name="YearId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Sp_Get_User_Dashboard_Menu_List" ReturnType="Collection(RestockReportsModel.Sp_Get_User_Dashboard_Menu_List_Result)">
+          <Parameter Name="AccessId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Sp_Get_User_Menu_List" ReturnType="Collection(RestockReportsModel.Sp_Get_User_Menu_List_Result)">
+          <Parameter Name="AccessId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Sp_Get_Report_Data_List" ReturnType="Collection(RestockReportsModel.Sp_Get_Report_Data_List_Result)">
+            <Parameter Name="ReportDate" Mode="In" Type="DateTime" />
+            <Parameter Name="TerminalKey" Mode="In" Type="String" />
+            <Parameter Name="UserId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="tblCommunicationTypes" EntityType="RestockReportsModel.tblCommunicationType" />
+          <EntitySet Name="tblProgramTypes" EntityType="RestockReportsModel.tblProgramType" />
+          <EntitySet Name="tblCompanies" EntityType="RestockReportsModel.tblCompany" />
+          <EntitySet Name="tblAccountStatus" EntityType="RestockReportsModel.tblAccountStatu" />
+          <EntitySet Name="tblAccountTypes" EntityType="RestockReportsModel.tblAccountType" />
+          <EntitySet Name="tblBankAccountDetails" EntityType="RestockReportsModel.tblBankAccountDetail" />
+          <EntitySet Name="tblStackHolders" EntityType="RestockReportsModel.tblStackHolder" />
+          <FunctionImport Name="Sp_Get_Bank_Detail_List" ReturnType="Collection(RestockReportsModel.Sp_Get_Bank_Detail_List_Result)" />
+          <EntitySet Name="tblTerminalManagers" EntityType="RestockReportsModel.tblTerminalManager" />
+          <FunctionImport Name="Sp_Get_BankNickName_List" ReturnType="Collection(RestockReportsModel.Sp_Get_BankNickName_List_Result)" />
+          <FunctionImport Name="Sp_Get_TermsDetails_BankNickName_List" ReturnType="Collection(RestockReportsModel.Sp_Get_TermsDetails_BankNickName_List_Result)">
+          <Parameter Name="Type" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="tblTermsDetails" EntityType="RestockReportsModel.tblTermsDetail" />
+          <FunctionImport Name="Sp_Term_Manager_List" ReturnType="Collection(RestockReportsModel.Sp_Term_Manager_List_Result)" />
+          <FunctionImport Name="Sp_Get_Bank_Account_UsageDetail" ReturnType="Collection(RestockReportsModel.Sp_Get_Bank_Account_UsageDetail_Result)">
+          <Parameter Name="BankVaultCashId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Sp_Get_Daily_Deposit_Report_Data_List" ReturnType="Collection(RestockReportsModel.Sp_Get_Daily_Deposit_Report_Data_List_Result)">
+            <Parameter Name="ReportDate" Mode="In" Type="DateTime" />
+            <Parameter Name="TerminalKey" Mode="In" Type="String" />
+            <Parameter Name="UserId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="tblUsers" EntityType="RestockReportsModel.tblUser" />
+          <FunctionImport Name="Sp_Get_User_Terminal_List" ReturnType="Collection(RestockReportsModel.Sp_Get_User_Terminal_List_Result)">
+          <Parameter Name="Userid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Sp_Get_Daily_Transaction_Graph">
+            <Parameter Name="STARTDATE" Mode="In" Type="DateTime" />
+            <Parameter Name="ENDDATE" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="Sp_Get_Daily_Transaction" ReturnType="Collection(RestockReportsModel.Sp_Get_Daily_Transaction_Result)">
+            <Parameter Name="STARTDATE" Mode="In" Type="DateTime" />
+            <Parameter Name="ENDDATE" Mode="In" Type="DateTime" />
+            <Parameter Name="TerminalId" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Sp_Get_Donut_Revenue_Graph" ReturnType="Collection(RestockReportsModel.Sp_Get_Donut_Revenue_Graph_Result)">
+            <Parameter Name="Userid" Mode="In" Type="String" />
+            <Parameter Name="TerminalKey" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="tblNewletters" EntityType="RestockReportsModel.tblNewletter" />
+          <FunctionImport Name="Sp_Get_Gross_Commision" ReturnType="Collection(Decimal)">
+          <Parameter Name="TerminalKey" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="tblBankAccountLists" EntityType="RestockReportsModel.tblBankAccountList" />
+          <FunctionImport Name="Sp_Get_AccountHolder_List" ReturnType="Collection(RestockReportsModel.Sp_Get_AccountHolder_List_Result)">
+            <Parameter Name="Type" Mode="In" Type="Int32" />
+            <Parameter Name="AccountHolderName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Sp_Get_AccountHolder_Details" ReturnType="Collection(RestockReportsModel.Sp_Get_AccountHolder_Details_Result)">
+            <Parameter Name="Type" Mode="In" Type="Int32" />
+            <Parameter Name="AccountHolderName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Sp_Get_User_Bank_List" ReturnType="Collection(RestockReportsModel.Sp_Get_User_Bank_List_Result)">
+          <Parameter Name="Userid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Sp_Load_Bank_Atm" ReturnType="Collection(RestockReportsModel.Sp_Load_Bank_Atm_Result)">
+            <Parameter Name="UserId" Mode="In" Type="Int32" />
+            <Parameter Name="BankId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="tblReportJobLogs" EntityType="RestockReportsModel.tblReportJobLog" />
+          <FunctionImport Name="Sp_Get_User_Graph_Filter_Data_" ReturnType="Collection(RestockReportsModel.Sp_Get_User_Graph_Filter_Data__Result)">
+            <Parameter Name="cWhere" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <EntityType Name="tblTerminal">
+          <Key>
+            <PropertyRef Name="TerminalId" />
+          </Key>
+          <Property Name="TerminalId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TerminalKey" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="LocationName" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="LocationType" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="Address" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="City" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Region" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="PostalCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MakeAndModel" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="SerialNumber" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Int32" Nullable="false" />
+          <Property Name="IsDeleted" Type="Int32" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Comment" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="ContactName" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="ContactPhone" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="RelationshipId" Type="Int32" Nullable="false" />
+          <Property Name="ProgramaTypeId" Type="Int32" Nullable="false" />
+          <Property Name="CommunicationTypeId" Type="Int32" Nullable="false" />
+          <Property Name="EmailAddress" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Surcharge" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="CommunicationSerialNumber" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tblTerminalSurchargeAccount">
+          <Key>
+            <PropertyRef Name="SurchageId" />
+          </Key>
+          <Property Name="SurchageId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TerminalKey" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="AccountHolder" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="AccountRTA" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="SplitType" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="SplitAmount" Type="Double" Nullable="false" />
+          <Property Name="PaymentSchedule" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="IsSurchargeAccount" Type="Int32" Nullable="false" />
+          <Property Name="IsInterchangeAccount" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblRegion">
+          <Key>
+            <PropertyRef Name="RegionId" />
+          </Key>
+          <Property Name="RegionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RegionName" Type="String" Nullable="false" MaxLength="5000" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tblUserterminal">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="TerminalKey" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="StartDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="tblUser_Menu_Right">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="User_ID" Type="Int32" Nullable="false" />
+          <Property Name="Page_ID" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblReportData">
+          <Key>
+            <PropertyRef Name="ReportID" />
+          </Key>
+          <Property Name="ReportID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CompanyName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="HostDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="RequestCashWithDrawlAmount" Type="Decimal" Nullable="false" Precision="18" Scale="4" />
+          <Property Name="DispensedCashAmount" Type="Decimal" Nullable="false" Precision="18" Scale="4" />
+          <Property Name="MaskedCardHolderCardNumber" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="TransactionSequenceNumber" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="TransactionResponseCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="AtmTerminalKey" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="TransactionDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="TransactionTime" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="SurchargeFee" Type="Decimal" Nullable="false" Precision="18" Scale="4" />
+          <Property Name="TransactionNetwork" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="InterchangeFee" Type="Decimal" Nullable="false" Precision="18" Scale="4" />
+          <Property Name="TransactionType" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TransactionBankAccountType" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="NotAcceptable" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="ReportDate" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <ComplexType Name="Sp_Get_User_Assigned_Terminal_List_Result">
+          <Property Type="String" Name="TerminalKey" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="TerminalName" Nullable="false" MaxLength="603" />
+        </ComplexType>
+        <EntityType Name="tblTitle">
+          <Key>
+            <PropertyRef Name="TitleID" />
+          </Key>
+          <Property Name="TitleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TitleName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tblActivationCode">
+          <Key>
+            <PropertyRef Name="ActivationId" />
+          </Key>
+          <Property Name="ActivationId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UID" Type="Int32" Nullable="false" />
+          <Property Name="Code" Type="Guid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GraphDataFilter">
+          <Key>
+            <PropertyRef Name="Month" />
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Month" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="DateYear" Type="Int32" />
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="DateFilter" Type="String" MaxLength="23" FixedLength="false" Unicode="false" />
+          <Property Name="DateFilterWB" Type="String" MaxLength="21" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tblWebmoonUser">
+          <Key>
+            <PropertyRef Name="User_ID" />
+          </Key>
+          <Property Name="User_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="WebmoonId" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblAccess_Level">
+          <Key>
+            <PropertyRef Name="Access_ID" />
+          </Key>
+          <Property Name="Access_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Access_Level_Type" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tblAccess_Level_Menu">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Access_ID" Type="Int32" />
+          <Property Name="Page_ID" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tblterminalsegmented">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="TerminalKey" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="Sp_Get_User_Segmented_Terminal_List_Result">
+          <Property Type="String" Name="TerminalKey" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="TerminalName" Nullable="false" MaxLength="603" />
+          <Property Type="Int32" Name="UserTerminalRightsStatus" Nullable="false" />
+        </ComplexType>
+        <EntityType Name="tblMonth">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="MonthId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tblYear">
+          <Key>
+            <PropertyRef Name="Yearid" />
+          </Key>
+          <Property Name="Yearid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Year" Type="Int32" Nullable="false" />
+        </EntityType>
+        <ComplexType Name="Sp_Get_User_Graph_Data_Result">
+          <Property Type="String" Name="Month" Nullable="false" MaxLength="12" />
+          <Property Type="Int32" Name="DateYEAR" Nullable="true" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="TransactionCount" Nullable="false" />
+          <Property Type="String" Name="MonthNames" Nullable="true" MaxLength="21" />
+        </ComplexType>
+        <ComplexType Name="Sp_Get_User_Dashboard_Menu_List_Result">
+          <Property Type="Int32" Name="Page_ID" Nullable="false" />
+          <Property Type="String" Name="Page_Name" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="Action_name" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Controller_name" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Icon_Class" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="IsParent" Nullable="true" />
+          <Property Type="Int32" Name="ParentId" Nullable="true" />
+          <Property Type="Int32" Name="Count" Nullable="true" />
+          <Property Type="String" Name="ElementId" Nullable="true" MaxLength="200" />
+        </ComplexType>
+        <ComplexType Name="Sp_Get_User_Menu_List_Result">
+          <Property Type="Int32" Name="Page_ID" Nullable="false" />
+          <Property Type="String" Name="Page_Name" Nullable="true" MaxLength="500" />
+          <Property Type="Int32" Name="UserMenuRightsStatus" Nullable="false" />
+          <Property Type="Int32" Name="IsParent" Nullable="true" />
+          <Property Type="Int32" Name="counts" Nullable="true" />
+          <Property Type="Int32" Name="ParentId" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="Sp_Get_Report_Data_List_Result">
+          <Property Type="Int32" Name="ReportID" Nullable="false" />
+          <Property Type="String" Name="CompanyName" Nullable="false" MaxLength="100" />
+          <Property Type="DateTime" Name="HostDate" Nullable="false" />
+          <Property Type="Decimal" Name="RequestCashWithDrawlAmount" Nullable="false" Precision="18" Scale="4" />
+          <Property Type="Decimal" Name="DispensedCashAmount" Nullable="false" Precision="18" Scale="4" />
+          <Property Type="String" Name="MaskedCardHolderCardNumber" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="TransactionSequenceNumber" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="TransactionResponseCode" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="AtmTerminalKey" Nullable="false" MaxLength="100" />
+          <Property Type="DateTime" Name="TransactionDate" Nullable="false" />
+          <Property Type="String" Name="TransactionTime" Nullable="false" MaxLength="20" />
+          <Property Type="Decimal" Name="SurchargeFee" Nullable="false" Precision="18" Scale="4" />
+          <Property Type="String" Name="TransactionNetwork" Nullable="false" MaxLength="20" />
+          <Property Type="Decimal" Name="InterchangeFee" Nullable="false" Precision="18" Scale="4" />
+          <Property Type="String" Name="TransactionType" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="TransactionBankAccountType" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="NotAcceptable" Nullable="false" MaxLength="100" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="23" />
+          <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="500" />
+          <Property Type="DateTime" Name="ReportDate" Nullable="false" Precision="23" />
+          <Property Type="String" Name="TransactionStatus" Nullable="false" MaxLength="16" />
+        </ComplexType>
+        <EntityType Name="tblCommunicationType">
+          <Key>
+            <PropertyRef Name="CommunicationId" />
+          </Key>
+          <Property Name="CommunicationId" Type="Int32" Nullable="false" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tblProgramType">
+          <Key>
+            <PropertyRef Name="ProgramId" />
+          </Key>
+          <Property Name="ProgramId" Type="Int32" Nullable="false" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tblCompany">
+          <Key>
+            <PropertyRef Name="CompanyId" />
+          </Key>
+          <Property Name="CompanyId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Companyname" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tblAccountStatu">
+          <Key>
+            <PropertyRef Name="AccountStatusId" />
+          </Key>
+          <Property Name="AccountStatusId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AccountStatus" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tblAccountType">
+          <Key>
+            <PropertyRef Name="AccountTypeID" />
+          </Key>
+          <Property Name="AccountTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TypeName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tblBankAccountDetail">
+          <Key>
+            <PropertyRef Name="BankAccountId" />
+          </Key>
+          <Property Name="BankAccountId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AccountTypeId" Type="Int32" Nullable="false" />
+          <Property Name="Bankname" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="Routingnumber" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Address" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Transitnumber" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="City" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Accountnumber" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="RegionId" Type="Int32" Nullable="false" />
+          <Property Name="CurrentstatusId" Type="Int32" Nullable="false" />
+          <Property Name="Postalcode" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Accountholdername" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="Nickname" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="Stackholdertypeid" Type="Int32" Nullable="false" />
+          <Property Name="Bankaccountcontactname" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Phonenumber" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="EmailAddress" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Entityname" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="MailingAddress" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="Entitycity" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Entityregion" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Entitypostalcode" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="BankNameId" Type="Int32" Nullable="false" />
+          <Property Name="IsDeleted" Type="Int32" Nullable="false" />
+          <Property Name="Entityregionid" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblStackHolder">
+          <Key>
+            <PropertyRef Name="StackHolderId" />
+          </Key>
+          <Property Name="StackHolderId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StackHolderName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="Sp_Get_Bank_Detail_List_Result">
+          <Property Type="Int32" Name="BankAccountId" Nullable="false" />
+          <Property Type="String" Name="RTA" Nullable="false" MaxLength="118" />
+          <Property Type="String" Name="Nickname" Nullable="false" MaxLength="300" />
+          <Property Type="String" Name="Accountholdername" Nullable="false" MaxLength="300" />
+          <Property Type="String" Name="AccountStatus" Nullable="false" MaxLength="200" />
+          <Property Type="Int32" Name="AccountUsage" Nullable="false" />
+        </ComplexType>
+        <EntityType Name="tblTerminalManager">
+          <Key>
+            <PropertyRef Name="TerminalManagerId" />
+          </Key>
+          <Property Name="TerminalManagerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalId" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FundingType" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="AccountName" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="RoutingNumber" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="TransitNumber" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="AccountNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DepositAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="TransactionDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="SettlementDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ReportDate" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <ComplexType Name="Sp_Get_BankNickName_List_Result">
+          <Property Type="Int32" Name="BankAccountId" Nullable="false" />
+          <Property Type="String" Name="Nickname" Nullable="false" MaxLength="300" />
+        </ComplexType>
+        <ComplexType Name="Sp_Get_TermsDetails_BankNickName_List_Result">
+          <Property Type="Int32" Name="BankAccountId" Nullable="false" />
+          <Property Type="String" Name="NickName" Nullable="false" MaxLength="421" />
+        </ComplexType>
+        <EntityType Name="tblTermsDetail">
+          <Key>
+            <PropertyRef Name="TermsDetailId" />
+          </Key>
+          <Property Name="TermsDetailId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TerminalKey" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="VaultCashID" Type="Int32" Nullable="false" />
+          <Property Name="SurchargeAccountCount" Type="Int32" Nullable="false" />
+          <Property Name="InterchangeAccountCount" Type="Int32" Nullable="false" />
+          <Property Name="Totalterminalsurchageamount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="SurchargesplitId1" Type="Int32" Nullable="false" />
+          <Property Name="Surchargesplitamount1" Type="Decimal" Nullable="false" Precision="18" Scale="4" />
+          <Property Name="Surchargesettlementsource1" Type="Int32" Nullable="false" />
+          <Property Name="IsSurchargesegmented1" Type="Int32" Nullable="false" />
+          <Property Name="SurchargesegmentedID1" Type="Int32" Nullable="false" />
+          <Property Name="SurchargesplitId2" Type="Int32" Nullable="false" />
+          <Property Name="Surchargesplitamount2" Type="Decimal" Nullable="false" Precision="18" Scale="4" />
+          <Property Name="Surchargesettlementsource2" Type="Int32" Nullable="false" />
+          <Property Name="IsSurchargesegmented2" Type="Int32" Nullable="false" />
+          <Property Name="SurchargesegmentedID2" Type="Int32" Nullable="false" />
+          <Property Name="SurchargesplitId3" Type="Int32" Nullable="false" />
+          <Property Name="Surchargesplitamount3" Type="Decimal" Nullable="false" Precision="18" Scale="4" />
+          <Property Name="Surchargesettlementsource3" Type="Int32" Nullable="false" />
+          <Property Name="IsSurchargesegmented3" Type="Int32" Nullable="false" />
+          <Property Name="SurchargesegmentedID3" Type="Int32" Nullable="false" />
+          <Property Name="SurchargesplitId4" Type="Int32" Nullable="false" />
+          <Property Name="Surchargesplitamount4" Type="Decimal" Nullable="false" Precision="18" Scale="4" />
+          <Property Name="Surchargesettlementsource4" Type="Int32" Nullable="false" />
+          <Property Name="IsSurchargesegmented4" Type="Int32" Nullable="false" />
+          <Property Name="SurchargesegmentedID4" Type="Int32" Nullable="false" />
+          <Property Name="SurchargesplitId5" Type="Int32" Nullable="false" />
+          <Property Name="Surchargesplitamount5" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
+          <Property Name="Surchargesettlementsource5" Type="Int32" Nullable="false" />
+          <Property Name="IsSurchargesegmented5" Type="Int32" Nullable="false" />
+          <Property Name="SurchargesegmentedID5" Type="Int32" Nullable="false" />
+          <Property Name="Totalsurchargeassigned" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="TotalInterchangeAmount" Type="Decimal" Nullable="false" Precision="18" Scale="3" />
+          <Property Name="InterchangeSplitRemainder1" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="InterchangeSplitAmount1" Type="Decimal" Nullable="false" Precision="18" Scale="3" />
+          <Property Name="InterchangeSplit2" Type="Int32" Nullable="false" />
+          <Property Name="InterchangeSplitAmount2" Type="Decimal" Nullable="false" Precision="18" Scale="4" />
+          <Property Name="Interchangesettlementsource1" Type="Int32" Nullable="false" />
+          <Property Name="InterchangeSplit3" Type="Int32" Nullable="false" />
+          <Property Name="InterchangeSplitAmount3" Type="Decimal" Nullable="false" Precision="18" Scale="4" />
+          <Property Name="Interchangesettlementsource2" Type="Int32" Nullable="false" />
+          <Property Name="InterchangeSplit4" Type="Int32" Nullable="false" />
+          <Property Name="InterchangeSplitAmount4" Type="Decimal" Nullable="false" Precision="18" Scale="4" />
+          <Property Name="Interchangesettlementsource3" Type="Int32" Nullable="false" />
+          <Property Name="InterchangeSplit5" Type="Int32" Nullable="false" />
+          <Property Name="InterchangeSplitAmount5" Type="Decimal" Nullable="false" Precision="18" Scale="4" />
+          <Property Name="Interchangesettlementsource4" Type="Int32" Nullable="false" />
+          <Property Name="TotalInterchangeassigned" Type="Decimal" Nullable="false" Precision="18" Scale="3" />
+          <Property Name="CreateBy" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="InterchangeSplit1" Type="Int32" Nullable="false" />
+        </EntityType>
+        <ComplexType Name="Sp_Term_Manager_List_Result">
+          <Property Type="String" Name="TerminalId" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="LocationName" Nullable="false" MaxLength="500" />
+          <Property Type="String" Name="AccountName" Nullable="false" MaxLength="300" />
+          <Property Type="Int32" Name="SRCH" Nullable="false" />
+          <Property Type="Int32" Name="INTR" Nullable="false" />
+          <Property Type="Int32" Name="TermsDetailId" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="Sp_Get_Bank_Account_UsageDetail_Result">
+          <Property Type="String" Name="TerminalKey" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="LocationName" Nullable="true" MaxLength="500" />
+          <Property Type="Int32" Name="VaultCashSettlement" Nullable="false" />
+          <Property Type="Int32" Name="SurchargeRevenueDeposit" Nullable="false" />
+          <Property Type="Int32" Name="InterchangeRevenueDeposit" Nullable="false" />
+          <Property Type="Int32" Name="MonthlyFeesDeposited" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="Sp_Get_Daily_Deposit_Report_Data_List_Result">
+          <Property Type="String" Name="Type" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="TerminalId" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="FundingType" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="AccountName" Nullable="false" MaxLength="300" />
+          <Property Type="String" Name="RoutingNumber" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="TransitNumber" Nullable="false" MaxLength="3" />
+          <Property Type="String" Name="AccountNumber" Nullable="false" MaxLength="50" />
+          <Property Type="Decimal" Name="DepositAmount" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="DateTime" Name="TransactionDate" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="SettlementDate" Nullable="false" Precision="23" />
+        </ComplexType>
+        <EntityType Name="tblUser">
+          <Key>
+            <PropertyRef Name="User_ID" />
+          </Key>
+          <Property Name="User_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Email_Adress" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Title" Type="Int32" Nullable="false" />
+          <Property Name="Company" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Address" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="City" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Province" Type="Int32" Nullable="false" />
+          <Property Name="Postalcode" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Phonecell" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Phoneother" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="RollAssigned" Type="Int32" Nullable="false" />
+          <Property Name="Create_Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Access_Level_ID" Type="Int32" Nullable="false" />
+          <Property Name="IsDeleted" Type="Int32" Nullable="false" />
+        </EntityType>
+        <ComplexType Name="Sp_Get_User_Terminal_List_Result">
+          <Property Type="String" Name="TerminalKey" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="TerminalName" Nullable="false" MaxLength="500" />
+          <Property Type="Int32" Name="UserTerminalRightsStatus" Nullable="false" />
+          <Property Type="DateTime" Name="StartDate" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="Sp_Get_Daily_Transaction_Result">
+          <Property Type="Int32" Name="Demo" Nullable="false" />
+          <Property Type="String" Name="DATE" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="counts" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="Sp_Get_Donut_Revenue_Graph_Result">
+          <Property Type="Decimal" Name="LastMonthRevenue" Nullable="true" Precision="37" Scale="0" />
+          <Property Type="Decimal" Name="ThisMonthLastYearRevenue" Nullable="true" Precision="37" Scale="0" />
+          <Property Type="Decimal" Name="ThisMonthToDate" Nullable="true" Precision="37" Scale="0" />
+          <Property Type="Decimal" Name="LastTwelveMonths" Nullable="true" Precision="37" Scale="0" />
+          <Property Type="Decimal" Name="GrandTotal" Nullable="true" Precision="37" Scale="0" />
+        </ComplexType>
+        <EntityType Name="tblNewletter">
+          <Key>
+            <PropertyRef Name="NewsletterId" />
+          </Key>
+          <Property Name="NewsletterId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Filename" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="FilePath" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tblBankAccountList">
+          <Key>
+            <PropertyRef Name="BankAccountId" />
+          </Key>
+          <Property Name="BankAccountId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Int32" Nullable="false" />
+        </EntityType>
+        <ComplexType Name="Sp_Get_AccountHolder_List_Result">
+          <Property Type="String" Name="Id" Nullable="false" MaxLength="300" />
+          <Property Type="String" Name="AccountName" Nullable="false" MaxLength="300" />
+        </ComplexType>
+        <ComplexType Name="Sp_Get_AccountHolder_Details_Result">
+          <Property Type="String" Name="Id" Nullable="false" MaxLength="300" />
+          <Property Type="String" Name="AccountName" Nullable="false" MaxLength="300" />
+          <Property Type="String" Name="RoutingNumber" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="TransitNumber" Nullable="false" MaxLength="3" />
+          <Property Type="String" Name="AccountNumber" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="Sp_Get_User_Bank_List_Result">
+          <Property Type="Int32" Name="BankAccountId" Nullable="false" />
+          <Property Type="String" Name="Nickname" Nullable="false" MaxLength="300" />
+        </ComplexType>
+        <ComplexType Name="Sp_Load_Bank_Atm_Result">
+          <Property Type="String" Name="TerminalKey" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="TerminalName" Nullable="false" MaxLength="603" />
+        </ComplexType>
+        <EntityType Name="tblReportJobLog">
+          <Key>
+            <PropertyRef Name="LogId" />
+          </Key>
+          <Property Name="LogId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Jobtime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Jobfunctionname" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="Recordcount" Type="Int32" Nullable="false" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Soapserviceresponsetype" Type="Int32" Nullable="false" />
+          <Property Name="ScheduleTime" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ReportDate" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <ComplexType Name="Sp_Get_User_Graph_Filter_Data__Result">
+          <Property Type="Int32" Name="BankAccountId" Nullable="true" />
+          <Property Type="String" Name="AtmTerminalKey" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="ID" Nullable="true" />
+          <Property Type="String" Name="MonthNames" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="Month" Nullable="true" MaxLength="5" />
+          <Property Type="Int32" Name="DateYear" Nullable="true" />
+          <Property Type="Int32" Name="TransactionCount" Nullable="true" />
+          <Property Type="String" Name="Entityname" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="MailingAddress" Nullable="false" MaxLength="300" />
+          <Property Type="String" Name="Entityregion" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="Entitypostalcode" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="LocationName" Nullable="false" MaxLength="500" />
+          <Property Type="String" Name="Address" Nullable="false" MaxLength="500" />
+          <Property Type="String" Name="PostalCode" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Region" Nullable="false" MaxLength="500" />
+          <Property Type="Decimal" Name="Totalterminalsurchageamount" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Int32" Name="SurchargesplitId1" Nullable="false" />
+          <Property Type="Int32" Name="SurchargesplitId2" Nullable="false" />
+          <Property Type="Int32" Name="SurchargesplitId3" Nullable="false" />
+          <Property Type="Int32" Name="SurchargesplitId4" Nullable="false" />
+          <Property Type="Int32" Name="SurchargesplitId5" Nullable="false" />
+          <Property Type="Int32" Name="Surchargesettlementsource1" Nullable="false" />
+          <Property Type="Int32" Name="Surchargesettlementsource2" Nullable="false" />
+          <Property Type="Int32" Name="Surchargesettlementsource3" Nullable="false" />
+          <Property Type="Int32" Name="Surchargesettlementsource4" Nullable="false" />
+          <Property Type="Int32" Name="Surchargesettlementsource5" Nullable="false" />
+          <Property Type="Decimal" Name="Surchargesplitamount1" Nullable="true" Precision="18" Scale="4" />
+          <Property Type="Decimal" Name="Surchargesplitamount2" Nullable="true" Precision="18" Scale="4" />
+          <Property Type="Decimal" Name="Surchargesplitamount3" Nullable="true" Precision="18" Scale="4" />
+          <Property Type="Decimal" Name="Surchargesplitamount4" Nullable="true" Precision="18" Scale="4" />
+          <Property Type="Decimal" Name="Surchargesplitamount5" Nullable="true" Precision="18" Scale="5" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="RestockReportsModelStoreContainer" CdmEntityContainer="RestockReportsEntities">
+          <EntitySetMapping Name="tblMenus">
+            <EntityTypeMapping TypeName="RestockReportsModel.tblMenu">
+              <MappingFragment StoreEntitySet="tblMenu">
+                <ScalarProperty Name="ElementId" ColumnName="ElementId" />
+                <ScalarProperty Name="Count" ColumnName="Count" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="IsParent" ColumnName="IsParent" />
+                <ScalarProperty Name="Page_ID" ColumnName="Page_ID" />
+                <ScalarProperty Name="Page_Name" ColumnName="Page_Name" />
+                <ScalarProperty Name="Action_name" ColumnName="Action_name" />
+                <ScalarProperty Name="Controller_name" ColumnName="Controller_name" />
+                <ScalarProperty Name="Icon_Class" ColumnName="Icon_Class" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblSettings">
+            <EntityTypeMapping TypeName="RestockReportsModel.tblSetting">
+              <MappingFragment StoreEntitySet="tblSettings">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="SMTP" ColumnName="SMTP" />
+                <ScalarProperty Name="Port" ColumnName="Port" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblTerminals">
+            <EntityTypeMapping TypeName="RestockReportsModel.tblTerminal">
+              <MappingFragment StoreEntitySet="tblTerminal">
+                <ScalarProperty Name="CommunicationSerialNumber" ColumnName="CommunicationSerialNumber" />
+                <ScalarProperty Name="Surcharge" ColumnName="Surcharge" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="CommunicationTypeId" ColumnName="CommunicationTypeId" />
+                <ScalarProperty Name="ProgramaTypeId" ColumnName="ProgramaTypeId" />
+                <ScalarProperty Name="RelationshipId" ColumnName="RelationshipId" />
+                <ScalarProperty Name="ContactPhone" ColumnName="ContactPhone" />
+                <ScalarProperty Name="ContactName" ColumnName="ContactName" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
+                <ScalarProperty Name="MakeAndModel" ColumnName="MakeAndModel" />
+                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="LocationType" ColumnName="LocationType" />
+                <ScalarProperty Name="LocationName" ColumnName="LocationName" />
+                <ScalarProperty Name="TerminalKey" ColumnName="TerminalKey" />
+                <ScalarProperty Name="TerminalId" ColumnName="TerminalId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblTerminalSurchargeAccounts">
+            <EntityTypeMapping TypeName="RestockReportsModel.tblTerminalSurchargeAccount">
+              <MappingFragment StoreEntitySet="tblTerminalSurchargeAccount">
+                <ScalarProperty Name="IsInterchangeAccount" ColumnName="IsInterchangeAccount" />
+                <ScalarProperty Name="IsSurchargeAccount" ColumnName="IsSurchargeAccount" />
+                <ScalarProperty Name="PaymentSchedule" ColumnName="PaymentSchedule" />
+                <ScalarProperty Name="SplitAmount" ColumnName="SplitAmount" />
+                <ScalarProperty Name="SplitType" ColumnName="SplitType" />
+                <ScalarProperty Name="AccountRTA" ColumnName="AccountRTA" />
+                <ScalarProperty Name="AccountHolder" ColumnName="AccountHolder" />
+                <ScalarProperty Name="TerminalKey" ColumnName="TerminalKey" />
+                <ScalarProperty Name="SurchageId" ColumnName="SurchageId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblRegions">
+            <EntityTypeMapping TypeName="RestockReportsModel.tblRegion">
+              <MappingFragment StoreEntitySet="tblRegion">
+                <ScalarProperty Name="RegionName" ColumnName="RegionName" />
+                <ScalarProperty Name="RegionId" ColumnName="RegionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblUserterminals">
+            <EntityTypeMapping TypeName="RestockReportsModel.tblUserterminal">
+              <MappingFragment StoreEntitySet="tblUserterminal">
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="TerminalKey" ColumnName="TerminalKey" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblUser_Menu_Right">
+            <EntityTypeMapping TypeName="RestockReportsModel.tblUser_Menu_Right">
+              <MappingFragment StoreEntitySet="tblUser_Menu_Right">
+                <ScalarProperty Name="Page_ID" ColumnName="Page_ID" />
+                <ScalarProperty Name="User_ID" ColumnName="User_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblReportDatas">
+            <EntityTypeMapping TypeName="RestockReportsModel.tblReportData">
+              <MappingFragment StoreEntitySet="tblReportData">
+                <ScalarProperty Name="ReportDate" ColumnName="ReportDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="NotAcceptable" ColumnName="NotAcceptable" />
+                <ScalarProperty Name="TransactionBankAccountType" ColumnName="TransactionBankAccountType" />
+                <ScalarProperty Name="TransactionType" ColumnName="TransactionType" />
+                <ScalarProperty Name="InterchangeFee" ColumnName="InterchangeFee" />
+                <ScalarProperty Name="TransactionNetwork" ColumnName="TransactionNetwork" />
+                <ScalarProperty Name="SurchargeFee" ColumnName="SurchargeFee" />
+                <ScalarProperty Name="TransactionTime" ColumnName="TransactionTime" />
+                <ScalarProperty Name="TransactionDate" ColumnName="TransactionDate" />
+                <ScalarProperty Name="AtmTerminalKey" ColumnName="AtmTerminalKey" />
+                <ScalarProperty Name="TransactionResponseCode" ColumnName="TransactionResponseCode" />
+                <ScalarProperty Name="TransactionSequenceNumber" ColumnName="TransactionSequenceNumber" />
+                <ScalarProperty Name="MaskedCardHolderCardNumber" ColumnName="MaskedCardHolderCardNumber" />
+                <ScalarProperty Name="DispensedCashAmount" ColumnName="DispensedCashAmount" />
+                <ScalarProperty Name="RequestCashWithDrawlAmount" ColumnName="RequestCashWithDrawlAmount" />
+                <ScalarProperty Name="HostDate" ColumnName="HostDate" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="ReportID" ColumnName="ReportID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="Sp_Get_User_Assigned_Terminal_List" FunctionName="RestockReportsModel.Store.Sp_Get_User_Assigned_Terminal_List">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RestockReportsModel.Sp_Get_User_Assigned_Terminal_List_Result">
+                <ScalarProperty Name="TerminalKey" ColumnName="TerminalKey" />
+                <ScalarProperty Name="TerminalName" ColumnName="TerminalName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="tblTitles">
+            <EntityTypeMapping TypeName="RestockReportsModel.tblTitle">
+              <MappingFragment StoreEntitySet="tblTitle">
+                <ScalarProperty Name="TitleName" ColumnName="TitleName" />
+                <ScalarProperty Name="TitleID" ColumnName="TitleID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblActivationCodes">
+            <EntityTypeMapping TypeName="RestockReportsModel.tblActivationCode">
+              <MappingFragment StoreEntitySet="tblActivationCode">
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="UID" ColumnName="UID" />
+                <ScalarProperty Name="ActivationId" ColumnName="ActivationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GraphDataFilters">
+            <EntityTypeMapping TypeName="RestockReportsModel.GraphDataFilter">
+              <MappingFragment StoreEntitySet="GraphDataFilter">
+                <ScalarProperty Name="DateFilterWB" ColumnName="DateFilterWB" />
+                <ScalarProperty Name="DateFilter" ColumnName="DateFilter" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DateYear" ColumnName="DateYear" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblWebmoonUsers">
+            <EntityTypeMapping TypeName="RestockReportsModel.tblWebmoonUser">
+              <MappingFragment StoreEntitySet="tblWebmoonUser">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="WebmoonId" ColumnName="WebmoonId" />
+                <ScalarProperty Name="User_ID" ColumnName="User_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblAccess_Level">
+            <EntityTypeMapping TypeName="RestockReportsModel.tblAccess_Level">
+              <MappingFragment StoreEntitySet="tblAccess_Level">
+                <ScalarProperty Name="Access_Level_Type" ColumnName="Access_Level_Type" />
+                <ScalarProperty Name="Access_ID" ColumnName="Access_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblAccess_Level_Menu">
+            <EntityTypeMapping TypeName="RestockReportsModel.tblAccess_Level_Menu">
+              <MappingFragment StoreEntitySet="tblAccess_Level_Menu">
+                <ScalarProperty Name="Page_ID" ColumnName="Page_ID" />
+                <ScalarProperty Name="Access_ID" ColumnName="Access_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblterminalsegmenteds">
+            <EntityTypeMapping TypeName="RestockReportsModel.tblterminalsegmented">
+              <MappingFragment StoreEntitySet="tblterminalsegmented">
+                <ScalarProperty Name="TerminalKey" ColumnName="TerminalKey" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="Sp_Get_User_Segmented_Terminal_List" FunctionName="RestockReportsModel.Store.Sp_Get_User_Segmented_Terminal_List">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RestockReportsModel.Sp_Get_User_Segmented_Terminal_List_Result">
+                <ScalarProperty Name="TerminalKey" ColumnName="TerminalKey" />
+                <ScalarProperty Name="TerminalName" ColumnName="TerminalName" />
+                <ScalarProperty Name="UserTerminalRightsStatus" ColumnName="UserTerminalRightsStatus" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="tblMonths">
+            <EntityTypeMapping TypeName="RestockReportsModel.tblMonth">
+              <MappingFragment StoreEntitySet="tblMonth">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="MonthId" ColumnName="MonthId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblYears">
+            <EntityTypeMapping TypeName="RestockReportsModel.tblYear">
+              <MappingFragment StoreEntitySet="tblYear">
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Yearid" ColumnName="Yearid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="Sp_Get_User_Graph_Data" FunctionName="RestockReportsModel.Store.Sp_Get_User_Graph_Data">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RestockReportsModel.Sp_Get_User_Graph_Data_Result">
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="DateYEAR" ColumnName="DateYEAR" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="TransactionCount" ColumnName="TransactionCount" />
+                <ScalarProperty Name="MonthNames" ColumnName="MonthNames" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Sp_Get_User_Dashboard_Menu_List" FunctionName="RestockReportsModel.Store.Sp_Get_User_Dashboard_Menu_List">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RestockReportsModel.Sp_Get_User_Dashboard_Menu_List_Result">
+                <ScalarProperty Name="Page_ID" ColumnName="Page_ID" />
+                <ScalarProperty Name="Page_Name" ColumnName="Page_Name" />
+                <ScalarProperty Name="Action_name" ColumnName="Action_name" />
+                <ScalarProperty Name="Controller_name" ColumnName="Controller_name" />
+                <ScalarProperty Name="Icon_Class" ColumnName="Icon_Class" />
+                <ScalarProperty Name="IsParent" ColumnName="IsParent" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="Count" ColumnName="Count" />
+                <ScalarProperty Name="ElementId" ColumnName="ElementId" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Sp_Get_User_Menu_List" FunctionName="RestockReportsModel.Store.Sp_Get_User_Menu_List">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RestockReportsModel.Sp_Get_User_Menu_List_Result">
+                <ScalarProperty Name="Page_ID" ColumnName="Page_ID" />
+                <ScalarProperty Name="Page_Name" ColumnName="Page_Name" />
+                <ScalarProperty Name="UserMenuRightsStatus" ColumnName="UserMenuRightsStatus" />
+                <ScalarProperty Name="IsParent" ColumnName="IsParent" />
+                <ScalarProperty Name="counts" ColumnName="counts" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Sp_Get_Report_Data_List" FunctionName="RestockReportsModel.Store.Sp_Get_Report_Data_List">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RestockReportsModel.Sp_Get_Report_Data_List_Result">
+                <ScalarProperty Name="ReportID" ColumnName="ReportID" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="HostDate" ColumnName="HostDate" />
+                <ScalarProperty Name="RequestCashWithDrawlAmount" ColumnName="RequestCashWithDrawlAmount" />
+                <ScalarProperty Name="DispensedCashAmount" ColumnName="DispensedCashAmount" />
+                <ScalarProperty Name="MaskedCardHolderCardNumber" ColumnName="MaskedCardHolderCardNumber" />
+                <ScalarProperty Name="TransactionSequenceNumber" ColumnName="TransactionSequenceNumber" />
+                <ScalarProperty Name="TransactionResponseCode" ColumnName="TransactionResponseCode" />
+                <ScalarProperty Name="AtmTerminalKey" ColumnName="AtmTerminalKey" />
+                <ScalarProperty Name="TransactionDate" ColumnName="TransactionDate" />
+                <ScalarProperty Name="TransactionTime" ColumnName="TransactionTime" />
+                <ScalarProperty Name="SurchargeFee" ColumnName="SurchargeFee" />
+                <ScalarProperty Name="TransactionNetwork" ColumnName="TransactionNetwork" />
+                <ScalarProperty Name="InterchangeFee" ColumnName="InterchangeFee" />
+                <ScalarProperty Name="TransactionType" ColumnName="TransactionType" />
+                <ScalarProperty Name="TransactionBankAccountType" ColumnName="TransactionBankAccountType" />
+                <ScalarProperty Name="NotAcceptable" ColumnName="NotAcceptable" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="ReportDate" ColumnName="ReportDate" />
+                <ScalarProperty Name="TransactionStatus" ColumnName="TransactionStatus" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="tblCommunicationTypes">
+            <EntityTypeMapping TypeName="RestockReportsModel.tblCommunicationType">
+              <MappingFragment StoreEntitySet="tblCommunicationType">
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="CommunicationId" ColumnName="CommunicationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblProgramTypes">
+            <EntityTypeMapping TypeName="RestockReportsModel.tblProgramType">
+              <MappingFragment StoreEntitySet="tblProgramType">
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="ProgramId" ColumnName="ProgramId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblCompanies">
+            <EntityTypeMapping TypeName="RestockReportsModel.tblCompany">
+              <MappingFragment StoreEntitySet="tblCompany">
+                <ScalarProperty Name="Companyname" ColumnName="Companyname" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblAccountStatus">
+            <EntityTypeMapping TypeName="RestockReportsModel.tblAccountStatu">
+              <MappingFragment StoreEntitySet="tblAccountStatus">
+                <ScalarProperty Name="AccountStatus" ColumnName="AccountStatus" />
+                <ScalarProperty Name="AccountStatusId" ColumnName="AccountStatusId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblAccountTypes">
+            <EntityTypeMapping TypeName="RestockReportsModel.tblAccountType">
+              <MappingFragment StoreEntitySet="tblAccountType">
+                <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+                <ScalarProperty Name="AccountTypeID" ColumnName="AccountTypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblBankAccountDetails">
+            <EntityTypeMapping TypeName="RestockReportsModel.tblBankAccountDetail">
+              <MappingFragment StoreEntitySet="tblBankAccountDetails">
+                <ScalarProperty Name="Entityregionid" ColumnName="Entityregionid" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="BankNameId" ColumnName="BankNameId" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Entitypostalcode" ColumnName="Entitypostalcode" />
+                <ScalarProperty Name="Entityregion" ColumnName="Entityregion" />
+                <ScalarProperty Name="Entitycity" ColumnName="Entitycity" />
+                <ScalarProperty Name="MailingAddress" ColumnName="MailingAddress" />
+                <ScalarProperty Name="Entityname" ColumnName="Entityname" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="Phonenumber" ColumnName="Phonenumber" />
+                <ScalarProperty Name="Bankaccountcontactname" ColumnName="Bankaccountcontactname" />
+                <ScalarProperty Name="Stackholdertypeid" ColumnName="Stackholdertypeid" />
+                <ScalarProperty Name="Nickname" ColumnName="Nickname" />
+                <ScalarProperty Name="Accountholdername" ColumnName="Accountholdername" />
+                <ScalarProperty Name="Postalcode" ColumnName="Postalcode" />
+                <ScalarProperty Name="CurrentstatusId" ColumnName="CurrentstatusId" />
+                <ScalarProperty Name="RegionId" ColumnName="RegionId" />
+                <ScalarProperty Name="Accountnumber" ColumnName="Accountnumber" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Transitnumber" ColumnName="Transitnumber" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Routingnumber" ColumnName="Routingnumber" />
+                <ScalarProperty Name="Bankname" ColumnName="Bankname" />
+                <ScalarProperty Name="AccountTypeId" ColumnName="AccountTypeId" />
+                <ScalarProperty Name="BankAccountId" ColumnName="BankAccountId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblStackHolders">
+            <EntityTypeMapping TypeName="RestockReportsModel.tblStackHolder">
+              <MappingFragment StoreEntitySet="tblStackHolder">
+                <ScalarProperty Name="StackHolderName" ColumnName="StackHolderName" />
+                <ScalarProperty Name="StackHolderId" ColumnName="StackHolderId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="Sp_Get_Bank_Detail_List" FunctionName="RestockReportsModel.Store.Sp_Get_Bank_Detail_List">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RestockReportsModel.Sp_Get_Bank_Detail_List_Result">
+                <ScalarProperty Name="BankAccountId" ColumnName="BankAccountId" />
+                <ScalarProperty Name="RTA" ColumnName="RTA" />
+                <ScalarProperty Name="Nickname" ColumnName="Nickname" />
+                <ScalarProperty Name="Accountholdername" ColumnName="Accountholdername" />
+                <ScalarProperty Name="AccountStatus" ColumnName="AccountStatus" />
+                <ScalarProperty Name="AccountUsage" ColumnName="AccountUsage" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="tblTerminalManagers">
+            <EntityTypeMapping TypeName="RestockReportsModel.tblTerminalManager">
+              <MappingFragment StoreEntitySet="tblTerminalManager">
+                <ScalarProperty Name="ReportDate" ColumnName="ReportDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="SettlementDate" ColumnName="SettlementDate" />
+                <ScalarProperty Name="TransactionDate" ColumnName="TransactionDate" />
+                <ScalarProperty Name="DepositAmount" ColumnName="DepositAmount" />
+                <ScalarProperty Name="AccountNumber" ColumnName="AccountNumber" />
+                <ScalarProperty Name="TransitNumber" ColumnName="TransitNumber" />
+                <ScalarProperty Name="RoutingNumber" ColumnName="RoutingNumber" />
+                <ScalarProperty Name="AccountName" ColumnName="AccountName" />
+                <ScalarProperty Name="FundingType" ColumnName="FundingType" />
+                <ScalarProperty Name="TerminalId" ColumnName="TerminalId" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="TerminalManagerId" ColumnName="TerminalManagerId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="Sp_Get_BankNickName_List" FunctionName="RestockReportsModel.Store.Sp_Get_BankNickName_List">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RestockReportsModel.Sp_Get_BankNickName_List_Result">
+                <ScalarProperty Name="BankAccountId" ColumnName="BankAccountId" />
+                <ScalarProperty Name="Nickname" ColumnName="Nickname" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Sp_Get_TermsDetails_BankNickName_List" FunctionName="RestockReportsModel.Store.Sp_Get_TermsDetails_BankNickName_List">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RestockReportsModel.Sp_Get_TermsDetails_BankNickName_List_Result">
+                <ScalarProperty Name="BankAccountId" ColumnName="BankAccountId" />
+                <ScalarProperty Name="NickName" ColumnName="NickName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="tblTermsDetails">
+            <EntityTypeMapping TypeName="RestockReportsModel.tblTermsDetail">
+              <MappingFragment StoreEntitySet="tblTermsDetails">
+                <ScalarProperty Name="InterchangeSplit1" ColumnName="InterchangeSplit1" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="TotalInterchangeassigned" ColumnName="TotalInterchangeassigned" />
+                <ScalarProperty Name="Interchangesettlementsource4" ColumnName="Interchangesettlementsource4" />
+                <ScalarProperty Name="InterchangeSplitAmount5" ColumnName="InterchangeSplitAmount5" />
+                <ScalarProperty Name="InterchangeSplit5" ColumnName="InterchangeSplit5" />
+                <ScalarProperty Name="Interchangesettlementsource3" ColumnName="Interchangesettlementsource3" />
+                <ScalarProperty Name="InterchangeSplitAmount4" ColumnName="InterchangeSplitAmount4" />
+                <ScalarProperty Name="InterchangeSplit4" ColumnName="InterchangeSplit4" />
+                <ScalarProperty Name="Interchangesettlementsource2" ColumnName="Interchangesettlementsource2" />
+                <ScalarProperty Name="InterchangeSplitAmount3" ColumnName="InterchangeSplitAmount3" />
+                <ScalarProperty Name="InterchangeSplit3" ColumnName="InterchangeSplit3" />
+                <ScalarProperty Name="Interchangesettlementsource1" ColumnName="Interchangesettlementsource1" />
+                <ScalarProperty Name="InterchangeSplitAmount2" ColumnName="InterchangeSplitAmount2" />
+                <ScalarProperty Name="InterchangeSplit2" ColumnName="InterchangeSplit2" />
+                <ScalarProperty Name="InterchangeSplitAmount1" ColumnName="InterchangeSplitAmount1" />
+                <ScalarProperty Name="InterchangeSplitRemainder1" ColumnName="InterchangeSplitRemainder1" />
+                <ScalarProperty Name="TotalInterchangeAmount" ColumnName="TotalInterchangeAmount" />
+                <ScalarProperty Name="Totalsurchargeassigned" ColumnName="Totalsurchargeassigned" />
+                <ScalarProperty Name="SurchargesegmentedID5" ColumnName="SurchargesegmentedID5" />
+                <ScalarProperty Name="IsSurchargesegmented5" ColumnName="IsSurchargesegmented5" />
+                <ScalarProperty Name="Surchargesettlementsource5" ColumnName="Surchargesettlementsource5" />
+                <ScalarProperty Name="Surchargesplitamount5" ColumnName="Surchargesplitamount5" />
+                <ScalarProperty Name="SurchargesplitId5" ColumnName="SurchargesplitId5" />
+                <ScalarProperty Name="SurchargesegmentedID4" ColumnName="SurchargesegmentedID4" />
+                <ScalarProperty Name="IsSurchargesegmented4" ColumnName="IsSurchargesegmented4" />
+                <ScalarProperty Name="Surchargesettlementsource4" ColumnName="Surchargesettlementsource4" />
+                <ScalarProperty Name="Surchargesplitamount4" ColumnName="Surchargesplitamount4" />
+                <ScalarProperty Name="SurchargesplitId4" ColumnName="SurchargesplitId4" />
+                <ScalarProperty Name="SurchargesegmentedID3" ColumnName="SurchargesegmentedID3" />
+                <ScalarProperty Name="IsSurchargesegmented3" ColumnName="IsSurchargesegmented3" />
+                <ScalarProperty Name="Surchargesettlementsource3" ColumnName="Surchargesettlementsource3" />
+                <ScalarProperty Name="Surchargesplitamount3" ColumnName="Surchargesplitamount3" />
+                <ScalarProperty Name="SurchargesplitId3" ColumnName="SurchargesplitId3" />
+                <ScalarProperty Name="SurchargesegmentedID2" ColumnName="SurchargesegmentedID2" />
+                <ScalarProperty Name="IsSurchargesegmented2" ColumnName="IsSurchargesegmented2" />
+                <ScalarProperty Name="Surchargesettlementsource2" ColumnName="Surchargesettlementsource2" />
+                <ScalarProperty Name="Surchargesplitamount2" ColumnName="Surchargesplitamount2" />
+                <ScalarProperty Name="SurchargesplitId2" ColumnName="SurchargesplitId2" />
+                <ScalarProperty Name="SurchargesegmentedID1" ColumnName="SurchargesegmentedID1" />
+                <ScalarProperty Name="IsSurchargesegmented1" ColumnName="IsSurchargesegmented1" />
+                <ScalarProperty Name="Surchargesettlementsource1" ColumnName="Surchargesettlementsource1" />
+                <ScalarProperty Name="Surchargesplitamount1" ColumnName="Surchargesplitamount1" />
+                <ScalarProperty Name="SurchargesplitId1" ColumnName="SurchargesplitId1" />
+                <ScalarProperty Name="Totalterminalsurchageamount" ColumnName="Totalterminalsurchageamount" />
+                <ScalarProperty Name="InterchangeAccountCount" ColumnName="InterchangeAccountCount" />
+                <ScalarProperty Name="SurchargeAccountCount" ColumnName="SurchargeAccountCount" />
+                <ScalarProperty Name="VaultCashID" ColumnName="VaultCashID" />
+                <ScalarProperty Name="TerminalKey" ColumnName="TerminalKey" />
+                <ScalarProperty Name="TermsDetailId" ColumnName="TermsDetailId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="Sp_Term_Manager_List" FunctionName="RestockReportsModel.Store.Sp_Term_Manager_List">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RestockReportsModel.Sp_Term_Manager_List_Result">
+                <ScalarProperty Name="TerminalId" ColumnName="TerminalId" />
+                <ScalarProperty Name="LocationName" ColumnName="LocationName" />
+                <ScalarProperty Name="AccountName" ColumnName="AccountName" />
+                <ScalarProperty Name="SRCH" ColumnName="SRCH" />
+                <ScalarProperty Name="INTR" ColumnName="INTR" />
+                <ScalarProperty Name="TermsDetailId" ColumnName="TermsDetailId" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Sp_Get_Bank_Account_UsageDetail" FunctionName="RestockReportsModel.Store.Sp_Get_Bank_Account_UsageDetail">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RestockReportsModel.Sp_Get_Bank_Account_UsageDetail_Result">
+                <ScalarProperty Name="TerminalKey" ColumnName="TerminalKey" />
+                <ScalarProperty Name="LocationName" ColumnName="LocationName" />
+                <ScalarProperty Name="VaultCashSettlement" ColumnName="VaultCashSettlement" />
+                <ScalarProperty Name="SurchargeRevenueDeposit" ColumnName="SurchargeRevenueDeposit" />
+                <ScalarProperty Name="InterchangeRevenueDeposit" ColumnName="InterchangeRevenueDeposit" />
+                <ScalarProperty Name="MonthlyFeesDeposited" ColumnName="MonthlyFeesDeposited" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Sp_Get_Daily_Deposit_Report_Data_List" FunctionName="RestockReportsModel.Store.Sp_Get_Daily_Deposit_Report_Data_List">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RestockReportsModel.Sp_Get_Daily_Deposit_Report_Data_List_Result">
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="TerminalId" ColumnName="TerminalId" />
+                <ScalarProperty Name="FundingType" ColumnName="FundingType" />
+                <ScalarProperty Name="AccountName" ColumnName="AccountName" />
+                <ScalarProperty Name="RoutingNumber" ColumnName="RoutingNumber" />
+                <ScalarProperty Name="TransitNumber" ColumnName="TransitNumber" />
+                <ScalarProperty Name="AccountNumber" ColumnName="AccountNumber" />
+                <ScalarProperty Name="DepositAmount" ColumnName="DepositAmount" />
+                <ScalarProperty Name="TransactionDate" ColumnName="TransactionDate" />
+                <ScalarProperty Name="SettlementDate" ColumnName="SettlementDate" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="tblUsers">
+            <EntityTypeMapping TypeName="RestockReportsModel.tblUser">
+              <MappingFragment StoreEntitySet="tblUser">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="Access_Level_ID" ColumnName="Access_Level_ID" />
+                <ScalarProperty Name="Create_Date" ColumnName="Create_Date" />
+                <ScalarProperty Name="RollAssigned" ColumnName="RollAssigned" />
+                <ScalarProperty Name="Phoneother" ColumnName="Phoneother" />
+                <ScalarProperty Name="Phonecell" ColumnName="Phonecell" />
+                <ScalarProperty Name="Postalcode" ColumnName="Postalcode" />
+                <ScalarProperty Name="Province" ColumnName="Province" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Company" ColumnName="Company" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Email_Adress" ColumnName="Email_Adress" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="User_ID" ColumnName="User_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="Sp_Get_User_Terminal_List" FunctionName="RestockReportsModel.Store.Sp_Get_User_Terminal_List">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RestockReportsModel.Sp_Get_User_Terminal_List_Result">
+                <ScalarProperty Name="TerminalKey" ColumnName="TerminalKey" />
+                <ScalarProperty Name="TerminalName" ColumnName="TerminalName" />
+                <ScalarProperty Name="UserTerminalRightsStatus" ColumnName="UserTerminalRightsStatus" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Sp_Get_Daily_Transaction_Graph" FunctionName="RestockReportsModel.Store.Sp_Get_Daily_Transaction_Graph" />
+          <FunctionImportMapping FunctionImportName="Sp_Get_Daily_Transaction" FunctionName="RestockReportsModel.Store.Sp_Get_Daily_Transaction">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RestockReportsModel.Sp_Get_Daily_Transaction_Result">
+                <ScalarProperty Name="Demo" ColumnName="Demo" />
+                <ScalarProperty Name="DATE" ColumnName="DATE" />
+                <ScalarProperty Name="counts" ColumnName="counts" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Sp_Get_Donut_Revenue_Graph" FunctionName="RestockReportsModel.Store.Sp_Get_Donut_Revenue_Graph">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RestockReportsModel.Sp_Get_Donut_Revenue_Graph_Result">
+                <ScalarProperty Name="LastMonthRevenue" ColumnName="LastMonthRevenue" />
+                <ScalarProperty Name="ThisMonthLastYearRevenue" ColumnName="ThisMonthLastYearRevenue" />
+                <ScalarProperty Name="ThisMonthToDate" ColumnName="ThisMonthToDate" />
+                <ScalarProperty Name="LastTwelveMonths" ColumnName="LastTwelveMonths" />
+                <ScalarProperty Name="GrandTotal" ColumnName="GrandTotal" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="tblNewletters">
+            <EntityTypeMapping TypeName="RestockReportsModel.tblNewletter">
+              <MappingFragment StoreEntitySet="tblNewletter">
+                <ScalarProperty Name="FilePath" ColumnName="FilePath" />
+                <ScalarProperty Name="Filename" ColumnName="Filename" />
+                <ScalarProperty Name="NewsletterId" ColumnName="NewsletterId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="Sp_Get_Gross_Commision" FunctionName="RestockReportsModel.Store.Sp_Get_Gross_Commision" />
+          <EntitySetMapping Name="tblBankAccountLists">
+            <EntityTypeMapping TypeName="RestockReportsModel.tblBankAccountList">
+              <MappingFragment StoreEntitySet="tblBankAccountList">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="BankAccountId" ColumnName="BankAccountId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="Sp_Get_AccountHolder_List" FunctionName="RestockReportsModel.Store.Sp_Get_AccountHolder_List">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RestockReportsModel.Sp_Get_AccountHolder_List_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="AccountName" ColumnName="AccountName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Sp_Get_AccountHolder_Details" FunctionName="RestockReportsModel.Store.Sp_Get_AccountHolder_Details">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RestockReportsModel.Sp_Get_AccountHolder_Details_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="AccountName" ColumnName="AccountName" />
+                <ScalarProperty Name="RoutingNumber" ColumnName="RoutingNumber" />
+                <ScalarProperty Name="TransitNumber" ColumnName="TransitNumber" />
+                <ScalarProperty Name="AccountNumber" ColumnName="AccountNumber" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Sp_Get_User_Bank_List" FunctionName="RestockReportsModel.Store.Sp_Get_User_Bank_List">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RestockReportsModel.Sp_Get_User_Bank_List_Result">
+                <ScalarProperty Name="BankAccountId" ColumnName="BankAccountId" />
+                <ScalarProperty Name="Nickname" ColumnName="Nickname" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Sp_Load_Bank_Atm" FunctionName="RestockReportsModel.Store.Sp_Load_Bank_Atm">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RestockReportsModel.Sp_Load_Bank_Atm_Result">
+                <ScalarProperty Name="TerminalKey" ColumnName="TerminalKey" />
+                <ScalarProperty Name="TerminalName" ColumnName="TerminalName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="tblReportJobLogs">
+            <EntityTypeMapping TypeName="RestockReportsModel.tblReportJobLog">
+              <MappingFragment StoreEntitySet="tblReportJobLogs">
+                <ScalarProperty Name="ReportDate" ColumnName="ReportDate" />
+                <ScalarProperty Name="ScheduleTime" ColumnName="ScheduleTime" />
+                <ScalarProperty Name="Soapserviceresponsetype" ColumnName="Soapserviceresponsetype" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Recordcount" ColumnName="Recordcount" />
+                <ScalarProperty Name="Jobfunctionname" ColumnName="Jobfunctionname" />
+                <ScalarProperty Name="Jobtime" ColumnName="Jobtime" />
+                <ScalarProperty Name="LogId" ColumnName="LogId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="Sp_Get_User_Graph_Filter_Data_" FunctionName="RestockReportsModel.Store.Sp_Get_User_Graph_Filter_Data_">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RestockReportsModel.Sp_Get_User_Graph_Filter_Data__Result">
+                <ScalarProperty Name="BankAccountId" ColumnName="BankAccountId" />
+                <ScalarProperty Name="AtmTerminalKey" ColumnName="AtmTerminalKey" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="MonthNames" ColumnName="MonthNames" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="DateYear" ColumnName="DateYear" />
+                <ScalarProperty Name="TransactionCount" ColumnName="TransactionCount" />
+                <ScalarProperty Name="Entityname" ColumnName="Entityname" />
+                <ScalarProperty Name="MailingAddress" ColumnName="MailingAddress" />
+                <ScalarProperty Name="Entityregion" ColumnName="Entityregion" />
+                <ScalarProperty Name="Entitypostalcode" ColumnName="Entitypostalcode" />
+                <ScalarProperty Name="LocationName" ColumnName="LocationName" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="Totalterminalsurchageamount" ColumnName="Totalterminalsurchageamount" />
+                <ScalarProperty Name="SurchargesplitId1" ColumnName="SurchargesplitId1" />
+                <ScalarProperty Name="SurchargesplitId2" ColumnName="SurchargesplitId2" />
+                <ScalarProperty Name="SurchargesplitId3" ColumnName="SurchargesplitId3" />
+                <ScalarProperty Name="SurchargesplitId4" ColumnName="SurchargesplitId4" />
+                <ScalarProperty Name="SurchargesplitId5" ColumnName="SurchargesplitId5" />
+                <ScalarProperty Name="Surchargesettlementsource1" ColumnName="Surchargesettlementsource1" />
+                <ScalarProperty Name="Surchargesettlementsource2" ColumnName="Surchargesettlementsource2" />
+                <ScalarProperty Name="Surchargesettlementsource3" ColumnName="Surchargesettlementsource3" />
+                <ScalarProperty Name="Surchargesettlementsource4" ColumnName="Surchargesettlementsource4" />
+                <ScalarProperty Name="Surchargesettlementsource5" ColumnName="Surchargesettlementsource5" />
+                <ScalarProperty Name="Surchargesplitamount1" ColumnName="Surchargesplitamount1" />
+                <ScalarProperty Name="Surchargesplitamount2" ColumnName="Surchargesplitamount2" />
+                <ScalarProperty Name="Surchargesplitamount3" ColumnName="Surchargesplitamount3" />
+                <ScalarProperty Name="Surchargesplitamount4" ColumnName="Surchargesplitamount4" />
+                <ScalarProperty Name="Surchargesplitamount5" ColumnName="Surchargesplitamount5" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

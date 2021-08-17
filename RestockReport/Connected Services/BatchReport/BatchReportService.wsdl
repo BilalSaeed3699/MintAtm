@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="https://secure.myterminals.com/BatchReportWebService" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="https://secure.myterminals.com/BatchReportWebService" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="https://secure.myterminals.com/BatchReportWebService">
+      <s:element name="GetReportLength">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ReportDate" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="UserID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="PasswordHash" type="s:base64Binary" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetReportLengthResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetReportLengthResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetReportData">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ReportDate" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="UserID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="PasswordHash" type="s:base64Binary" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetReportDataResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetReportDataResult" type="s:base64Binary" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GetReportLengthSoapIn">
+    <wsdl:part name="parameters" element="tns:GetReportLength" />
+  </wsdl:message>
+  <wsdl:message name="GetReportLengthSoapOut">
+    <wsdl:part name="parameters" element="tns:GetReportLengthResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetReportDataSoapIn">
+    <wsdl:part name="parameters" element="tns:GetReportData" />
+  </wsdl:message>
+  <wsdl:message name="GetReportDataSoapOut">
+    <wsdl:part name="parameters" element="tns:GetReportDataResponse" />
+  </wsdl:message>
+  <wsdl:portType name="BatchReportServiceSoap">
+    <wsdl:operation name="GetReportLength">
+      <wsdl:input message="tns:GetReportLengthSoapIn" />
+      <wsdl:output message="tns:GetReportLengthSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetReportData">
+      <wsdl:input message="tns:GetReportDataSoapIn" />
+      <wsdl:output message="tns:GetReportDataSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BatchReportServiceSoap" type="tns:BatchReportServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetReportLength">
+      <soap:operation soapAction="https://secure.myterminals.com/BatchReportWebService/GetReportLength" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetReportData">
+      <soap:operation soapAction="https://secure.myterminals.com/BatchReportWebService/GetReportData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="BatchReportServiceSoap12" type="tns:BatchReportServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetReportLength">
+      <soap12:operation soapAction="https://secure.myterminals.com/BatchReportWebService/GetReportLength" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetReportData">
+      <soap12:operation soapAction="https://secure.myterminals.com/BatchReportWebService/GetReportData" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="BatchReportService">
+    <wsdl:port name="BatchReportServiceSoap" binding="tns:BatchReportServiceSoap">
+      <soap:address location="https://secure.myterminals.com/BatchReportWebService/BatchReportService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="BatchReportServiceSoap12" binding="tns:BatchReportServiceSoap12">
+      <soap12:address location="https://secure.myterminals.com/BatchReportWebService/BatchReportService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+@{ 
+    Layout = null;
+}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <title>My Mint</title>
+     <link rel="shortcut icon" type="image/x-icon" href="~/assets/img/Mint_Leaf.png">
+    <link rel="stylesheet" href="~/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/assets/css/style.css">
+</head>
+<body>
+    <div class="main-wrapper login-body">
+        <div class="login-wrapper">
+            <div class="container">
+                <div class="loginbox">
+                    <div class="login-left" style="background:white !important">
+                        <img  class="img-fluid" src="~/assets/img/MyMint_Logo.png" alt="Logo">
+                        @*<img style="height:65% !important" class="img-fluid" src="~/assets/img/logonew.png" alt="Logo">*@
+                        
+                    </div>
+                    <div class="login-right">
+                        <div class="login-right-wrap">
+                            <h1>Login</h1>
+                            <p class="account-subtitle">Access your Dashboard</p>
+                            @if (ViewBag.IsError != null)
+                            {
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                @ViewBag.IsError
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            }
+                            @using (Html.BeginForm("Index", "Account", FormMethod.Post))
+                            {
+                                @Html.AntiForgeryToken()
+                                <form>
+                                    <div class="form-group">
+                                        <input class="form-control" type="text" placeholder="UserID" name="userid" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <input class="form-control" type="password" placeholder="Password" name="password" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @*<button style="background-color:#ee9721 !important;border:1px solid #ee9721" class="btn btn-primary btn-block" type="submit">Launch!</button>*@
+                                        <button style="        background-color: #8dc745 !important;
+        border: 1px solid #8dc745
+" class="btn btn-primary btn-block" type="submit">Login</button>
+                                    </div>
+                                </form>
+                            }
+                            <div class="text-center forgotpass"><a href="@Url.Action("Forgetpassword","Account")">Forget Password?</a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/assets/js/jquery-3.2.1.min.js"></script>
+    <script src="~/assets/js/popper.min.js"></script>
+    <script src="~/assets/js/bootstrap.min.js"></script>
+    <script src="~/assets/js/script.js"></script>
+
+</body>
+</html>

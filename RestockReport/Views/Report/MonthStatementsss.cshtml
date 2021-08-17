@@ -1,0 +1,291 @@
+﻿
+@{
+    ViewBag.Title = "MonthlyStatement";
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Monthly Statement</title>
+
+    <!-- Favicons -->
+    <link rel="shortcut icon" type="image/x-icon" href="~/assets/img/Mint_Leaf.png">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="~/assets/Reportcss/bootstrap.min.css">
+
+
+
+    <style>
+        #barcanvas {
+            page-break-inside: avoid;
+        }
+    </style>
+
+</head>
+<body style="background-color:white !important">
+
+    <a href="@Url.Action("MonthlyTransactionReportPdf","Report")" style="width: 20%;Color: white;background-color: #8dc745 !important;border: 1px solid #8dc745" class="btn btn-primary">
+        GET
+    </a>
+    <input type="button" id="btnSave" value="Save as Image" />
+    <hr />
+
+
+
+    <table>
+        <tr>
+            <td> <img style="max-height:70px !important" src="~/assets/img/MyMint_Logo.png" alt="Logo"></td>
+            <td style="width:100% !important">
+                <h5 style="font-weight:bold;float:right">
+                    MONTHLY STATEMENT TRANSACTIONS
+                    <br /><small style="color:orange !important;float:right !important;font-size:18px;font-weight:bold">@ViewBag.CurrentMonthYear</small>
+                </h5>
+
+            </td>
+        </tr>
+
+
+        <tr>
+        </tr>
+
+    </table>
+
+    <br />
+    <div style="width:100% !important ">
+        <div style="width:49% !important;background-color:black;color:white;text-align:center;padding:5px;float:left;font-weight:bold">
+            MERCHANT DETAILS
+
+        </div>
+        <div style="width:2% !important"></div>
+        <div style="width:49% !important;background-color:black;color:white;text-align:center;padding:5px;float:right;font-weight:bold">
+            ATM LOCATION INFORMATION
+
+        </div>
+    </div>
+
+
+
+    @{string Merchantname = @ViewBag.WebMoonUser;}
+    <div style="width:100% !important;padding-top:15px !important ">
+
+        <div style="width:49% !important;text-align:left;float:left;">
+            @Merchantname
+            <br />
+            <br />
+            Terminal ID:    Commission: $0.00
+        </div>
+        <div style="width:2% !important"></div>
+        <div style="width:49% !important;text-align:left;float:right">
+            ATM LOCATION INFORMATION
+
+        </div>
+    </div>
+    <br />
+    <br />
+    <br />
+
+    <div style="margin-top:3% !important;">
+        <p style="background-color: black !important; color: white !important;font-weight:bold; font-size: 18px; text-align: center">SUMMARY</p>
+
+        <table>
+            <tr>
+                <td>
+                    <strong> Month</strong>
+                </td>
+
+                <td>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <strong> Interac Withdrawl Trans</strong>
+                </td>
+
+
+                <td>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <strong> Monthly Commission Paid</strong>
+                </td>
+
+                <td>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong> Payment Method: EFT Monthly</strong>
+
+
+                </td>
+            </tr>
+
+
+            <tr>
+                <td>
+                    <strong> @ViewBag.MonthShortName</strong>
+                </td>
+
+                <td>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <strong> 310</strong>
+                </td>
+
+
+                <td>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <strong> $0.00</strong>
+                </td>
+
+                <td>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong> </strong>
+
+
+                </td>
+            </tr>
+
+        </table>
+
+    </div>
+
+
+
+    <br />
+
+
+    <div>
+        <p style="background-color: black !important; color: white !important;font-weight:bold; font-size: 18px; text-align: center">TRANSACTION HISTORY</p>
+    </div>
+
+
+    <div style="width:55% !important;max-height:50% !important;">
+        <canvas id="barcanvas"></canvas>
+        @*<img src="~/assets/img/Graph.png" />*@
+        <img id="imgCapture" alt="" style="display:none;border:1px solid #ccc" />
+    </div>
+
+    <br />
+    <div>
+        <p style="background-color: black !important; color: white !important;font-weight:bold; font-size: 18px; text-align: center">NEWS & NOTICES</p>
+    </div>
+
+</body>
+
+</html>
+
+
+<script src="~/assets/js/jquery-3.5.1.js"></script>
+<script src="~/assets/js/Chart.bundle.js"></script>
+<script src="~/assets/js/chart.js"></script>
+
+
+<script>
+
+        var barChartData =
+            {
+                labels: [@Html.Raw(ViewBag.MonthGraphList)],
+                datasets: [{
+                    label: 'Transaction History',
+                    backgroundColor: [
+                        "#7dc576",
+                        "#7dc576",
+                        "#7dc576",
+                        "#7dc576",
+                        "#7dc576",
+                        "#7dc576",
+                        "#7dc576",
+                        "#7dc576",
+                        "#7dc576",
+                        "#7dc576",
+                        "#7dc576",
+                        "#7dc576",
+                        "#7dc576",
+
+                    ],
+                    borderWidth: 2,
+                    data: [@ViewBag.TransactionGraphList]
+                }]
+            };
+
+            window.onload = function () {
+                var ctx1 = document.getElementById("barcanvas").getContext("2d");
+                window.myBar = new Chart(ctx1,
+                    {
+                        type: 'bar',
+                        data: barChartData,
+                        options:
+                        {
+                            "hover": {
+                                "animationDuration": 0
+                            },
+                            "animation": {
+                                "duration": 1,
+                                "onComplete": function () {
+                                    var chartInstance = this.chart,
+                                        ctx = chartInstance.ctx;
+
+                                    ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
+                                    ctx.textAlign = 'center';
+                                    ctx.textBaseline = 'bottom';
+
+                                    this.data.datasets.forEach(function (dataset, i) {
+                                        var meta = chartInstance.controller.getDatasetMeta(i);
+                                        meta.data.forEach(function (bar, index) {
+                                            var data = dataset.data[index];
+                                            if (data != "0") {
+                                                ctx.fillText(data, bar._model.x, bar._model.y - 5);
+                                            }
+
+                                        });
+                                    });
+                                }
+                            },
+                            tooltips: {
+                                "enabled": false
+                            },
+
+                            legend: {
+
+                                labels: {
+                                    fontSize: 25,
+                                    boxWidth: 0
+                                }
+                            },
+                            scales: {
+                                xAxes: [{
+                                    gridLines: {
+                                        display: false
+                                    }
+                                }],
+                                yAxes: [{
+                                    gridLines: {
+                                        display: false,
+                                        drawBorder: false
+                                    },
+                                    ticks: {
+                                        display: false
+
+                                    }
+                                }]
+                            },
+
+                                responsive: true,
+                            maintainAspectRatio: true,
+
+
+
+                        }
+
+
+                    });
+
+
+
+
+            }
+
+
+
+
+
+
+
+    $("#btnSave").bind("click", function () {
+
+
+
+    });
+
+
+</script>
+

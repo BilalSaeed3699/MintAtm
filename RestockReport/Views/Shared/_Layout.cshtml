@@ -1,0 +1,209 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+
+@using RestockReport.Models;
+
+@{
+    List<Sp_Get_User_Dashboard_Menu_List_Result> MenuList = (List<Sp_Get_User_Dashboard_Menu_List_Result>)Session["Menu"];
+}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <title>My Mint</title>
+    <link rel="shortcut icon" type="image/x-icon" href="~/assets/img/Mint_Leaf.png">
+    <link rel="stylesheet" href="~/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/assets/css/feathericon.min.css">
+    <link rel="stylesheet" href="~/assets/css/select2.min.css">
+    <link rel="stylesheet" href="~/assets/plugins/morris/morris.css">
+    <link rel="stylesheet" href="~/assets/css/style.css">
+    <link rel="stylesheet" type="text/css" href="~/assets/css/select2.min.css">
+    @*<link href="~/assets/css/jquery.dataTables.min.css" rel="stylesheet" />*@
+    <style>
+        .sidebar {
+            background-color: #7f7f7f !important;
+        }
+
+        a.nav-link.active {
+            background-color: #8dc745 !important;
+            border: 1px solid #8dc745 !important;
+        }
+
+        .select2-container {
+            width: 100% !important;
+        }
+
+        .sidebar-menu li.active a {
+            background-color: #8dc745 !important;
+            color: #fff;
+        }
+
+        .sidebar-menu > ul > li {
+            width: 100%;
+        }
+
+        .sidebar .sidebar-menu > ul > li > a span {
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-wrapper">
+        <div class="header">
+            <div class="header-left">
+                <a class="logo">
+                    <img src="~/assets/img/MyMint_Logo.png" alt="Logo">
+                </a>
+                <a class="logo logo-small">
+                    <img src="~/assets/img/Mint_Leaf.png" alt="Logo" width="30" height="30">
+                </a>
+            </div>
+            <a href="javascript:void(0);" id="toggle_btn">
+                <i class="fe fe-text-align-left"></i>
+            </a>
+            <a class="mobile_btn" id="mobile_btn">
+                <i class="fa fa-bars"></i>
+            </a>
+
+            <ul class="nav user-menu">
+
+                <li class="nav-item dropdown noti-dropdown">
+                    <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+
+                        <h6 style="padding:18px" class="page-title text-right">@Session["UserName"] </h6>
+                    </a>
+
+                </li>
+                <li class="nav-item dropdown has-arrow">
+                    <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+                        <span class="user-img"><img class="rounded-circle" src="~/assets/img/Mint_Leaf.png" width="31" alt="Ryan Taylor"></span>
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="user-header">
+                            <div class="avatar avatar-sm">
+                                <img src="~/assets/img/Mint_Leaf.png" alt="User Image" class="avatar-img rounded-circle">
+                            </div>
+                            <div class="user-text">
+                                <h6>@Session["UserName"]</h6>
+                                @*<p class="text-muted mb-0">@Session["Title"]</p>*@
+                            </div>
+                        </div>
+                        <a class="dropdown-item" href="@Url.Action("Changepassword","Account")">Change password</a>
+                        <a class="dropdown-item" href="@Url.Action("Index","Account")">Logout</a>
+                    </div>
+                </li>
+            </ul>
+
+        </div>
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-inner slimscroll">
+                <div id="sidebar-menu" class="sidebar-menu">
+                    <ul class="nav navbar-nav">
+
+
+                        <li id="Dashboard">
+                            <a href="@Url.Action("Index","Home",new { UserId = @Session["UserPrimaryID"]})"><i class="fa fa-dashboard"></i> <span>DASHBOARD</span></a>
+                        </li>
+
+                        @foreach (var parent in MenuList)
+                        {
+                            if (@parent.IsParent == 1)
+                            {
+                                Int32 ParentId = Convert.ToInt32(@parent.Page_ID);
+
+                                if (@parent.Count == 0)
+
+                                {
+                                    if (parent.Page_ID == 9)
+                                    {
+                                        <li id="@parent.ElementId"> <a href="@Url.Action(parent.Action_name, parent.Controller_name,new { UserID = Session["UserID"], ReportDate = DateTime.Now })"><i class="@parent.Icon_Class"></i> <span>@parent.Page_Name</span></a></li>
+                                    }
+                                    else
+
+                                    {
+                                        <li id="@parent.ElementId"> <a href="@Url.Action(parent.Action_name, parent.Controller_name)"><i class="@parent.Icon_Class"></i> <span>@parent.Page_Name</span></a></li>
+                                    }
+
+                                }
+                                else
+                                {
+                                    <li id="@parent.ElementId" class="submenu">
+
+                                        <a href="#"><i class="@parent.Icon_Class"></i> <span>@parent.Page_Name</span><span class="menu-arrow"></span></a>
+
+                                        <ul>
+                                            @foreach (var child in MenuList)
+                                            {
+
+                                                if (@child.ParentId == ParentId)
+                                                {
+                                                    @*<li id="@child.ElementId"><a    href="@Url.Action(child.Action_name, child.Controller_name, new { EmailAddress = Session["UserEmail"]} )"> <i class="@child.Icon_Class"> </i> &nbsp; <span> @child.Page_Name</span> </a></li>*@
+                                                    if (child.Page_Name == "DAILY TRANSACTON")
+                                                    {
+                                                        <li id="@child.ElementId"><a style="font-size:13px" href="@Url.Action(child.Action_name, child.Controller_name,new { UserID = Session["UserID"], ReportDate = DateTime.Now })"> <i class="@child.Icon_Class"> </i> &nbsp; <span> @child.Page_Name</span> </a> </li>
+                                                    }
+                                                    else if (child.Page_Name == "MONTHLY STATEMENT")
+                                                    {
+                                                        <li id="@child.ElementId"><a style="font-size:13px" href="@Url.Action(child.Action_name, child.Controller_name,new { UserID = @Session["UserPrimaryID"]})"> <i class="@child.Icon_Class"> </i> &nbsp; <span> @child.Page_Name</span> </a> </li>
+                                                    }
+
+                                                    else
+                                                    {
+                                                        <li id="@child.ElementId"><a style="font-size:13px" href="@Url.Action(child.Action_name, child.Controller_name)"> <i class="@child.Icon_Class"> </i> &nbsp;  <span> @child.Page_Name</span></a></li>
+                                                    }
+
+
+
+
+                                                }
+
+
+                                            }
+                                        </ul>
+                                    </li>
+                                }
+
+
+
+
+
+
+                            }
+
+
+
+
+
+                        }
+
+
+
+
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="page-wrapper">
+            @RenderBody()
+
+        </div>
+    </div>
+    @*<script src="~/assets/js/jquery-3.2.1.min.js"></script>*@
+    @* <script src="~/assets/js/jquery.dataTables.min.js"></script>*@
+    @*<script src="~/assets/plugins/datatables/jquery.dataTables.min.js"></script>
+        <script src="~/assets/plugins/datatables/datatables.min.js"></script>*@
+
+    <script src="~/assets/js/popper.min.js"></script>
+    <script src="~/assets/js/bootstrap.min.js"></script>
+
+    <script src="~/assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="~/assets/js/select2.min.js"></script>
+    <script src="~/assets/plugins/raphael/raphael.min.js"></script>
+    <script src="~/assets/plugins/morris/morris.min.js"></script>
+    <script src="~/assets/js/script.js"></script>
+
+
+</body>
+</html>

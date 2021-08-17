@@ -1,0 +1,680 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="https://secure.myterminals.com/ConfigStatusSyncService" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="https://secure.myterminals.com/ConfigStatusSyncService" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="https://secure.myterminals.com/ConfigStatusSyncService">
+      <s:element name="HourlyTransactions">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="StartTime" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="EndTime" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Login" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="HourlyTransactionsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="HourlyTransactionsResult" type="tns:ArrayOfTransactionRecord" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransactionRecord">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransactionRecord" nillable="true" type="tns:TransactionRecord" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TransactionRecord">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="SettlementDate" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TerminalID" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="SequenceNumber" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="TransactionTime" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TransactionType" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="FromAccount" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="BatchID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PAN" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="RequestedAmount" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="DispensedAmount" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="SurchargeAmount" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="AuthorizedAmount" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="SwitchAuthorizationCode" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="SwitchAuthorizationDescription" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="ReversalReasonCode" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="ReversalReasonDescription" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ChipCard" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ChipTransaction" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="IssuerName" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="HourlyTerminalStatus">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Login" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="HourlyTerminalStatusResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="HourlyTerminalStatusResult" type="tns:ArrayOfTerminalStatusRecord" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTerminalStatusRecord">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TerminalStatusRecord" nillable="true" type="tns:TerminalStatusRecord" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TerminalStatusRecord">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="TerminalID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="LastManagementDateTime" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="LastManagementType" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="LastTransactionDateTime" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="LastTransactionData" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="LastSettledTime" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="SettlementWithdrawalCount" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="SettlementDispensedAmount" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="SettlementSurchargeAmount" type="s:decimal" />
+          <s:element minOccurs="0" maxOccurs="1" name="StatusDispenser1" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="StatusDispenser2" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="StatusDispenser3" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="StatusDispenser4" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="StatusDepository" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="StatusReceiptPrinter" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="StatusJournalPrinter" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="StatusMachine" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="StatusCardReader" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="StatusDeliveryDoor" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="StatusCommsSystem" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="StatusManagement" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="StatusEmulation" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Cassettes" type="tns:ArrayOfCassette" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfCassette">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Cassette" nillable="true" type="tns:Cassette" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Cassette">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="CassetteID" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Denomination" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="NotesLoaded" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="NotesDispensed" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="NotesRemaining" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="DailyTerminalConfig">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Login" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DailyTerminalConfigResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="DailyTerminalConfigResult" type="tns:ArrayOfTerminalConfigRecord" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTerminalConfigRecord">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TerminalConfigRecord" nillable="true" type="tns:TerminalConfigRecord" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TerminalConfigRecord">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="TerminalID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SerialNo" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Make" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Model" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="LocationName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="LocationType" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Province" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PostalCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TimeZone" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SurchargeType" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="SurchargeAmount" type="s:decimal" />
+          <s:element minOccurs="0" maxOccurs="1" name="SurchargeSwitchOverride" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SurchargeAmountOverrides" type="tns:ArrayOfSurchargeOverrideAmount" />
+          <s:element minOccurs="0" maxOccurs="1" name="LocationContactName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="LocationContactPhone" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="EscalationContactName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="EscalationContactPhone" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="VaultCashAccountHolder" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="VaultCashRTANumber" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="VaultCashPaymentSchedule" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="VaultCashDepositExec" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="VaultCashCutoverOffset" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="SoftwareVersionValue1" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SoftwareVersionValue2" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SoftwareVersionValue3" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SurchargeAccounts" type="tns:ArrayOfSurchargeAccount" />
+          <s:element minOccurs="0" maxOccurs="1" name="SurchargeAccountOverrides" type="tns:ArrayOfSurchargeOverrideAccount" />
+          <s:element minOccurs="0" maxOccurs="1" name="SurchargeDepositExec" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="SurchargeCutoverOffset" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="InterchangeAccounts" type="tns:ArrayOfInterchangeAccount" />
+          <s:element minOccurs="0" maxOccurs="1" name="InterchangeDepositExec" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="InterchangeCutoverOffset" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfSurchargeOverrideAmount">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="SurchargeOverrideAmount" nillable="true" type="tns:SurchargeOverrideAmount" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="SurchargeOverrideAmount">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="OverrideID" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Priority" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="OverrideType" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="OverrideData" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SurchargeType" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="SurchargeAmount" type="s:decimal" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfSurchargeAccount">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="SurchargeAccount" nillable="true" type="tns:SurchargeAccount" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="SurchargeAccount">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="AccountHolder" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="AccountRTA" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SplitType" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="SplitAmount" type="s:decimal" />
+          <s:element minOccurs="0" maxOccurs="1" name="PaymentSchedule" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfSurchargeOverrideAccount">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="SurchargeOverrideAccount" nillable="true" type="tns:SurchargeOverrideAccount" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="SurchargeOverrideAccount">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Network" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="AccountHolder" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="AccountRTA" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SplitType" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="SplitAmount" type="s:decimal" />
+          <s:element minOccurs="0" maxOccurs="1" name="PaymentSchedule" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfInterchangeAccount">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="InterchangeAccount" nillable="true" type="tns:InterchangeAccount" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="InterchangeAccount">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="AccountHolder" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="AccountRTA" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SplitType" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="SplitAmount" type="s:decimal" />
+          <s:element minOccurs="0" maxOccurs="1" name="PaymentSchedule" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="DailyBatchCloses">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="StartTime" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="EndTime" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Login" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DailyBatchClosesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="DailyBatchClosesResult" type="tns:ArrayOfBatchCloseRecord" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfBatchCloseRecord">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="BatchCloseRecord" nillable="true" type="tns:BatchCloseRecord" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="BatchCloseRecord">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="TerminalID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CloseDateTime" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="WithdrawalCount" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="WithdrawalAmount" type="s:decimal" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="DailyCashLoads">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="StartTime" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="EndTime" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Login" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DailyCashLoadsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="DailyCashLoadsResult" type="tns:ArrayOfCashLoadRecord" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfCashLoadRecord">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="CashLoadRecord" nillable="true" type="tns:CashLoadRecord" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="CashLoadRecord">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="TerminalID" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="CassetteID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="ReplenishmentDateTime" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Denomination" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="LoadedBillCount" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="VaultReport">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="StartTime" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="EndTime" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Login" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TerminalID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="VaultReportResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="VaultReportResult" type="tns:ArrayOfCashStatusRecord" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfCashStatusRecord">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="CashStatusRecord" nillable="true" type="tns:CashStatusRecord" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="CashStatusRecord">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="RecordID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="TerminalID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SysTimeUTC" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SysTimeLocal" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="BillsCurrency0" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="BillsDenomination0" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="BillsLoaded0" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="BillsDispensed0" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="BillsRejected0" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="BillsCurrency1" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="BillsDenomination1" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="BillsLoaded1" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="BillsDispensed1" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="BillsRejected1" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="BillsCurrency2" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="BillsDenomination2" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="BillsLoaded2" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="BillsDispensed2" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="BillsRejected2" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="BillsCurrency3" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="BillsDenomination3" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="BillsLoaded3" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="BillsDispensed3" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="BillsRejected3" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="TerminalErrors">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ReportedAfterTime" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ResolvedBeforeTime" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Login" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TerminalID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="TerminalErrorsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="TerminalErrorsResult" type="tns:ArrayOfTerminalErrorRecord" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTerminalErrorRecord">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TerminalErrorRecord" nillable="true" type="tns:TerminalErrorRecord" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TerminalErrorRecord">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="RecordID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="ErrorID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TerminalID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SystemTime" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DeviceName" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="ErrorCode" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="ErrorText" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ErrorStatus" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ReportedTime" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ResolvedTime" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ResolvedText" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="LastModifiedTime" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="InstallTerminal">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Login" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="InstallRecord" type="tns:TerminalInstallRecord" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="TerminalInstallRecord">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="TerminalID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SerialNo" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Model" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="LocationName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="LocationCategory" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Province" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PostalCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TimeZone" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MinimumDollarSurcharge" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="OverridePercentageSurcharge" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Cassette1Denomination" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Cassette2Denomination" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Cassette3Denomination" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Cassette4Denomination" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PIN1KeyID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PIN1CheckDigit" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PIN2KeyID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PIN2CheckDigit" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MACKeyID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MACCheckDigit" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="EnableDCC" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MaximumDispenseAmount" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="LocationContactName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="LocationContactPhone" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="EscalationContactName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="EscalationContactPhone" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="VaultCashAccountHolder" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="VaultCashRTANumber" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="VaultCashPaymentSchedule" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="VaultCashDepositExec" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="VaultCashCutoverOffset" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SurchargeAccounts" type="tns:ArrayOfSurchargeAccount" />
+          <s:element minOccurs="0" maxOccurs="1" name="SurchargeAccountOverrides" type="tns:ArrayOfSurchargeOverrideAccount" />
+          <s:element minOccurs="0" maxOccurs="1" name="SurchargeDepositExec" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SurchargeCutoverOffset" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="InterchangeAccounts" type="tns:ArrayOfInterchangeAccount" />
+          <s:element minOccurs="0" maxOccurs="1" name="InterchangeDepositExec" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="InterchangeCutoverOffset" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="InstallTerminalResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="InstallTerminalResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="HourlyTransactionsSoapIn">
+    <wsdl:part name="parameters" element="tns:HourlyTransactions" />
+  </wsdl:message>
+  <wsdl:message name="HourlyTransactionsSoapOut">
+    <wsdl:part name="parameters" element="tns:HourlyTransactionsResponse" />
+  </wsdl:message>
+  <wsdl:message name="HourlyTerminalStatusSoapIn">
+    <wsdl:part name="parameters" element="tns:HourlyTerminalStatus" />
+  </wsdl:message>
+  <wsdl:message name="HourlyTerminalStatusSoapOut">
+    <wsdl:part name="parameters" element="tns:HourlyTerminalStatusResponse" />
+  </wsdl:message>
+  <wsdl:message name="DailyTerminalConfigSoapIn">
+    <wsdl:part name="parameters" element="tns:DailyTerminalConfig" />
+  </wsdl:message>
+  <wsdl:message name="DailyTerminalConfigSoapOut">
+    <wsdl:part name="parameters" element="tns:DailyTerminalConfigResponse" />
+  </wsdl:message>
+  <wsdl:message name="DailyBatchClosesSoapIn">
+    <wsdl:part name="parameters" element="tns:DailyBatchCloses" />
+  </wsdl:message>
+  <wsdl:message name="DailyBatchClosesSoapOut">
+    <wsdl:part name="parameters" element="tns:DailyBatchClosesResponse" />
+  </wsdl:message>
+  <wsdl:message name="DailyCashLoadsSoapIn">
+    <wsdl:part name="parameters" element="tns:DailyCashLoads" />
+  </wsdl:message>
+  <wsdl:message name="DailyCashLoadsSoapOut">
+    <wsdl:part name="parameters" element="tns:DailyCashLoadsResponse" />
+  </wsdl:message>
+  <wsdl:message name="VaultReportSoapIn">
+    <wsdl:part name="parameters" element="tns:VaultReport" />
+  </wsdl:message>
+  <wsdl:message name="VaultReportSoapOut">
+    <wsdl:part name="parameters" element="tns:VaultReportResponse" />
+  </wsdl:message>
+  <wsdl:message name="TerminalErrorsSoapIn">
+    <wsdl:part name="parameters" element="tns:TerminalErrors" />
+  </wsdl:message>
+  <wsdl:message name="TerminalErrorsSoapOut">
+    <wsdl:part name="parameters" element="tns:TerminalErrorsResponse" />
+  </wsdl:message>
+  <wsdl:message name="InstallTerminalSoapIn">
+    <wsdl:part name="parameters" element="tns:InstallTerminal" />
+  </wsdl:message>
+  <wsdl:message name="InstallTerminalSoapOut">
+    <wsdl:part name="parameters" element="tns:InstallTerminalResponse" />
+  </wsdl:message>
+  <wsdl:portType name="DataQuerySoap">
+    <wsdl:operation name="HourlyTransactions">
+      <wsdl:input message="tns:HourlyTransactionsSoapIn" />
+      <wsdl:output message="tns:HourlyTransactionsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="HourlyTerminalStatus">
+      <wsdl:input message="tns:HourlyTerminalStatusSoapIn" />
+      <wsdl:output message="tns:HourlyTerminalStatusSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DailyTerminalConfig">
+      <wsdl:input message="tns:DailyTerminalConfigSoapIn" />
+      <wsdl:output message="tns:DailyTerminalConfigSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DailyBatchCloses">
+      <wsdl:input message="tns:DailyBatchClosesSoapIn" />
+      <wsdl:output message="tns:DailyBatchClosesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DailyCashLoads">
+      <wsdl:input message="tns:DailyCashLoadsSoapIn" />
+      <wsdl:output message="tns:DailyCashLoadsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="VaultReport">
+      <wsdl:input message="tns:VaultReportSoapIn" />
+      <wsdl:output message="tns:VaultReportSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="TerminalErrors">
+      <wsdl:input message="tns:TerminalErrorsSoapIn" />
+      <wsdl:output message="tns:TerminalErrorsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="InstallTerminal">
+      <wsdl:input message="tns:InstallTerminalSoapIn" />
+      <wsdl:output message="tns:InstallTerminalSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="DataQuerySoap" type="tns:DataQuerySoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="HourlyTransactions">
+      <soap:operation soapAction="https://secure.myterminals.com/ConfigStatusSyncService/HourlyTransactions" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="HourlyTerminalStatus">
+      <soap:operation soapAction="https://secure.myterminals.com/ConfigStatusSyncService/HourlyTerminalStatus" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DailyTerminalConfig">
+      <soap:operation soapAction="https://secure.myterminals.com/ConfigStatusSyncService/DailyTerminalConfig" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DailyBatchCloses">
+      <soap:operation soapAction="https://secure.myterminals.com/ConfigStatusSyncService/DailyBatchCloses" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DailyCashLoads">
+      <soap:operation soapAction="https://secure.myterminals.com/ConfigStatusSyncService/DailyCashLoads" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VaultReport">
+      <soap:operation soapAction="https://secure.myterminals.com/ConfigStatusSyncService/VaultReport" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TerminalErrors">
+      <soap:operation soapAction="https://secure.myterminals.com/ConfigStatusSyncService/TerminalErrors" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InstallTerminal">
+      <soap:operation soapAction="https://secure.myterminals.com/ConfigStatusSyncService/InstallTerminal" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="DataQuerySoap12" type="tns:DataQuerySoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="HourlyTransactions">
+      <soap12:operation soapAction="https://secure.myterminals.com/ConfigStatusSyncService/HourlyTransactions" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="HourlyTerminalStatus">
+      <soap12:operation soapAction="https://secure.myterminals.com/ConfigStatusSyncService/HourlyTerminalStatus" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DailyTerminalConfig">
+      <soap12:operation soapAction="https://secure.myterminals.com/ConfigStatusSyncService/DailyTerminalConfig" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DailyBatchCloses">
+      <soap12:operation soapAction="https://secure.myterminals.com/ConfigStatusSyncService/DailyBatchCloses" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DailyCashLoads">
+      <soap12:operation soapAction="https://secure.myterminals.com/ConfigStatusSyncService/DailyCashLoads" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VaultReport">
+      <soap12:operation soapAction="https://secure.myterminals.com/ConfigStatusSyncService/VaultReport" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TerminalErrors">
+      <soap12:operation soapAction="https://secure.myterminals.com/ConfigStatusSyncService/TerminalErrors" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InstallTerminal">
+      <soap12:operation soapAction="https://secure.myterminals.com/ConfigStatusSyncService/InstallTerminal" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="DataQuery">
+    <wsdl:port name="DataQuerySoap" binding="tns:DataQuerySoap">
+      <soap:address location="https://secure.myterminals.com/ConfigStatusSyncService/DataQuery.asmx" />
+    </wsdl:port>
+    <wsdl:port name="DataQuerySoap12" binding="tns:DataQuerySoap12">
+      <soap12:address location="https://secure.myterminals.com/ConfigStatusSyncService/DataQuery.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

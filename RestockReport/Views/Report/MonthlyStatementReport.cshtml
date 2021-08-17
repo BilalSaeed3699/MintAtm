@@ -1,0 +1,863 @@
+﻿@using RestockReport.Models;
+
+@{
+    List<tblBankAccountDetail> MerchantDetails = (List<tblBankAccountDetail>)ViewBag.MerchantDetails;
+    List<tblNewletter> tnl = (List<tblNewletter>)ViewBag.NewsImage;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+
+    <title>Charts</title>
+    <style>
+        .bold {
+            font-weight: Bold;
+        }
+
+        .select2-container .select2-selection--single {
+            height: 40px !important;
+        }
+        .chartjs-render-monitor {
+            height: 450px !important;
+        }
+    </style>
+    @*<script src="https://code.jquery.com/jquery-3.5.1.js"></script>*@
+
+
+    <script src="~/assets/js/jquery-3.5.1.js"></script>
+    <script src="~/assets/js/Chart.bundle.js"></script>
+    <script src="~/assets/js/chart.js"></script>
+
+    <script>
+
+        
+
+            /*Bar chart script*/
+        var barChartData =
+            {
+                labels: [@Html.Raw(ViewBag.MonthGraphList)],
+                datasets: [{
+                    label: '',
+                    backgroundColor: [
+                        "#d5d5d5",
+                        "#d5d5d5",
+                        "#d5d5d5",
+                        "#d5d5d5",
+                        "#d5d5d5",
+                        "#d5d5d5",
+                        "#d5d5d5",
+                        "#d5d5d5",
+                        "#d5d5d5",
+                        "#d5d5d5",
+                        "#d5d5d5",
+                        "#d5d5d5",
+                        "#7dc576",
+
+                    ],
+                    borderWidth: 2,
+                    data: [@ViewBag.TransactionGraphList]
+                }]
+            };
+
+            window.onload = function () {
+                var ctx1 = document.getElementById("barcanvas").getContext("2d");
+                window.myBar = new Chart(ctx1,
+                    {
+                        type: 'bar',
+                        data: barChartData,
+                        options:
+                        {
+                            "hover": {
+                                "animationDuration": 0
+                            },
+                            "animation": {
+                                "duration": 1,
+                                "onComplete": function () {
+                                    var chartInstance = this.chart,
+                                        ctx = chartInstance.ctx;
+
+                                    ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
+                                    ctx.textAlign = 'center';
+                                    ctx.textBaseline = 'bottom';
+
+                                    this.data.datasets.forEach(function (dataset, i) {
+                                        var meta = chartInstance.controller.getDatasetMeta(i);
+                                        meta.data.forEach(function (bar, index) {
+                                            var data = dataset.data[index];
+                                            if (data != "0") {
+                                                ctx.fillText(data, bar._model.x, bar._model.y - 5);
+                                            }
+
+                                        });
+                                    });
+
+                                     var base64 = $('#barcanvas')[0].toDataURL();
+
+                                    //$("#imgCapture").attr("src", base64);
+                                    //$("#imgCapture").show();
+
+                                    var UserId = @Html.Raw(Json.Encode(ViewBag.UserId));
+
+                                    var file = base64;
+
+                                    var formdata = new FormData();
+                                    formdata.append("base64image", file);
+                                    formdata.append("UserId", UserId);
+
+
+                                    $.ajax({
+                                    url: "@Url.Action("SaveImage","Report")",
+                                    type: "POST",
+                                    data: formdata,
+                                    processData: false,
+                                    contentType: false,
+                                    success: function (result) {
+                                        //$("#imgCapture").attr("src", result);
+                                        //$("#imgCapture").show();
+
+                                        },
+                                        error: function (err) {
+
+                                        }
+                                    });
+
+                                }
+                            },
+                            tooltips: {
+                                "enabled": false
+                            },
+
+                            legend: {
+
+                                labels: {
+                                    fontSize: 25,
+                                    boxWidth: 0
+                                }
+                            },
+                            scales: {
+                                xAxes: [{
+                                    gridLines: {
+                                        display: false
+                                    }
+                                }],
+                                yAxes: [{
+                                    gridLines: {
+                                        display: false,
+                                        drawBorder: false
+                                    },
+                                    ticks: {
+                                        display: false,
+                                        beginAtZero: true
+
+                                    }
+                                }]
+                            },
+
+                                responsive: true,
+                            maintainAspectRatio: true,
+
+
+
+                        }
+
+
+                    });
+
+
+            }
+
+
+
+
+
+    </script>
+
+</head>
+<body>
+
+
+
+
+    <div class="content container-fluid">
+
+        <!-- Page Header -->
+        <div class="page-header" STYLE="MARGIN-bottom:0PX !important">
+            <div class="row">
+                <div class="col-sm-4 col-auto">
+                    <h3 class="page-title">MONTHLY STATEMENTS</h3>
+
+                </div>
+            </div>
+        </div>
+        <!-- /Page Header -->
+
+        @using (Html.BeginForm("MonthStatements", "Report", FormMethod.Get, new { target = "_blank", id = "FrmMonthlyStatementReport" }))
+        {
+            <form method="GET" >
+                <div class="row">
+
+
+
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="bold">Choose Bank </label>
+
+
+                            <select  id="ddlBankList" name="ddlBankList" class="form-control js-example-basic-single">
+                                <option value="0">Select Bank</option>
+                                @foreach (var item in ViewBag.UserBankAccountList)
+                                {
+                                    <text>
+
+                                        @if (ViewBag.ddlBankList != 0 && ViewBag.ddlBankList == item.BankAccountId)
+                                        {
+                                            <option selected value="@item.BankAccountId">@item.Nickname</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.BankAccountId">@item.Nickname</option>
+                                        }
+
+                                        @*<option value="@item.BankAccountId">@item.Nickname</option>*@
+                                    </text>
+                                }
+
+                            </select>
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="bold">Choose Settlement Type </label>
+
+
+                            <select id="ddlSettlementType" name="ddlSettlementType" class="form-control js-example-basic-single">
+                                @if (ViewBag.ddlSettlementType == 0)
+                                {
+                                <option value="0" selected>Select Settlement Type</option>
+                                    <option value="1">Direct Deposit Via Switch</option>
+                                    <option value="2">Direct Deposit Via Mint</option>
+                                    <option value="3">Monthly Cheque Issued </option>
+                                }
+                                else if (ViewBag.ddlSettlementType == 1)
+                                {
+                            <option value="0">Select Settlement Type</option>
+                                    <option value="1" selected>Direct Deposit Via Switch</option>
+                                    <option value="2">Direct Deposit Via Mint</option>
+                                    <option value="3">Monthly Cheque Issued </option>
+                                }
+                                else if (ViewBag.ddlSettlementType == 2)
+                                {
+                            <option value="0">Select Settlement Type</option>
+                                    <option value="1">Direct Deposit Via Switch</option>
+                                    <option value="2" selected>Direct Deposit Via Mint</option>
+                                    <option value="3">Monthly Cheque Issued </option>
+                                }
+                                else if (ViewBag.ddlSettlementType == 3)
+                                {
+                            <option value="0">Select Settlement Type</option>
+                                    <option value="1">Direct Deposit Via Switch</option>
+                                    <option value="2">Direct Deposit Via Mint</option>
+                                    <option value="3" selected>Monthly Cheque Issued </option>
+                                }
+
+                            </select>
+
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="bold">Choose ATM </label> <small id="lblChooseAtm" style="color: red;display: none;font-size:15px !important"> Select ATM </small>
+
+                            <input hidden value="@ViewBag.UserId" id="txtUserId" name="UserId" />
+
+                            <select id="ddlTerminalKey" name="ddlTerminalKey" class="form-control js-example-basic-single">
+                                <option value="0">Select ATM</option>
+                                @foreach (var item in ViewBag.TerminalList)
+                                {
+                                    <text>
+
+                                        @if (ViewBag.ddlTerminlKey != null && ViewBag.ddlTerminlKey == item.TerminalKey)
+                                        {
+                                            <option selected value="@item.TerminalKey">@item.TerminalName</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.TerminalKey">@item.TerminalName</option>
+                                        }
+
+                                        @*<option value="@item.TerminalKey">@item.TerminalName</option>*@
+                                    </text>
+                                }
+
+                            </select>
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-2"></div>
+
+
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="bold">Choose Month </label> <small id="lblChooseMonth" style="color: red;display: none;font-size:12px !important"> Select Month </small>
+
+                            <input hidden value="@ViewBag.UserId" name="UserId" />
+
+                            <select id="ddlmonthlist" name="ddlmonthlist" class="form-control js-example-basic-single">
+                                @*<option value="0">Select Month</option>*@
+                                @foreach (var item in ViewBag.MonthList)
+                                {
+                                    <text>
+
+
+
+                                        @{int MonthKey;}
+
+                                        @if (ViewBag.ddlMonthKey == null)
+                                        {
+                                            MonthKey = 0;
+                                        }
+                                        else
+                                        {
+                                            MonthKey = Convert.ToInt32(ViewBag.ddlMonthKey);
+                                        }
+
+
+                                        @if (MonthKey == item.MonthId)
+                                        {
+                                            <option selected value="@item.MonthId">@item.Name</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.MonthId">@item.Name</option>
+                                        }
+
+                                    </text>
+                                            }
+
+                            </select>
+
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="bold">Choose Year </label> <small id="lblChooseYear" style="color: red;display: none;font-size:12px !important"> Select Year </small>
+
+                            <input hidden value="@ViewBag.UserId" name="UserId" />
+
+                            <select id="ddlyearlist" name="ddlyearlist" class="form-control js-example-basic-single">
+                                @*<option value="0">Select Year</option>*@
+                                @foreach (var item in ViewBag.YearList)
+                                {
+                                    <text>
+
+                                        @{int YearKey;}
+
+                                        @if (ViewBag.ddlYearlKey == null)
+                                        {
+                                            YearKey = 0;
+                                        }
+                                        else
+                                        {
+                                            YearKey = Convert.ToInt32(ViewBag.ddlYearlKey);
+                                        }
+
+                                        @if (YearKey == item.Year)
+                                        {
+                                            <option selected value="@item.Year">@item.Year</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.Year">@item.Year</option>
+                                        }
+
+
+                                    </text>
+                                            }
+
+                            </select>
+
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-2" style="display:none">
+                        <br />
+                        <label class="radio-inline">
+                            <input value="1" id="rdbDisplay" type="radio" name="optradio" checked> Display on Screen
+                        </label>
+                        <br />
+                        <label class="radio-inline">
+                            <input value="2" id="rdbDownload" type="radio" name="optradio"> Download PDF format
+                        </label>
+
+                    </div>
+
+
+                    <div class="col-md-2">
+                        <label id="click" style="visibility:hidden"> Click</label> <br />
+                        <button  id="btnGetmonthlydata" style="width: 80%;Color: white;background-color: #8dc745 !important;border: 1px solid #8dc745" class="btn btn-primary" type="submit">
+                            GET
+                        </button>
+
+
+                    </div>
+
+
+                    @*<div class="col-md-1" >
+                                        <label id="click" style="visibility:hidden"> Click</label>
+                                        <button style="        width: 100%;
+                            Color: white;
+                            background-color: #8dc745 !important;
+                            border: 1px solid #8dc745
+                    " class="btn btn-primary" type="submit">
+                                            Search
+                                        </button>
+
+
+                                    </div>
+                                    <div class="col-md-1" >
+                                        <label id="click" style="visibility:hidden"> Click</label>
+
+                                        <a onclick="ReportPreview()" style="width: 100%;Color: white;background-color: darkgreen !important;border: 1px solid darkgreen" class="btn btn-primary">
+                                            Preview
+                                        </a>
+
+
+
+                                    </div>
+
+                                    <div class="col-md-1" >
+                                        <label id="click" style="visibility:hidden"> Click</label>
+                                        <a target="_blank" href="@Url.Action("ReportPreview","Report",new {UserID=@ViewBag.UserID })" style="width: 100%;font-size:14px;Color: white;background-color: deepskyblue !important;border: 1px solid deepskyblue" class="btn btn-primary">
+                                            Download
+                                        </a>
+
+
+                                    </div>*@
+                </div>
+
+                @*<div style="text-align: center;width:55% !important;max-height:50% !important;background-color:white !important">
+                    <canvas id="barcanvas"></canvas>
+                </div>*@
+                @*<div style="text-align: center">
+                    Disclaimer:- This data is for demo it is
+                    not real data it wont relate to any company
+                </div>*@
+
+                @*@if (ViewBag.ddlTerminlKey != null)*@
+
+                @{string terminal = "";}
+
+
+
+
+                @if ((ViewBag.ddlTerminlKey == null || ViewBag.ddlTerminlKey == "") && Convert.ToInt32(ViewBag.optradio) == 1)
+                {
+                    terminal = "display:none";
+                }
+
+                @*@if (Convert.ToInt32(ViewBag.optradio) == 2)
+                {
+                    terminal = "display:none";
+
+                }*@
+
+
+
+
+
+
+
+                @*@if ((ViewBag.ddlTerminlKey != null && Convert.ToInt32(ViewBag.optradio) == 2) || (ViewBag.ddlTerminlKey == null && Convert.ToInt32(ViewBag.optradio) == 1))
+                {
+                    terminal = "display:none";
+                }*@
+
+                <div class="row" style="@terminal">
+                    <div class="col-sm-11">
+                        <div class="card">
+                            <div class="card-body">
+
+
+                                <table>
+                                    <tr>
+                                        <td> <img style="max-height:70px !important" src="~/assets/img/Daily_Report_Pdf_Logo.png" alt="Logo"></td>
+                                        @*<td> <img style="max-height:70px !important" src="~/assets/img/MyMint_Logo.png" alt="Logo"></td>*@
+                                        <td style="width:100% !important">
+                                            <h5 style="font-weight:bold;float:right">
+                                                MONTHLY STATEMENT TRANSACTIONS
+                                                <br /><small style="color:orange !important;float:right !important;font-size:18px;font-weight:bold">@ViewBag.MonthYear</small>
+                                            </h5>
+
+                                        </td>
+                                    </tr>
+
+
+                                    <tr>
+                                    </tr>
+
+                                </table>
+
+                                <br />
+                                <div style="width:100% !important ">
+                                    <div style="width:49% !important;background-color:black;color:white;text-align:center;padding:5px;float:left;font-weight:bold">
+                                        MERCHANT DETAILS
+
+                                    </div>
+                                    <div style="width:2% !important"></div>
+                                    <div style="width:49% !important;background-color:black;color:white;text-align:center;padding:5px;float:right;font-weight:bold">
+                                        ATM LOCATION INFORMATION
+
+                                    </div>
+                                </div>
+
+
+
+                                @{string Merchantname = @ViewBag.WebMoonUser;}
+                                <div style="width:100% !important;padding-top:15px !important ">
+
+                                    <div style="width:49% !important;text-align:left;float:left;background-color:#e3efdb !important">
+                                        @*@Merchantname*@
+
+
+                                        @if (MerchantDetails.Count > 0)
+                                        {
+
+                                            @MerchantDetails[0].Entityname
+                                            <br />
+                                            @MerchantDetails[0].MailingAddress
+                                            <br />
+
+                                            @(MerchantDetails[0].Entityregion + " , " + @MerchantDetails[0].Entitypostalcode)
+
+                                        }
+
+                                        @*<strong>Terminal ID:</strong> @ViewBag.ddlTerminlKey &nbsp;&nbsp;&nbsp;    Commission: $0.00*@
+                                    </div>
+                                    <div style="width:2% !important"></div>
+                                    <div style="width:49% !important;text-align:left;float:right;background-color:#e3efdb !important">
+
+                                        @ViewBag.TerminalLocation <br />
+                                        @ViewBag.TerminalAddress <br />
+                                        @ViewBag.Region, @ViewBag.PostalCode
+                                    </div>
+                                </div>
+                                <br />
+                                <br />
+                                <br />
+                                <br />
+
+
+                                <div>
+                                    <strong>Terminal ID: </strong>@ViewBag.ddlTerminlKey &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <strong>Commission: </strong>$@Convert.ToDecimal(@ViewBag.Commission).ToString("#,##")&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <strong>Payment Method: </strong>EFT Monthly* &nbsp;&nbsp;&nbsp;
+                                </div>
+                                <div style="margin-top:0% !important;">
+                                    <p style="background-color: black !important; color: white !important;font-weight:bold; font-size: 18px; text-align: center">SUMMARY</p>
+
+                                    <table style="width:100% !important">
+                                        <tr style="background-color: #e3efdb !important;width:100% !important">
+                                            <td>
+                                                <strong> Month</strong>
+                                            </td>
+
+                                            <td>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <strong> Transactions</strong>
+                                            </td>
+
+
+                                            <td>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <strong> Gross Commission</strong>
+                                            </td>
+
+                                            <td>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <strong>Expenses</strong>
+                                            </td>
+
+                                            <td>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong> Net Commission</strong>
+
+
+                                            </td>
+                                        </tr>
+
+
+                                        <tr>
+                                            <td>
+                                                <strong> @ViewBag.MonthName</strong>
+                                            </td>
+
+                                            <td>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                &nbsp;&nbsp;&nbsp;&nbsp;   <strong> @ViewBag.monthtranscount</strong>
+                                            </td>
+
+
+                                            <td>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                &nbsp;
+                                                <strong> $@ViewBag.GrossCommission</strong>
+                                            </td>
+                                            <td>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <strong> $0.00</strong>
+                                            </td>
+
+                                            <td>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <strong> $0.00</strong>
+
+
+                                            </td>
+                                        </tr>
+
+                                    </table>
+
+                                </div>
+
+
+
+                                <br />
+
+
+                                <div>
+                                    <p style="background-color: black !important; color: white !important;font-weight:bold; font-size: 18px; text-align: center">TRANSACTION HISTORY</p>
+                                </div>
+
+                                @*style="text-align: center;max-height:100% !important;background-color:white !important"*@
+                                <div>
+                                    <canvas id="barcanvas"></canvas>
+                                    @*<img src="~/assets/img/Graph.png" />*@
+                                    @*<img id="imgCapture" src="@ViewBag.UserBarChart" />*@
+                                </div>
+
+                                <br />
+                                <div style="width:100% !important">
+                                    <p style="background-color: black !important; color: white !important;font-weight:bold; font-size: 18px; text-align: center">NEWS & NOTICES</p>
+
+                                    <img style="width:100% !important;height:475px" src="@tnl[0].FilePath" />
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </form>
+
+                                    }
+        </div>
+</body>
+</html>
+
+
+@*<script src="~/assets/js/jquery-3.2.1.min.js"></script>*@
+@*<script src="~/assets/js/Chart.bundle.js"></script>*@
+
+
+<script>
+
+
+
+    $("#ddlBankList").change(function () {
+
+        var BankId = $(this).val();
+        var Userid = $("#txtUserId").val();
+ 
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("ReloadTerminaList", "Report")',
+            data: { UserId: Userid, BankId: BankId},
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (result) {
+                if (result != null) {
+                    var select = $("#ddlTerminalKey");
+                    select.empty();
+                    select.append($('<option/>', {
+                        value: 0,
+                        text: "Select ATM "
+                    }));
+                    $.each(result, function (index, itemData) {
+                        select.append($('<option/>', {
+                            value: itemData.Value,
+                            text: itemData.Text
+                        }));
+                    });
+                }
+            }
+        });
+
+
+
+    });
+
+
+
+    $(document).ready(function () {
+        $(".nav li ul li").removeClass("active");
+        $('#MonthlyTransaction').addClass('active');
+        $("#Report a").addClass('subdrop');
+        $("#Report  ul").first().css('display', 'block');
+
+
+        jQuery('#ddlTerminalKey').select2();
+        jQuery('#ddlyearlist').select2();
+        jQuery('#ddlmonthlist').select2();
+        jQuery('#ddlBankList').select2();
+        jQuery('#ddlSettlementType').select2();
+
+
+
+        var OptionRadio = @Html.Raw(Json.Encode(ViewBag.optradio));
+        var UserId = @Html.Raw(Json.Encode(ViewBag.UserId));
+
+        var ddlTerminlKey = @Html.Raw(Json.Encode(ViewBag.ddlTerminlKey));
+        var ddlMonthKey = @Html.Raw(Json.Encode(ViewBag.ddlMonthKey));
+        var ddlYearlKey = @Html.Raw(Json.Encode(ViewBag.ddlYearlKey));
+
+
+        //if (ddlTerminlKey == null && OptionRadio == 1) {
+        //    $("#barpanel").first().css('display', 'none');
+        //}
+
+        //if (ddlTerminlKey != null && OptionRadio == 2)
+        //{
+        //    $("#barpanel").first().css('display', 'none');
+        //}
+
+
+
+        if (OptionRadio == 2) {
+
+            document.getElementById("rdbDisplay").checked = false;
+            document.getElementById("rdbDownload").checked = true;
+
+
+
+            setTimeout(function () {
+
+                var url = '@Url.Action("MonthlyTransactionReportPdf", "Report")?UserId=' + UserId + '&ddlTerminalKey=' + ddlTerminlKey + '&ddlmonthlist=' + ddlMonthKey + '&ddlyearlist=' + ddlYearlKey + '&optradio=' + OptionRadio;
+            window.location = url;
+
+            }, 3000);
+
+
+
+
+        }
+        else {
+            document.getElementById("rdbDisplay").checked = true;
+            document.getElementById("rdbDownload").checked =false;
+
+        }
+
+
+    });
+
+
+    $("#FrmMonthlyStatementReport").submit(function (e) { // note that it's better to use form Id to select form
+        if (($("#ddlTerminalKey").val() == "0" || $("#ddlTerminalKey").val() == "") && ($("#ddlSettlementType").val() == "0" || $("#ddlSettlementType").val() == "")
+            && ($("#ddlBankList").val() == "0" || $("#ddlBankList").val() == "")
+        ) // here you check your drop down selected value
+        {
+            $("#lblChooseAtm").fadeIn();
+            $("#lblChooseAtm").fadeOut(7000);
+            $("#ddlTerminalKey").focus();
+            e.preventDefault(); // here you stop submitting
+            return;
+        }
+    });
+
+
+    //    if ($("#ddlmonthlist").val() == "0" || $("#ddlmonthlist").val() == "") // here you check your drop down selected value
+    //    {
+    //        $("#lblChooseMonth").fadeIn();
+    //        $("#lblChooseMonth").fadeOut(7000);
+    //        $("#ddlmonthlist").focus();
+    //        e.preventDefault(); // here you stop submitting
+    //        return;
+    //    }
+    //    if ($("#ddlyearlist").val() == "0" || $("#ddlyearlist").val() == "") // here you check your drop down selected value
+    //    {
+    //        $("#lblChooseYear").fadeIn();
+    //        $("#lblChooseYear").fadeOut(7000);
+    //        $("#ddlyearlist").focus();
+    //        e.preventDefault(); // here you stop submitting
+    //        return;
+    //    }
+
+    //}
+    //);
+
+
+
+
+
+
+    function UpdateGraphStats() {
+        //if ($("#ddlTerminalKey").val() == 0) {
+        //    return;
+        //}
+
+        $.ajax({
+            url: '@Url.Action("UpdateGraphData", "Home")',
+            type: "POST",
+            dataType: 'JSON',
+            data: { UserId: $("#txtUserId").val(), ddlTerminalKey: $("#ddlTerminalKey").val() },
+            success: function (result) {
+                window.location = result.url;
+            },
+            error: function (err) {
+
+            }
+        });
+
+    }
+
+
+    function ReportPreview() {
+
+        var Userid = $("#txtUserId").val();
+
+        $.ajax({
+            /*url: '/Home/OpenReportPreview',*/
+            url: '@Url.Action("OpenReportPreview", "Home")',
+            type: "POST",
+            dataType: 'JSON',
+            data: { UserId: Userid, ddlTerminalKey: $("#ddlTerminalKey").val(), ddlmonthlist: $("#ddlmonthlist").val(), ddlyearlist: $("#ddlyearlist").val() },
+            success: function (result) {
+              /*  window.location = result.url;*/
+
+                window.open(result.url, '_blank');
+            },
+            error: function (err) {
+
+            }
+        });
+
+        //$.get("/User/Edit",
+        //    { User_ID: $("#txtUserId").val(), ddlAccessLevel: $("#ddlAccessLevel").val() },
+
+        //    function (response) {
+        //        alert(response);
+        //    /*    alert("Hello: " + response.Name + " .\nCurrent Date and Time: " + response.DateTime);*/
+        //        location.reload();
+        //    }
+        //);
+    }
+</script>

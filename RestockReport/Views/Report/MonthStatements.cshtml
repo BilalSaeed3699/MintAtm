@@ -1,0 +1,790 @@
+﻿@using RestockReport.Models;
+@*@model RestockReport.Models.List<MeraModel>*@
+@{
+    List<tblBankAccountDetail> MerchantDetails = (List<tblBankAccountDetail>)ViewBag.MerchantDetails;
+    List<tblNewletter> tnl = (List<tblNewletter>)ViewBag.NewsImage;
+
+    List<MeraModel> spg = (List<MeraModel>)ViewBag.MonthlyStatementReport;
+
+}
+@{
+    ViewBag.Title = "MonthlyStatement";
+    Layout = null;
+}
+
+@{int GrossCommissioncount = 0;}
+@{decimal GrossCommission = 0;}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Monthly Statement</title>
+
+    <!-- Favicons -->
+    <link rel="shortcut icon" type="image/x-icon" href="~/assets/img/Mint_Leaf.png">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="~/assets/Reportcss/bootstrap.min.css">
+
+    <script src="https://printjs-4de6.kxcdn.com/print.min.css"></script>
+
+    @*<style>
+            #barcanvas {
+                page-break-inside: avoid;
+            }
+        </style>*@
+
+
+    <script src="~/assets/js/jquery-3.5.1.js"></script>
+    <script src="~/assets/js/Chart.bundle.js"></script>
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <script src="~/assets/js/chart.js"></script>
+    <script src="https://printjs-4de6.kxcdn.com/print.min.js"></script>
+
+
+
+    <style>
+
+        body {
+            background: rgb(204,204,204);
+        }
+
+        page {
+            background: white;
+            display: block;
+            margin: 0 auto;
+            margin-bottom: 0.5cm;
+            /*box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);*/
+        }
+
+            page[size="A4"] {
+                width: 28cm;
+                height: 29.7cm;
+            }
+
+                page[size="A4"][layout="landscape"] {
+                    width: 29.7cm;
+                    height: 21cm;
+                }
+
+            page[size="A3"] {
+                width: 29.7cm;
+                height: 42cm;
+            }
+
+                page[size="A3"][layout="landscape"] {
+                    width: 42cm;
+                    height: 29.7cm;
+                }
+
+            page[size="A5"] {
+                width: 14.8cm;
+                height: 21cm;
+            }
+
+                page[size="A5"][layout="landscape"] {
+                    width: 21cm;
+                    height: 14.8cm;
+                }
+
+        @@media print {
+            body, page {
+                margin: 0;
+                box-shadow: 0;
+            }
+
+            #btnGetmonthlydata {
+                display: none;
+            }
+
+            #printoption {
+                display: none;
+            }
+
+            @@page :footer {
+                display: none
+            }
+
+            @@page :header {
+                display: none
+            }
+
+            @@page {
+                margin-top: 5px;
+                margin-bottom: 0;
+            }
+
+            body {
+                padding-top: 72px;
+                padding-bottom: 72px;
+            }
+        }
+    </style>
+
+
+
+</head>
+<page size="A4">
+    <body style="background-color:white !important">
+
+        <div class="row" id="printoption">
+            <div class="col-md-9"></div>
+            <div class="col-md-3">
+                <label id="click" style="visibility:hidden"> Click</label> <br>
+                <button onclick="Print()" id="btnGetmonthlydata" style="width: 80%;Color: white;background-color: #8dc745 !important;border: 1px solid #8dc745" class="btn btn-primary" type="button">
+                    Print or Download
+                </button>
+
+
+            </div>
+        </div>
+
+        @*<a href="@Url.Action("MonthlyTransactionReportPdf","Report")" style="width: 20%;Color: white;background-color: #8dc745 !important;border: 1px solid #8dc745" class="btn btn-primary">
+            GET
+        </a>*@
+        @*<input type="button" id="btnSave" value="Save as Image" />
+        <hr />
+
+        <button  href="@Url.Action("MonthlyTransactionReportPdf","Report")" id="btnconvert"  type="button"></button>*@
+
+
+        @foreach (var item in spg)
+        {
+
+            {GrossCommission = 0;}
+            {GrossCommissioncount = 0; }
+            <table>
+                <tr>
+                    @*<td> <img style="max-height:70px !important" src="~/assets/img/MyMint_Logo.png" alt="Logo"></td>*@
+                    <td> <img style="max-height:70px !important" src="~/assets/img/Daily_Report_Pdf_Logo.png" alt="Logo"></td>
+                    <td style="width:100% !important">
+                        <h5 style="font-weight:bold;float:right">
+                            MONTHLY STATEMENT TRANSACTIONS
+                            <br /><small style="color:orange !important;float:right !important;font-size:18px;font-weight:bold">@ViewBag.MonthYear</small>
+                        </h5>
+
+                    </td>
+                </tr>
+
+
+                <tr>
+                </tr>
+
+            </table>
+
+            <br />
+            <div style="width:100% !important ">
+                <div style="width:49% !important;background-color:black;color:white;text-align:center;padding:5px;float:left;font-weight:bold">
+                    ENTITY DETAILS
+
+                </div>
+                <div style="width:2% !important"></div>
+                <div style="width:49% !important;background-color:black;color:white;text-align:center;padding:5px;float:right;font-weight:bold">
+                    ATM LOCATION INFORMATION
+
+                </div>
+            </div>
+
+
+
+            { string Merchantname = @ViewBag.WebMoonUser; }
+            <div style="width:100% !important;padding-top:15px !important ">
+
+                <div style="width:49% !important;text-align:left;float:left;background-color:#e3efdb !important">
+
+
+                    @item.Entityname
+                    <br />
+                    @item.MailingAddress
+                    <br />
+
+                    @(item.Entityregion + " , " + @item.Entitypostalcode)
+
+
+
+                </div>
+                <div style="width:2% !important"></div>
+                <div style="width:49% !important;text-align:left;float:right;background-color:#e3efdb !important">
+
+                    @item.LocationName <br />
+                    @item.Address <br />
+                    @item.Region, @item.PostalCode
+                </div>
+            </div>
+            <br />
+            <br />
+            <br />
+            <br />
+
+            <div>
+                <strong>Terminal ID: </strong>@item.AtmTerminalKey &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <strong>Commission: </strong>
+                @*$@Convert.ToDecimal(item.Totalterminalsurchageamount).ToString("#,##")*@
+                @*$@Convert.ToDecimal(item.Totalterminalsurchageamount)*@
+
+                $@Convert.ToDecimal(item.Surchargesplitamount1).ToString("0.00")
+
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                @*@if (item.Surchargesettlementsource1 == 1 || item.Surchargesettlementsource2 == 1 || item.Surchargesettlementsource3 == 1 || item.Surchargesettlementsource4 == 1 || item.Surchargesettlementsource5 == 1)
+                {
+                    <strong>Payment Method: EFT Monthly*   </strong>
+                }
+
+                else if (item.Surchargesettlementsource1 == 2 || item.Surchargesettlementsource2 == 2 || item.Surchargesettlementsource3 == 2 || item.Surchargesettlementsource4 == 2 || item.Surchargesettlementsource5 == 2)
+                {
+                    <strong>Payment Method: EFT Monthly*   </strong>
+                }
+
+                else if (item.Surchargesettlementsource1 == 3 || item.Surchargesettlementsource2 == 3 || item.Surchargesettlementsource3 == 3 || item.Surchargesettlementsource4 == 3 || item.Surchargesettlementsource5 == 3)
+                {
+                    <strong>Payment Method: CHQ Monthly*   </strong>
+                }
+                else
+                {
+                    <strong>Payment Method:   </strong>
+                }*@
+
+
+                @if (item.Surchargesettlementsource == 1)
+                {
+                    <strong>Payment Method: EFT Monthly*   </strong>
+                }
+
+                else if (item.Surchargesettlementsource == 2 )
+                {
+                    <strong>Payment Method: EFT Monthly*   </strong>
+                }
+
+                else if (item.Surchargesettlementsource == 3 )
+                {
+                    <strong>Payment Method: CHQ Monthly*   </strong>
+                }
+                else
+                {
+                    <strong>Payment Method:   </strong>
+                }
+
+            </div>
+
+            <div style="margin-top:0% !important;">
+                <p style="background-color: black !important; color: white !important;font-weight:bold; font-size: 18px; text-align: center">SUMMARY</p>
+
+                <table style="width:100% !important">
+                    <tr style="background-color: #e3efdb !important;width:100% !important">
+                        <td>
+                            <strong> Month</strong>
+                        </td>
+
+                        <td>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <strong> Transactions</strong>
+                        </td>
+
+
+                        <td>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <strong> Gross Commission</strong>
+                        </td>
+
+                        <td>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <strong>Expenses</strong>
+                        </td>
+
+                        <td>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong> Net Commission</strong>
+
+
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td>
+                            <strong> @ViewBag.MonthName</strong>
+                        </td>
+
+                        <td>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;   <strong> @item.TransactionCount</strong>
+                        </td>
+
+                        @if (@item.SurchargesplitId1 > 0)
+                        {
+                            GrossCommissioncount = GrossCommissioncount + 1;
+                        }
+                        @if (@item.SurchargesplitId2 > 0)
+                        {
+                            GrossCommissioncount = GrossCommissioncount + 1;
+                        }
+                        @if (@item.SurchargesplitId3 > 0)
+                        {
+                            GrossCommissioncount = GrossCommissioncount + 1;
+                        }
+                        @if (@item.SurchargesplitId4 > 0)
+                        {
+                            GrossCommissioncount = GrossCommissioncount + 1;
+                        }
+                        @if (@item.SurchargesplitId5 > 0)
+                        {
+                            GrossCommissioncount = GrossCommissioncount + 1;
+                        }
+                        @*@if (@item.Surchargesplitamount1 > 0)
+        {
+            GrossCommissioncount = GrossCommissioncount + 1;
+        }
+        @if (@item.Surchargesplitamount1 > 0)
+        {
+            GrossCommissioncount = GrossCommissioncount + 1;
+        }
+        @if (@item.Surchargesplitamount1 > 0)
+        {
+            GrossCommissioncount = GrossCommissioncount + 1;
+        }
+        @if (@item.Surchargesplitamount1 > 0)
+        {
+            GrossCommissioncount = GrossCommissioncount + 1;
+        }*@
+
+                        @*@if (@item.SurchargesplitId2 > 0)
+                        {
+        @GrossCommissioncount = GrossCommissioncount + 1;
+        }
+        @if(@item.SurchargesplitId3>0)
+        {
+        @GrossCommissioncount = GrossCommissioncount + 1 ;
+        }
+        @if(@item.SurchargesplitId4>0)
+        {
+        @GrossCommissioncount = GrossCommissioncount + 1 ;
+        }
+        @if(@item.SurchargesplitId5>0)
+        {
+        @GrossCommissioncount = GrossCommissioncount + 1 ;
+        }*@
+
+                        @*@{GrossCommission = Convert.ToDecimal(@item.Surchargesplitamount1) * GrossCommissioncount;}*@
+
+                        @{GrossCommission = Convert.ToDecimal(@item.Surchargesplitamount1) * Convert.ToDecimal(@item.TransactionCount);}
+                        <td>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;
+                            <strong> $@GrossCommission.ToString("0.00") </strong>
+                        </td>
+                        <td>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <strong> $0.00 </strong>
+                        </td>
+
+                        <td>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <strong> $@GrossCommission.ToString("0.00") </strong>
+                        </td>
+
+
+                    </tr>
+
+                </table>
+
+            </div>
+
+
+
+            <br />
+
+
+            <br />
+
+
+            <div>
+                <p style="background-color: black !important; color: white !important;font-weight:bold; font-size: 18px; text-align: center">TRANSACTION HISTORY</p>
+            </div>
+
+
+            <div>
+                @*<canvas style="display:none" id="barcanvas"></canvas>*@
+                <canvas id="barcanvas_@item.ID"></canvas>
+
+                @*<img id="imgCapture" src="@ViewBag.UserBarChart" />*@
+
+
+            </div>
+
+            <br />
+            <div style="width:100% !important">
+                <p style="background-color: black !important; color: white !important;font-weight:bold; font-size: 18px; text-align: center">NEWS & NOTICES</p>
+
+                <img style="width:100% !important;height:475px" src="@tnl[0].FilePath" />
+            </div>
+            <br />
+
+
+        }
+        @*<div id="chartContainer1"></div>
+        <canvas id="myChart" width="400" height="400"></canvas>
+
+            var chart1 = new CanvasJS.Chart("chartContainer1", {
+                title: {
+                    text: "Live Data"
+                },
+                data: [{
+                    type: "column",
+                    dataPoints: @Html.Raw(ViewBag.DataPoints),
+                }],
+                options:
+                {
+                    "hover": {
+                        "animationDuration": 0
+                    },
+                    "animation": {
+                        "duration": 1,
+                        "onComplete": function () {
+                            var chartInstance = this.chart,
+                                ctx = chartInstance.ctx;
+
+                            ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
+                            ctx.textAlign = 'center';
+                            ctx.textBaseline = 'bottom';
+
+                            this.data.datasets.forEach(function (dataset, i) {
+                                var meta = chartInstance.controller.getDatasetMeta(i);
+                                meta.data.forEach(function (bar, index) {
+                                    var data = dataset.data[index];
+                                    if (data != "0") {
+                                        ctx.fillText(data, bar._model.x, bar._model.y - 5);
+                                    }
+
+                                });
+                            });
+
+                        }
+                    },
+                    tooltips: {
+                        "enabled": false
+                    },
+
+                    legend: {
+
+                        labels: {
+                            fontSize: 25,
+                            boxWidth: 0
+                        }
+                    },
+                    scales: {
+                        xAxes: [{
+                            gridLines: {
+                                display: false
+                            }
+                        }],
+                        yAxes: [{
+                            gridLines: {
+                                display: false,
+                                drawBorder: false
+                            },
+                            ticks: {
+                                display: false,
+                                beginAtZero: true
+
+                            }
+                        }]
+                    },
+
+                    responsive: true,
+                    maintainAspectRatio: true,
+
+
+
+                }
+            });
+            chart1.render();*@
+
+
+
+
+
+        <script>
+        function Print() {
+            window.print();
+        }
+
+
+
+        var cc = @Html.Raw(Json.Encode(ViewBag.MonthlyStatementReport));
+
+
+        for (var i = 0; i < cc.length ; i++)
+        {
+            //var mm = "''" + cc[i].Month + "''" ;
+            //var dt = cc[i].Month;
+            //let str = cc[i].Month;
+            //const myArr = str.split(",");
+            //var array = [];
+            //for (var j = 0; j < cc[i].MonthNames.length; j++)
+            //{
+            //    array[j] = cc[j].MonthNames.split(',');
+
+
+            //    array.push()
+            //}
+            //console.log("Array" + array[0]);
+
+            console.log(cc[i].MonthNames);
+            console.log(cc[i].Month);
+
+            var months = cc[i].Month;
+
+            var monthnamess = cc[i].MonthNames;
+
+            var string = "0,1";
+            var array = JSON.parse("[" + string + "]");
+
+
+            let Abdulqadeerkihichc = "'\'Jul'\'" + ",'\'Aug'\'";
+       /*     var Abdulqadeerkihichc = "Jul" + ",Aug";*/
+
+
+
+            /*var array = JSON.parse("[" + Abdulqadeerkihichc + "]");*/
+            console.log(cc[i].Color);
+            var barChartData =
+            {
+               /* labels: [Abdulqadeerkihichc],*/
+
+                labels: cc[i].MonthNames,
+                datasets: [{
+                    label: '',
+                    backgroundColor: cc[i].Color,
+                    //backgroundColor: [
+                    //    "#d5d5d5",
+                    //    "#d5d5d5",
+                    //    "#d5d5d5",
+                    //    "#d5d5d5",
+                    //    "#d5d5d5",
+                    //    "#d5d5d5",
+                    //    "#d5d5d5",
+                    //    "#d5d5d5",
+                    //    "#d5d5d5",
+                    //    "#d5d5d5",
+                    //    "#d5d5d5",
+                    //    "#d5d5d5",
+                    //    "#d5d5d5",
+
+                    //],
+                    borderWidth: 2,
+
+                    data: cc[i].Month
+                }]
+            };
+
+
+
+            var demo = i + 1;
+            var ctx = document.getElementById("barcanvas_" + demo).getContext("2d");
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: barChartData,
+            options:
+            {
+                "hover": {
+                    "animationDuration": 0
+                },
+                "animation": {
+                    "duration": 1,
+                    "onComplete": function () {
+                        var chartInstance = this.chart,
+                            ctx = chartInstance.ctx;
+
+                        ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'bottom';
+
+                        this.data.datasets.forEach(function (dataset, i) {
+                            var meta = chartInstance.controller.getDatasetMeta(i);
+                            meta.data.forEach(function (bar, index) {
+                                var data = dataset.data[index];
+                                if (data != "0") {
+                                    ctx.fillText(data, bar._model.x, bar._model.y - 5);
+                                }
+
+                            });
+                        });
+
+                    }
+                },
+                tooltips: {
+                    "enabled": false
+                },
+
+                legend: {
+
+                    labels: {
+                        fontSize: 25,
+                        boxWidth: 0
+                    }
+                },
+                scales: {
+                    xAxes: [{
+                        gridLines: {
+                            display: false
+                        }
+                    }],
+                    yAxes: [{
+                        gridLines: {
+                            display: false,
+                            drawBorder: false
+                        },
+                        ticks: {
+                            display: false,
+                            beginAtZero: true
+
+                        }
+                    }]
+                },
+
+                responsive: true,
+                maintainAspectRatio: true,
+
+
+
+            }
+        });
+        }
+
+
+
+
+
+
+
+
+
+    $("#btnSave").bind("click", function () {
+
+
+
+    });
+
+
+    $(document).ready(function () {
+
+
+        window.print();
+     // timeFunction();
+        @*var cc = @Html.Raw(Json.Encode(ViewBag.Ajax));
+
+        alert(cc);
+
+        if (cc == 1)
+        {
+
+        }*@
+
+    });
+
+    function timeFunction() {
+
+        var UserId = @Html.Raw(Json.Encode(ViewBag.UserId));
+
+        var ddlTerminlKey = @Html.Raw(Json.Encode(ViewBag.ddlTerminlKey));
+        var ddlMonthKey = @Html.Raw(Json.Encode(ViewBag.ddlMonthKey));
+        var ddlYearlKey = @Html.Raw(Json.Encode(ViewBag.ddlYearlKey));
+
+        setTimeout(function () {
+
+            //var base64 = $('#barcanvas')[0].toDataURL();
+
+            //$("#imgCapture").attr("src", base64);
+            //$("#imgCapture").show();
+
+
+
+
+            /*UserId, string ddlTerminalKey, int ? ddlmonthlist = 0, int ? ddlyearlist = 0, int ? optradio = 1, int ? ajax = 1*/
+            var url = '@Url.Action("MonthlyTransactionReportPdf", "Report")?UserId='+UserId;
+            @*var url = '@Url.Action("MonthlyTransactionReportPdf", "Report")?UserId=' + UserId'&ddlTerminlKey=' + ddlTerminlKey'&ddlMonthKey=' + ddlMonthKey'&ddlYearlKey=' + ddlYearlKey;*@
+            window.location = url;
+
+            /*document.getElementById("btnconvert").click();*/
+
+            @*$.ajax({
+          /*  url: 'Terminal/GetTerminalInformation',*/
+            url: '@Url.Action("MonthlyTransactionReportPdf", "Report")',
+            type: "GET",
+            dataType: 'JSON',
+            success: function (result) {
+                location.reload();
+            },
+            error: function (err) {
+
+            }
+        });*@
+
+
+
+        }, 3000);
+
+
+    }
+
+        </script>
+        <!--<script>
+          var barChartData;
+
+
+
+
+             barChartData =
+            {
+                labels: [@Html.Raw(ViewBag.MonthGraphList)],-->
+        @*labels: [@Html.Raw(ViewBag.MonthGraphList)],*@
+        <!--datasets: [{
+                    label: '',
+                    backgroundColor: [
+                        "#d5d5d5",
+                        "#d5d5d5",
+                        "#d5d5d5",
+                        "#d5d5d5",
+                        "#d5d5d5",
+                        "#d5d5d5",
+                        "#d5d5d5",
+                        "#d5d5d5",
+                        "#d5d5d5",
+                        "#d5d5d5",
+                        "#d5d5d5",
+                        "#d5d5d5",
+                        "#d5d5d5",
+
+                    ],
+                    borderWidth: 2,
+
+                    data: [@ViewBag.TransactionGraphList]
+                }]
+            };
+
+
+        var ctx = document.getElementById("myChart").getContext("2d");
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: barChartData,
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </scr-->
+
+
+
+
+    </body>
+</page>
+</html>
+
+
+

@@ -1,0 +1,953 @@
+﻿@using RestockReport.Models;
+@model RestockReport.Models.tblUser
+<head>
+
+    @*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">*@
+    <link href="~/assets/css/sweetalert.min.css" rel="stylesheet" />
+
+    <style>
+
+
+        .select2-container .select2-selection--single {
+            height: 40px !important;
+        }
+
+        table.dataTable thead th, table.dataTable thead td {
+            padding: 10px 18px;
+            border-bottom: 1px solid #8dc745 !important;
+            background-color: #8dc745 !important;
+            color: white !important;
+        }
+        .modal-header {
+            background-color: #8dc745 !important;
+            color: white;
+            padding: 10px;
+        }
+
+        .modal-body {
+            padding: 0.9rem !important;
+        }
+    </style>
+</head>
+<div class="content container-fluid">
+
+    <div class="modal fade bd-example-modal-lg" id="BankAccount_Modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myLargeModalLabel">
+                        <i class="fa fa-lock"></i>   Add New Bank
+
+                    </h4>
+                    <button style="color:white !important" class="close" type="button" data-dismiss="modal" aria-label="Close" data-original-title="" title=""><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="card">
+                        <div class="card-body">
+                            <form action="#">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="bold">Bank Name: <small id="lblEnterBank" style="color: #ef0255;display: none;font-weight:bold"> Enter Bank Name</small></label>
+
+                                                    <input id="txtNewBank" type="text" class="form-control">
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+
+
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal" data-original-title="" title="">Close</button>
+                    <button onclick="SaveBankName()" style="        background-color: #8dc745 !important;
+        border: 1px solid #8dc745 !important
+    " class="btn btn-primary" type="button" data-original-title="" title="">
+                        Save
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="row">
+            <div class="col-sm-7 col-auto">
+                <h3 class="page-title">Add New Bank Account</h3>
+            </div>
+            <div class="col-sm-5 col">
+                <a href="@Url.Action("Index","BankAccountManager")" style="        background-color: #8dc745 !important;
+        border: 1px solid #8dc745
+" class="btn btn-primary float-right mt-2">Account List</a>
+            </div>
+        </div>
+    </div>
+    <!-- /Page Header -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <ul class="nav nav-tabs nav-tabs-solid">
+                        <li class="nav-item"><a style="border: 1px solid #8dc745" class="nav-link active" href="#solid-tab1" data-toggle="tab">ACCOUNT HOLDER</a></li>
+                        <li class="nav-item"><a style="border: 1px solid #8dc745" class="nav-link " href="#solid-tab2" data-toggle="tab">PROPERTIES</a></li>
+
+                        @*<li class="nav-item"><a style="border: 1px solid #8dc745" class="nav-link" href="#solid-tab3" data-toggle="tab">ACCOUNT USAGE(3)</a></li>*@
+                        <li class="nav-item"><a style="border: 1px solid #8dc745" class="nav-link" href="#solid-tab4" data-toggle="tab">ENTITY DETAILS</a></li>
+                    </ul>
+                    <div class="tab-content">
+
+
+                        <div class="tab-pane show active" id="solid-tab1">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="row">
+
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label>Account Holder Name: <small id="lblAccountHolderName" style="color: red;display: none"> Enter Account Holder </small></label>
+                                                        <input id="txtAccountHolderName" type="text" class="form-control" hidden>
+
+                                                        <select onchange="LoadAccountDetails(2,this)" id="ddlAccountHolder" required name="ddlAccountHolder" class="form-control js-example-basic-single">
+                                                            <option value="0">Select Account Holder</option>
+                                                            @foreach (var item in ViewBag.AccountHolderList)
+                                                            {
+                                                                <text>
+                                                                    <option value="@item.AccountName">@item.AccountName</option>
+
+                                                                </text>
+                                                            }
+
+                                                        </select>
+
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label>Nick Name: <small id="lblNickName" style="color: red;display: none"> Enter Nick Name. </small></label>
+                                                        <input id="txtNickName" type="text" class="form-control">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label>
+                                                            Stakeholder Type: <small id="lblStackHolderType" style="color: red;display: none">Select Stackholder Type</small>
+
+                                                        </label>
+
+                                                        <select id="ddlStackHolder" required name="ddlStackHolder" class="form-control js-example-basic-single">
+                                                            <option value="0">Select Stakeholder Type</option>
+                                                            @foreach (var item in ViewBag.StackHolder)
+                                                            {
+                                                                <text>
+                                                                    <option value="@item.StackHolderId">@item.StackHolderName</option>
+
+                                                                </text>
+                                                            }
+
+                                                        </select>
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label>Bank Account Contact Name <small id="lblBankContactName" style="color: red;display: none"> Enter Bank Contact. </small></label>
+                                                        <input id="txtBankAccountContact" type="text" class="form-control">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="row">
+
+
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label>Phone Number : <small id="lblPhoneNumber" style="color: red;display: none"> Enter Phone Number. </small></label>
+                                                        <input id="txtPhoneNumber" type="text" class="form-control">
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label>Email Address: <small id="lblEmail" style="color: red;display: none"> Enter Email</small></label>
+                                                        <input id="txtEmail" type="Email" class="form-control">
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane show" id="solid-tab2">
+                            <div class="card">
+                                <div class="card-body">
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label>
+                                                            Account Type: <small id="lblAccountTypeError" style="color: red;display: none">Select Account Type</small>
+
+                                                        </label>
+
+                                                        <select id="ddlAccountType" required name="ddlAccountType" class="form-control js-example-basic-single">
+                                                            <option value="0">Select Account Type</option>
+                                                            @foreach (var item in ViewBag.AccountType)
+                                                            {
+                                                                <text>
+                                                                    <option value="@item.AccountTypeID">@item.TypeName</option>
+
+                                                                </text>
+                                                            }
+
+                                                        </select>
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label>Bank Name: <small id="lblbanknameerror" style="color: red;display: none"> Enter Bank Name. </small></label>
+
+                                                        <small style="color:#ef0255; font-weight:bold" id="AttributeLabelMessage"></small>
+                                                        <i onclick="AddNewBank()" style="float:right !important" class="fa fa-plus-square"> </i>
+
+                                                        <input id="txtbankname" type="text" value="" class="form-control" hidden>
+
+
+                                                        <select id="ddlBankName" required name="ddlBankName" class="form-control js-example-basic-single">
+                                                            <option value="0">Select Bank Name</option>
+                                                            @foreach (var item in ViewBag.BankAccountList)
+                                                            {
+                                                                <text>
+                                                                    <option value="@item.BankAccountId">@item.Name</option>
+
+                                                                </text>
+                                                            }
+
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label>Address <small id="lblAddress" style="color: red;display: none"> Enter Address. </small></label>
+                                                        <input id="txtAddress" type="text" class="form-control">
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label>City: <small id="lblCity" style="color: red;display: none"> Enter City</small></label>
+                                                        <input id="txtCity" type="text" class="form-control">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label>
+                                                            Region: <small id="lblRegion" style="color: red;display: none"> Select Region. </small>
+
+
+
+                                                        </label>
+
+                                                        <select id="ddlRegion" required name="ddlRegion" class="form-control js-example-basic-single">
+                                                            <option value="0">Select Region</option>
+                                                            @foreach (var item in ViewBag.RegionList)
+                                                            {
+                                                                <text>
+                                                                    <option value="@item.Value">@item.Text</option>
+
+                                                                </text>
+                                                            }
+
+                                                        </select>
+
+                                                    </div>
+                                                </div>
+
+
+
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label>Postal Code: <small id="lblPostalCode" style="color: red;display: none"> Enter Postal Code. </small></label>
+                                                        <input id="txtPostalCode" type="text" class="form-control">
+                                                    </div>
+                                                </div>
+
+                                             
+
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label>
+                                                            Current Status: <small id="lblCurrentStatus" style="color: red;display: none"> Select Status. </small>
+
+
+
+                                                        </label>
+
+                                                        <select id="ddlCurrentstatus" required name="ddlCurrentstatus" class="form-control js-example-basic-single">
+                                                            <option value="0">Select Current Status</option>
+                                                            @foreach (var item in ViewBag.AccountStatus)
+                                                            {
+                                                                <text>
+                                                                    <option value="@item.AccountStatusId">@item.AccountStatus</option>
+
+                                                                </text>
+                                                            }
+
+                                                        </select>
+
+                                                    </div>
+                                                </div>
+
+                                               
+
+
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Routing  Number (5-Digits): <small id="lblRoutingNumber" style="color: red;display: none"> Enter Routing No. </small></label>
+                                                <input id="txtRoutingNumber" maxlength="5" type="text" class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Transit Number (3-Digits): <small id="lblTransitNumber" style="color: red;display: none"> Enter Transit No. </small></label>
+                                                <input maxlength="3" id="txtTransitNumber" type="text" class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Account Number: <small id="lblAccountNumber" style="color: red;display: none"> Enter Account No. </small></label>
+                                                <input id="txtAccountNumber" type="text" class="form-control">
+                                            </div>
+                                        </div>
+
+
+
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        @*<div class="tab-pane show" id="solid-tab3">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <table class="table table-hover table-center mb-0 dataTable no-footer" id="tblAccountUsage" style="font-size:14px  !important">
+                                            <thead >
+                                                <tr>
+                                                    <th>Terminal ID</th>
+                                                    <th>Location Name</th>
+                                                    <th>Vault Cash Settlement</th>
+                                                    <th>Surcharge Revenue Deposits</th>
+                                                    <th>Interchange Revenue Deposits</th>
+                                                    <th>Monthly Fees Debited</th>
+
+
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr style="background-color: #fafafa">
+                                                    <td>
+                                                        MINT1234
+                                                    </td>
+                                                    <td>
+                                                        ABC Grocery
+                                                    </td>
+                                                    <td style="text-align:center !important">
+                                                        <i class="fa fa-check" style="color:#97e787;font-size:24px;font-weight:bold;" aria-hidden="true"></i>
+                                                    </td>
+                                                    <td style="text-align:center !important">
+                                                        <i class="fa fa-check" style="color:#97e787;font-size:24px;font-weight:bold;" aria-hidden="true"></i>
+                                                    </td>
+                                                    <td style="text-align:center !important">
+                                                        <i class="fa fa-check" style="color:#97e787;font-size:24px;font-weight:bold;" aria-hidden="true"></i>
+                                                    </td>
+                                                    <td style="text-align:center !important">
+                                                        <i class="fa fa-times" style="color:Red !important;font-size:24px;font-weight:bold;" aria-hidden="true"></i>
+                                                    </td>
+                                                </tr>
+
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>*@
+
+                        <div class="tab-pane show" id="solid-tab4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Entity Name: <small id="lblEntityName" style="color: red;display: none"> Enter Entity Name</small></label>
+                                                <input id="txtEntityName" type="text" class="form-control">
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Mailing Address: <small id="lblMailingAddress" style="color: red;display: none"> Enter Mailing Address. </small></label>
+                                                <input id="txtMailingAddress" type="text" class="form-control">
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>City: <small id="lblCity" style="color: red;display: none"> Enter City. </small></label>
+                                                <input id="txtCity" type="text" class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Region: <small id="lblRegion" style="color: red;display: none"> Enter Region. </small></label>
+                                                <input id="txtEntityRegion" type="text" class="form-control" hidden>
+                                                <select onchange="UpdateRegionName(this)" id="ddlEntityRegion" required name="ddlEntityRegion" class="form-control js-example-basic-single">
+                                                    <option value="0">Select Region</option>
+                                                    @foreach (var item in ViewBag.RegionList)
+                                                    {
+                                                        <text>
+                                                            <option value="@item.Value">@item.Text</option>
+
+                                                        </text>
+                                                    }
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row">
+
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Postal Code: <small id="lblEntityPostalCode" style="color: red;display: none"> Enter Postal Code</small></label>
+                                                <input id="txtEntityPostalCode" type="text" class="form-control">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row" style="background-color: #fafafa">
+                            <div class="col-md-7"></div>
+                            <div class="col-md-5">
+                                <label style="visibility:hidden">Access Level:</label>
+                                
+                                <button onclick="ReloadPage()" style=" background-color: black !important;border: 1px solid black"
+                                        type="button" class="btn btn-primary" >
+                                    Cancel
+                                </button>
+
+                                <button id="SubmitReturn" onclick="SaveBankAccountInformation(1)" style="background-color: #8dc745 !important;border: 1px solid #8dc745"
+                                        type="button" class="btn btn-primary" >
+                                    Submit & Return to Account List
+                                </button>
+
+                                @*<button id="SubmitProceed" onclick="SaveBankAccountInformation(0)"
+                                        type="button" class="btn btn-info" >
+                                    Save Details
+                                </button>*@
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/assets/js/jquery-3.2.1.min.js"></script>
+<script src="~/assets/js/sweetalert.min.js"></script>
+<script type="text/javascript">
+
+    function UpdateRegionName() {
+
+        var entity = document.getElementById("ddlEntityRegion");
+        var entityvalue = entity.options[entity.selectedIndex].value;// get selected option value
+        var Entitytext = entity.options[entity.selectedIndex].text;
+
+        var txtEntityRegionName = Entitytext;
+        if (entityvalue == 0) {
+            txtEntityRegionName = " ";
+        }
+        $("#txtEntityRegion").val(txtEntityRegionName);
+    }
+
+
+    function LoadAccountDetails(Type, AccountHolderName) {
+    /*    alert(Type + "  " + AccountHolderName.value);*/
+
+             $.ajax({
+          /*  url: 'Terminal/GetTerminalInformation',*/
+            url: '@Url.Action("GetAccountHolderInformation", "BankAccountManager")',
+            type: "GET",
+            dataType: 'JSON',
+                 data: { AccountHolderName: AccountHolderName.value },
+            success: function (result) {
+                
+                if (result.length > 0) {
+
+                    $("#txtRoutingNumber").val(result[0].RoutingNumber);
+                    $("#txtTransitNumber").val(result[0].TransitNumber);
+                    $("#txtAccountNumber").val(result[0].AccountNumber);
+                }
+            },
+            error: function (err) {
+
+            }
+        });
+
+    }
+
+    function AddNewBank() {
+        $("#lblEnterBank").fadeOut();
+        $('#BankAccount_Modal').modal('show');
+        $("#txtNewBank").val("");
+    }
+
+    //Function to save terminal comments
+    function SaveBankName() {
+
+        var txtNewBank = $("#txtNewBank").val();
+
+        if (txtNewBank.trim() == "")
+
+        {
+
+            $("#lblEnterBank").fadeIn();
+            $("#lblEnterBank").fadeOut(7000);
+            $("#txtNewBank").focus();
+            return;
+        }
+
+        $.ajax({
+          /*  url: '/User/SaveAccessLevel',*/
+             url: '@Url.Action("AddNewBank", "BankAccountManager")',
+            type: "POST",
+            dataType: 'JSON',
+            data: { NewBank: txtNewBank},
+            success: function (result) {
+                var Documents;
+                if (result.length > 0) {
+
+                    $("#lblEnterBank").fadeIn();
+                    document.getElementById("lblEnterBank").innerHTML = "Attribute Added";
+                    document.getElementById("lblEnterBank").style.color  = "Green";
+
+                    $("#lblEnterBank").fadeOut(700);
+
+                    var select = $("#ddlBankName");
+                    select.empty();
+                    select.append($('<option/>', {
+                        value: 0,
+                        text: "Select Bank Name "
+                    }));
+                    $.each(result, function (index, itemData) {
+                        select.append($('<option/>', {
+                            value: itemData.AttributeId,
+                            text: itemData.Name
+                        }));
+                    });
+
+                    $("#txtNewBank").val();
+                    setTimeout(function () {
+                        $('#BankAccount_Modal').modal('hide');
+                    }, 1000);
+
+
+                }
+                else if (result.length == 0) {
+                    $("#lblEnterBank").fadeIn();
+                    document.getElementById("lblEnterBank").innerHTML = "Bank Name Already Exist";
+                    document.getElementById("lblEnterBank").style.color = "#ef0255";
+                    $("#lblEnterBank").fadeIn(7000);
+
+                }
+
+            },
+            error: function (err) {
+
+            }
+        });
+
+
+    }
+
+
+
+    $(document).ready(function () {
+
+        jQuery('#ddlAccountType').select2();
+        jQuery('#ddlRegion').select2();
+
+        jQuery('#ddlEntityRegion').select2();
+
+
+        
+        jQuery('#ddlBankName').select2();
+        jQuery('#ddlAccountHolder').select2();
+
+
+
+        jQuery('#ddlCurrentstatus').select2();
+        jQuery('#ddlStackHolder').select2();
+
+
+        $(".nav li").removeClass("active");
+        $('#Bankaccountmanager').addClass('active');
+
+    });
+
+    function SaveBankAccountInformation(IsRefresh) {
+
+        /*Tab 1*/
+        var ddlAccountType = $("#ddlAccountType").val();
+
+        var ddlBankName = $("#ddlBankName").val();
+
+        var txtbankname = $("#txtbankname").val();
+        var txtRoutingNumber = $("#txtRoutingNumber").val();
+        var txtAddress = $("#txtAddress").val();
+        var txtTransitNumber = $("#txtTransitNumber").val();
+        var txtCity = $("#txtCity").val();
+        var txtAccountNumber = $("#txtAccountNumber").val();
+        var ddlRegion = $("#ddlRegion").val();
+        var ddlEntityRegion = $("#ddlEntityRegion").val();
+        var ddlCurrentstatus = $("#ddlCurrentstatus").val();
+        var txtPostalCode = $("#txtPostalCode").val();
+
+
+        /*Tab 2*/
+        /*var txtAccountHolderName = $("#txtAccountHolderName").val();*/
+        /*var txtAccountHolderName = $("#ddlAccountHolder").sele();*/
+
+        var e = document.getElementById("ddlAccountHolder");
+        var value = e.options[e.selectedIndex].value;// get selected option value
+        var text = e.options[e.selectedIndex].text;
+
+        var txtAccountHolderName = text;
+
+        var txtNickName = $("#txtNickName").val();
+        var ddlStackHolder = $("#ddlStackHolder").val();
+        var txtBankAccountContact = $("#txtBankAccountContact").val();
+        var txtPhoneNumber = $("#txtPhoneNumber").val();
+        var txtCity = $("#txtCity").val();
+        var txtEmail = $("#txtEmail").val();
+
+        /*Tab 4*/
+        var txtEntityName = $("#txtEntityName").val();
+        var txtMailingAddress = $("#txtMailingAddress").val();
+        var txtCity = $("#txtCity").val();
+        var txtEntityRegion = $("#txtEntityRegion").val();
+        var txtEntityPostalCode = $("#txtEntityPostalCode").val();
+
+
+
+
+        /*tab 1 */
+        if (ddlAccountType == "0") {
+            //$("#lblAccountTypeError").fadeIn();
+            //$("#lblAccountTypeError").fadeOut(7000);
+            //$("#ddlAccountType").focus();
+            //return;
+        }
+
+        if (txtbankname == "") {
+            //$("#lblbanknameerror").fadeIn();
+            //$("#lblbanknameerror").fadeOut(7000);
+            //$("#txtbankname").focus();
+            //return;
+
+            txtbankname = " ";
+        }
+
+        if (txtRoutingNumber == "") {
+            //$("#lblRoutingNumber").fadeIn();
+            //$("#lblRoutingNumber").fadeOut(7000);
+            //$("#txtRoutingNumber").focus();
+            //return;
+
+            txtRoutingNumber = " ";
+        }
+
+        if (txtTransitNumber == "") {
+            //$("#lblTransitNumber").fadeIn();
+            //$("#lblTransitNumber").fadeOut(7000);
+            //$("#txtRoutingNumber").focus();
+            //return;
+
+            txtTransitNumber = " ";
+        }
+
+
+
+        if (txtAccountNumber == "") {
+            //$("#lblAccountNumber").fadeIn();
+            //$("#lblAccountNumber").fadeOut(7000);
+            //$("#txtAccountNumber").focus();
+            //return;
+            txtAccountNumber = " ";
+
+        }
+
+
+
+        if (txtAddress == "") {
+            txtAddress = " ";
+        }
+        if (txtCity == "") {
+            txtCity = " ";
+        }
+        if (txtPostalCode == "") {
+            txtPostalCode = " ";
+        }
+
+
+
+        if (txtAccountHolderName == "") {
+            txtAccountHolderName = " ";
+        }
+        if (txtNickName == "") {
+            txtNickName = " ";
+        }
+        if (txtBankAccountContact == "") {
+            txtBankAccountContact = " ";
+        }
+        if (txtPhoneNumber == "") {
+            txtPhoneNumber = " ";
+        }
+        if (txtCity == "") {
+            txtCity = " ";
+        }
+        if (txtEmail == "") {
+            txtEmail = " ";
+        }
+
+        if (txtEntityName == "") {
+            txtEntityName = " ";
+        }
+        if (txtMailingAddress == "") {
+            txtMailingAddress = " ";
+        }
+        if (txtCity == "") {
+            txtCity = " ";
+        }
+        if (txtEntityRegion == "") {
+            txtEntityRegion = " ";
+        }
+        if (txtEntityPostalCode == "") {
+            txtEntityPostalCode = " ";
+        }
+
+
+        //var ddlAccountType = $("#ddlAccountType").val();
+        //var txtbankname = $("#txtbankname").val();
+        //var txtRoutingNumber = $("#txtRoutingNumber").val();
+        //var txtAddress = $("#txtAddress").val();
+        //var txtTransitNumber = $("#txtTransitNumber").val();
+        //var txtCity = $("#txtCity").val();
+        //var txtAccountNumber = $("#txtAccountNumber").val();
+        //var ddlRegion = $("#ddlRegion").val();
+        //var ddlCurrentstatus = $("#ddlCurrentstatus").val();
+        //var txtPostalCode = $("#txtPostalCode").val();
+
+
+        var BankInfo = {};
+        BankInfo.AccountTypeId = ddlAccountType;
+        BankInfo.Bankname = txtbankname;
+        BankInfo.Routingnumber = txtRoutingNumber;
+        BankInfo.Address = txtAddress;
+        BankInfo.Transitnumber = txtTransitNumber;
+        BankInfo.City = txtCity;
+        BankInfo.Accountnumber = txtAccountNumber;
+
+        BankInfo.RegionId = ddlRegion;
+        BankInfo.CurrentstatusId = ddlCurrentstatus;
+        BankInfo.Postalcode = txtPostalCode;
+        BankInfo.Accountholdername = txtAccountHolderName;
+        BankInfo.Nickname = txtNickName;
+        BankInfo.Stackholdertypeid = ddlStackHolder;
+        BankInfo.Bankaccountcontactname = txtBankAccountContact;
+        BankInfo.Phonenumber = txtPhoneNumber;
+        BankInfo.EmailAddress = txtEmail;
+        BankInfo.Entityname = txtEntityName;
+        BankInfo.MailingAddress = txtMailingAddress;
+        BankInfo.Entitycity = txtCity;
+        BankInfo.Entityregion = txtEntityRegion;
+        BankInfo.Entitypostalcode = txtEntityPostalCode;
+        BankInfo.BankNameId = ddlBankName;
+        BankInfo.Entityregionid = ddlEntityRegion;
+        
+        document.getElementById("SubmitReturn").setAttribute('disabled', 'disabled');
+        
+
+        $.ajax({
+            type: "POST",
+          url: '@Url.Action("SaveBankInfo", "BankAccountManager")',
+            data: '{BankInformation: ' + JSON.stringify(BankInfo) + ',IsRefresh: ' + IsRefresh +'}',
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (result) {
+                if (result.status == "1") {
+                    if (IsRefresh == 1) {
+                        swal({
+                            title: "Bank Account: " + result.BankName, text: "Bank Account added successfully", type: "success",
+                            timer: 2000,
+                            showconfirmbutton: false
+                        }, function () {
+                            window.location.href = result.url;
+                        });
+                    }
+
+
+
+                }
+                else if (result.status != "1") {
+                    swal({
+                        title: "Add Bank Account:",
+                        text: result,
+                        type: "warning",
+                        showcancelbutton: true,
+                        closeonconfirm: false
+                    },
+                    );
+                }
+            },
+            error: function () {
+                alert("Error while inserting data");
+            }
+        });
+
+    }
+
+    function ReloadPage() {
+        location.reload();
+    }
+
+
+    $("#txtbankname").blur(function () {
+        var BankName = $("#txtbankname").val();
+        $.ajax({
+            /*url: 'User/VerifyUserId',*/
+             url: '@Url.Action("VerifyBankName", "BankAccountManager")',
+            type: "GET",
+            dataType: 'JSON',
+            data: { BankName: BankName },
+            success: function (result) {
+                $("#lblbanknameerror").fadeOut();
+                if (result == "1") {
+
+                    document.getElementById("lblbanknameerror").innerHTML = "Already Exists!";
+                    $("#lblbanknameerror").fadeIn();
+                    $("#lblbanknameerror").fadeOut(7000);
+                    document.getElementById("txtbankname").style.borderColor = "#ef0255";
+
+                    $("#txtbankname").focus();
+                    return;
+
+                }
+                else {
+                    $("#lblbanknameerror").fadeOut();
+                    document.getElementById("lblbanknameerror").innerHTML = "Enter Bank Name.";
+                    document.getElementById("txtbankname").style.borderColor = "Green";
+                }
+
+
+            },
+            error: function (err) {
+
+            }
+        });
+    });
+
+
+
+    $("#txtRoutingNumber").blur(function () {
+
+        const textbox = document.getElementById("txtRoutingNumber");
+        if (textbox.value.length < 5) {
+            document.getElementById("txtRoutingNumber").style.borderColor = "#ef0255";
+            $("#txtRoutingNumber").focus();
+            return;
+        }
+        else {
+            document.getElementById("txtRoutingNumber").style.borderColor = "Green";
+
+        }
+    });
+
+
+    $("#txtTransitNumber").blur(function () {
+
+        const textbox = document.getElementById("txtTransitNumber");
+        if (textbox.value.length < 3) {
+            document.getElementById("txtTransitNumber").style.borderColor = "#ef0255";
+            $("#txtTransitNumber").focus();
+            return;
+        }
+        else {
+            document.getElementById("txtTransitNumber").style.borderColor = "Green";
+
+        }
+    });
+
+
+</script>

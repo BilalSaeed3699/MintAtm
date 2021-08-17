@@ -1,0 +1,841 @@
+﻿@using RestockReport.Models
+@model RestockReport.Models.Sp_Get_Donut_Revenue_Graph_Result
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+
+    <title>Charts</title>
+    <style>
+        .bold {
+            font-weight: Bold;
+        }
+
+        .select2-container .select2-selection--single {
+            height: 40px !important;
+        }
+
+        .chartjs-render-monitor {
+            height: 220px !important;
+        }
+
+        .check:checked + .checktoggle {
+            background-color: #031bfd;
+        }
+
+        .checktoggle {
+            background-color: #55ce63;
+        }
+
+        #container1 {
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        #container2 {
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        #container3 {
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .google-visualization-tooltip {
+            display: table;
+        }
+
+        g {
+            cursor: pointer;
+        }
+
+
+
+    </style>
+    @*<script src="https://code.jquery.com/jquery-3.5.1.js"></script>*@
+    <script src="~/assets/js/jquery-3.5.1.js"></script>
+    <script src="~/assets/js/highcharts.js"></script>
+    <script src="~/assets/js/Chart.bundle.js"></script>
+    <script src="~/assets/js/chart.js"></script>
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.2.2/Chart.bundle.min.js"></script>*@
+
+<script>
+        $(document).ready(function () {
+
+            /*First Donut*/
+            var chart = {
+                plotBackgroundColor: null,
+                plotBorderWidth: 0,
+                plotShadow: false
+            };
+            var title = {
+                margin: 0,
+                style: {
+                    
+                    color: '#000000',
+                    /*color: '#849db2',*/
+                    font: 'bold 20px '
+                },
+                text: '$' +' @Convert.ToDecimal(@Model.LastMonthRevenue).ToString("#,##")<br><br> Last Month',
+                align: 'center',
+                verticalAlign: 'middle',
+                y:50
+            };
+            var tooltip = {
+                enabled: false 
+              /*  pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'*/
+            };
+            var plotOptions = {
+                pie: {
+                    dataLabels: {
+                        enabled: true,
+                        distance: -50,
+                        style: {
+                            fontWeight: 'bold',
+                            color: 'white',
+                            textShadow: '0px 1px 2px black'
+                        }
+                    },
+                    startAngle: -90,
+                    endAngle: 90,
+                    center: ['50%', '75%']
+                }
+            };
+            var series = [{
+                enableMouseTracking: false,
+                type: 'pie',
+                name: 'Total Revenue',
+                innerSize: '70%',
+                data: [
+                    @*[' ', @Model.LastMonthRevenue],*@
+                    {
+                        name: '',
+                        y: @Model.LastMonthRevenue,
+                        dataLabels: {
+                            enabled: false
+                        },
+                        color:'#849db2'
+                    },
+                    {
+                        name: '',
+                        y: @ViewBag.LastMonthRevenue,
+                        dataLabels: {
+                            enabled: false
+                        }
+                    }
+                ],
+                 pointColorMapping: 'color',
+
+            }];
+
+            var json = {};
+            json.chart = chart;
+            json.title = title;
+            json.tooltip = tooltip;
+            json.series = series;
+            json.plotOptions = plotOptions;
+            $('#container1').highcharts(json);
+
+
+        /*            Second Donut*/
+
+              chart = {
+                plotBackgroundColor: null,
+                plotBorderWidth: 0,
+                plotShadow: false
+            };
+            title = {
+                margin: 0,
+                style: {
+                /*color: '#d6ce9e',*/
+                    color: '#000000',
+                    font: 'bold 20px '
+                },
+                 text: '$' +'@Convert.ToDecimal(@Model.ThisMonthLastYearRevenue).ToString("#,##") <br><br> This Month Last Year',
+                align: 'center',
+                verticalAlign: 'middle',
+                 y: 50
+            };
+             tooltip = {
+                enabled: false
+                /*  pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'*/
+            };
+             plotOptions = {
+                pie: {
+                    dataLabels: {
+                        enabled: true,
+                        distance: -50,
+                        style: {
+                            fontWeight: 'bold',
+                            color: 'white',
+                            textShadow: '0px 1px 2px black'
+                        }
+                    },
+                    startAngle: -90,
+                    endAngle: 90,
+                    center: ['50%', '75%']
+                }
+            };
+            series = [{
+                enableMouseTracking: false,
+                type: 'pie',
+                name: 'Total Revenue',
+                innerSize: '70%',
+                data: [
+                    @*['', @Model.ThisMonthLastYearRevenue],*@
+
+                     {
+                        name: '',
+                        y: @Model.ThisMonthLastYearRevenue,
+                        dataLabels: {
+                            enabled: false
+                        },
+                        color: '#d6ce9e'
+                    },
+                    {
+                        name: '',
+                        y: @ViewBag.ThisMonthLastYearRevenue,
+                        dataLabels: {
+                            enabled: false
+                        }
+                    }
+                ]
+            }];
+
+             json = {};
+            json.chart = chart;
+            json.title = title;
+            json.tooltip = tooltip;
+            json.series = series;
+            json.plotOptions = plotOptions;
+            $('#container2').highcharts(json);
+
+
+
+
+              /*Third Donut*/
+             chart = {
+                plotBackgroundColor: null,
+                plotBorderWidth: 0,
+                plotShadow: false
+            };
+            title = {
+                margin: 0,
+                style: {
+                /*color: '#b46551',*/
+                    color: '#000000',
+                    font: 'bold 20px '
+                },
+                 text: '$' +'@Convert.ToDecimal(@Model.ThisMonthToDate).ToString("#,##")<br><br> This Month To Date',
+                align: 'center',
+                verticalAlign: 'middle',
+                 y: 50
+            };
+            tooltip = {
+                enabled: false
+                /*  pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'*/
+            };
+
+             plotOptions = {
+                pie: {
+                    dataLabels: {
+                        enabled: true,
+                        distance: -50,
+                        style: {
+                            fontWeight: 'bold',
+                            color: 'white',
+                            textShadow: '0px 1px 2px black'
+                        }
+                    },
+                    startAngle: -90,
+                    endAngle: 90,
+                    center: ['50%', '75%']
+                }
+            };
+            series = [{
+                enableMouseTracking: false,
+                type: 'pie',
+                name: 'Total Revenue',
+                innerSize: '70%',
+                data: [
+                    @*['', @Model.ThisMonthToDate],*@
+
+                     {
+                        name: '',
+                        y: @Model.ThisMonthToDate,
+                        dataLabels: {
+                            enabled: false
+                        },
+                        color: '#b46551'
+                    },
+                    {
+                        name: '',
+                        y: @ViewBag.ThisMonthToDate,
+                        dataLabels: {
+                            enabled: false
+                        }
+                    }
+                ]
+            }];
+
+             json = {};
+            json.chart = chart;
+            json.title = title;
+            json.tooltip = tooltip;
+            json.series = series;
+            json.plotOptions = plotOptions;
+            $('#container3').highcharts(json);
+
+
+
+              /*Four Donut*/
+            // chart = {
+            //    plotBackgroundColor: null,
+            //    plotBorderWidth: 0,
+            //    plotShadow: false
+            //};
+            @*title = {
+                margin: 0,
+                style: {
+                    color: '#8dc745',
+                    font: 'bold 30px '
+                },
+                text: '$' +'@Convert.ToDecimal(@Model.LastTwelveMonths).ToString("#,##")<br><br>  Trailing Last 12 months',
+                align: 'center',
+                verticalAlign: 'middle',
+                 y: -50
+            };*@
+            //tooltip = {
+            //    enabled: false
+            //    /*  pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'*/
+            //};
+
+            // plotOptions = {
+            //    pie: {
+            //        dataLabels: {
+            //            enabled: true,
+            //            distance: -50,
+            //            style: {
+            //                fontWeight: 'bold',
+            //                color: 'white',
+            //                textShadow: '0px 1px 2px black'
+            //            }
+            //        },
+            //        startAngle: -90,
+            //        endAngle: 90,
+            //        center: ['50%', '30%']
+            //    }
+            //};
+            @*series = [{
+                enableMouseTracking: false,
+                type: 'pie',
+                name: 'Total Revenue',
+                innerSize: '70%',
+                data: [
+                   
+
+                     {
+                        name: ' ',
+                        y: @Model.LastTwelveMonths,
+                        dataLabels: {
+                            enabled: false
+                        },
+                        color:"#8dc745"
+                    }
+                    ,
+                    {
+                        name: ' ',
+                        y: @ViewBag.LastTwelveMonths,
+                        dataLabels: {
+                            enabled: false
+                        }
+                    }
+                ]
+            }];*@
+
+             json = {};
+            json.chart = chart;
+            json.title = title;
+            json.tooltip = tooltip;
+            json.series = series;
+            json.plotOptions = plotOptions;
+
+
+            $('#container4').highcharts(json);
+
+        });
+</script>
+    <script>
+
+        var barChartData =
+            {
+                labels: [@Html.Raw(ViewBag.MonthGraphList)],
+                datasets: [{
+                    label: ' ',
+
+
+                    backgroundColor: [@Html.Raw(ViewBag.ColorList)],
+                   @*@ViewBag.Color,
+                        @ViewBag.Color,
+                      @ViewBag.Color,
+                       @ViewBag.Color,
+                       @ViewBag.Color,
+                      @ViewBag.Color,
+                      @ViewBag.Color,
+                      @ViewBag.Color,
+                        @ViewBag.Color,
+                      @ViewBag.Color,
+                        @ViewBag.Color,
+                        @ViewBag.Color,*@
+
+
+                        //"#aad2ed",
+                        //"#9966FF",
+                        //"#99e5e5",
+                        //"#f7bd83",
+                   /* ],*/
+                    borderWidth: 2,
+                    data: [@ViewBag.TransactionGraphList]
+                }]
+            };
+
+            window.onload = function () {
+                var ctx1 = document.getElementById("barcanvas").getContext("2d");
+                window.myBar = new Chart(ctx1,
+                    {
+
+
+                        type: 'bar',
+                        data: barChartData,
+
+                        options:
+                        {
+                            "hover": {
+                                "animationDuration": 0
+                            },
+                            "animation": {
+                                "duration": 1,
+                                "onComplete": function () {
+                                    var chartInstance = this.chart,
+                                        ctx = chartInstance.ctx;
+
+                                    ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
+                                    ctx.textAlign = 'center';
+                                    ctx.textBaseline = 'bottom';
+
+                                    this.data.datasets.forEach(function (dataset, i) {
+                                        var meta = chartInstance.controller.getDatasetMeta(i);
+                                        meta.data.forEach(function (bar, index) {
+                                            var data = dataset.data[index];
+                                            if (data != "0") {
+                                                ctx.fillText(addCommas(data), bar._model.x, bar._model.y - 5);
+                                            }
+
+                                        });
+                                    });
+                                    function addCommas(nStr) {
+                                        nStr += '';
+                                        x = nStr.split('.');
+                                        x1 = x[0];
+                                        x2 = x.length > 1 ? '.' + x[1] : '';
+                                        var rgx = /(\d+)(\d{3})/;
+                                        while (rgx.test(x1)) {
+                                            x1 = x1.replace(rgx, '$1' + ',' + '$2');
+                                        }
+                                        return x1 + x2;
+                                    }
+                                }
+                            },
+                            tooltips: {
+                                "enabled": false
+                            },
+
+                            legend: {
+                                Position:"left",
+                                labels: {
+                                    fontSize: 25,
+                                    boxWidth: 0,
+
+
+                                }
+                            },
+                            scales: {
+                                xAxes: [{
+                                    gridLines: {
+                                        display: false
+                                    }
+                                }],
+                                yAxes: [{
+                                    gridLines: {
+                                        display: false,
+                                        drawBorder: false
+                                    },
+                                    ticks: {
+                                        display: false,
+                                        beginAtZero: true
+
+                                    }
+                                }]
+                            },
+
+                                responsive: true,
+                            maintainAspectRatio: false,
+
+
+
+                        }
+
+
+                    });
+            }
+    </script>
+</head>
+<body>
+
+
+    <div class="content container-fluid">
+
+
+
+        <!-- Page Header -->
+        <!-- /Page Header -->
+
+
+        <form method="get">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="bold">Choose ATM </label> <small>@ViewBag.Error</small>
+
+                        <input hidden value="@ViewBag.UserId" id="txtUserId" name="UserId" />
+
+                        <select onchange="UpdateGraphStats(0,'@ViewBag.FilterType')" id="ddlTerminalKey" name="ddlTerminalKey" class="form-control js-example-basic-single">
+                            <option value="0">All ATM</option>
+                            @foreach (var item in ViewBag.TerminalList)
+                            {
+                                <text>
+
+                                    @if (ViewBag.ddlTerminlKey != null && ViewBag.ddlTerminlKey == item.TerminalKey)
+                                    {
+                                        <option selected value="@item.TerminalKey">@item.TerminalName</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.TerminalKey">@item.TerminalName</option>
+                                    }
+
+                                    @*<option value="@item.TerminalKey">@item.TerminalName</option>*@
+                                </text>
+                            }
+
+                        </select>
+
+                    </div>
+                </div>
+
+                <div class="col-md-1" style="max-width: 6.333333% !important;margin-top:10px !important"><br /><strong>MONTHLY</strong></div>
+                <div class="col-md-1" style="max-width: 4.9% !important;margin-top:10px !important">
+                    <div class="form-group">
+                        <label class="bold" hidden>Choose ATM </label> <small>@ViewBag.Error</small>
+
+                        <div class="status-toggle">
+                            <br />
+                            <input name="DashboardFilter" onclick="UpdateGraphStats(1,'@ViewBag.FilterType')" type="checkbox" id="Filter" class="check" @ViewBag.Checked>
+                            <label for="Filter" class="checktoggle">checkbox </label>
+
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-md-1" style="margin-top: 10px !important"><br /><strong>DAILY</strong></div>
+
+
+
+
+
+                <div class="col-md-2" style="display:none">
+                    <div class="form-group">
+                        <label class="bold">Choose Month </label> <small>@ViewBag.Error</small>
+
+                        <input hidden value="@ViewBag.UserId" name="UserId" />
+
+                        <select id="ddlmonthlist" name="ddlmonthlist" class="form-control js-example-basic-single">
+                            <option value="0">Select Month</option>
+                            @foreach (var item in ViewBag.MonthList)
+                            {
+                                <text>
+
+
+
+                                    @{int MonthKey;}
+
+                                    @if (ViewBag.ddlMonthKey == null)
+                                    {
+                                        MonthKey = 0;
+                                    }
+                                    else
+                                    {
+                                        MonthKey = Convert.ToInt32(ViewBag.ddlMonthKey);
+                                    }
+
+
+                                    @if (MonthKey == item.MonthId)
+                                    {
+                                        <option selected value="@item.MonthId">@item.Name</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.MonthId">@item.Name</option>
+                                    }
+
+                                </text>
+                            }
+
+                        </select>
+
+                    </div>
+                </div>
+
+
+                <div class="col-md-2" style="display:none">
+                    <div class="form-group">
+                        <label class="bold">Choose Year </label> <small>@ViewBag.Error</small>
+
+                        <input hidden value="@ViewBag.UserId" name="UserId" />
+
+                        <select id="ddlyearlist" name="ddlyearlist" class="form-control js-example-basic-single">
+                            <option value="0">Select Year</option>
+                            @foreach (var item in ViewBag.YearList)
+                            {
+                                <text>
+
+                                    @{int YearKey;}
+
+                                    @if (ViewBag.ddlYearlKey == null)
+                                    {
+                                        YearKey = 0;
+                                    }
+                                    else
+                                    {
+                                        YearKey = Convert.ToInt32(ViewBag.ddlYearlKey);
+                                    }
+
+                                    @if (YearKey == item.Year)
+                                    {
+                                        <option selected value="@item.Year">@item.Year</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.Year">@item.Year</option>
+                                    }
+
+
+                                </text>
+                            }
+
+                        </select>
+
+                    </div>
+                </div>
+
+                <div class="col-md-1" style="display:none">
+                    <label id="click" style="visibility:hidden"> Click</label>
+                    <button style="width: 100%;Color: white;background-color: #8dc745 !important;border: 1px solid #8dc745" class="btn btn-primary" type="submit">
+                        Search
+                    </button>
+
+
+                </div>
+
+                <div class="col-md-1" style="display:none">
+                    <label id="click" style="visibility:hidden"> Click</label>
+
+
+                    <a onclick="ReportPreview()" style="width: 100%;Color: white;background-color: darkgreen !important;border: 1px solid darkgreen" class="btn btn-primary">
+                        Preview
+                    </a>
+
+
+
+                </div>
+
+                <div class="col-md-1" style="display:none">
+                    <label id="click" style="visibility:hidden"> Click</label>
+                    <a target="_blank" href="@Url.Action("ReportPreview","Report",new {UserID=@ViewBag.UserID })" style="width: 100%;font-size:14px;Color: white;background-color: deepskyblue !important;border: 1px solid deepskyblue" class="btn btn-primary">
+                        Download
+                    </a>
+
+
+                </div>
+            </div>
+
+
+            <!-- Page Header -->
+
+            <div class="page-header" style="margin-bottom:0px !important;background-color:white !important">
+                <div class="row">
+                    <div class="col-sm-6 col-auto">
+                        @if (ViewBag.FilterType == "M")
+                        {
+                            <h4 class="page-title" style="padding:10px !important">
+
+                                Average Monthly Transactions: @Convert.ToDecimal(@ViewBag.AverageTransactionCount).ToString("#,##")
+                                @*@ViewBag.AverageTransactionCount*@
+
+
+
+                            </h4>
+                        }
+                        @if (ViewBag.FilterType == "D")
+                        {
+                            <h4 class="page-title" style="padding:10px !important">
+
+                                Average Daily Transactions: @ViewBag.AverageTransactionCount
+
+                            </h4>
+                        }
+                    </div>
+
+                </div>
+            </div>
+            <!-- /Page Header -->
+
+            <div style="text-align: center;max-height:100% !important;background-color:white !important">
+                <canvas id="barcanvas"></canvas>
+            </div>
+
+            <br />
+
+            <!-- Page Header -->
+
+            <div class="page-header" style="margin-bottom:0px !important;background-color:white !important">
+                <div class="row">
+                    <div class="col-sm-12 ">
+
+                        <h4 class="page-title" style="padding:10px !important">
+                            Revenue
+                            @*@Convert.ToDecimal(@Model.GrandTotal).ToString("#,##")*@
+                      
+
+                        </h4>
+
+
+                    </div>
+
+                </div>
+            </div>
+            <!-- /Page Header -->
+            <div class="row" style="background-color:white !important;margin:0px !important">
+                <div class=" col-xs-12 col-sm-12  col-md-6 col-lg-4">
+                    <div id="container1"></div>
+
+
+                </div>
+                <div class=" col-xs-12 col-sm-12  col-md-6 col-lg-4"><div id="container2"></div></div>
+                <div class="col-xs-12 col-sm-12  col-md-6 col-lg-4"><div id="container3"></div></div>
+                @*<div class="col-md-3"><div id="container4"></div></div>*@
+            </div>
+
+
+
+            @*<div style="text-align: center">
+                Disclaimer:- This data is for demo it is
+                not real data it wont relate to any company
+            </div>*@
+        </form>
+
+    </div>
+</body>
+</html>
+
+
+@*<script src="~/assets/js/jquery-3.2.1.min.js"></script>*@
+@*<script src="~/assets/js/Chart.bundle.js"></script>*@
+
+<script>
+    $(document).ready(function () {
+        $(".nav li").removeClass("active");
+        $('#Dashboard').addClass('active');
+
+        jQuery('#ddlTerminalKey').select2();
+        jQuery('#ddlyearlist').select2();
+        jQuery('#ddlmonthlist').select2();
+    });
+
+
+    function UpdateGraphStats(Check,Type) {
+        //if ($("#ddlTerminalKey").val() == 0) {
+        //    return;
+        //}
+
+        if (Check != 0) {
+
+
+
+        if (Type == "M") {
+            Type = "D"
+        }
+        else if (Type=="D") {
+            Type = "M"
+        }
+
+        }
+        @*var FilterType = @Html.Raw(Json.Encode(ViewBag.FilterType));*@
+        $.ajax({
+                url: '@Url.Action("UpdateGraphData", "Home")',
+            type: "POST",
+            dataType: 'JSON',
+            data: { UserId: $("#txtUserId").val(), ddlTerminalKey: $("#ddlTerminalKey").val(), FilterType: Type },
+            success: function (result) {
+                    window.location = result.url;
+                },
+            error: function (err) {
+
+                }
+            });
+
+        }
+
+
+        function ReportPreview() {
+
+            var Userid = $("#txtUserId").val();
+
+        $.ajax({
+                /*url: '/Home/OpenReportPreview',*/
+                url: '@Url.Action("OpenReportPreview", "Home")',
+            type: "POST",
+            dataType: 'JSON',
+            data: { UserId: Userid, ddlTerminalKey: $("#ddlTerminalKey").val(), ddlmonthlist: $("#ddlmonthlist").val(), ddlyearlist: $("#ddlyearlist").val() },
+            success: function (result) {
+                    /*  window.location = result.url;*/
+
+                    window.open(result.url, '_blank');
+                },
+            error: function (err) {
+
+                }
+            });
+
+            //$.get("/User/Edit",
+            //    { User_ID: $("#txtUserId").val(), ddlAccessLevel: $("#ddlAccessLevel").val() },
+
+            //    function (response) {
+            //        alert(response);
+            //    /*    alert("Hello: " + response.Name + " .\nCurrent Date and Time: " + response.DateTime);*/
+            //        location.reload();
+            //    }
+            //);
+        }
+</script>

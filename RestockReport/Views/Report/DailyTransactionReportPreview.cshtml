@@ -1,0 +1,205 @@
+﻿﻿
+@{
+    Layout = null;
+}
+
+
+<head>
+
+    <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css">
+    <style>
+        tr {
+            page-break-inside: avoid;
+        }
+        table tfoot {
+            display: table-row-group;
+        }
+    </style>
+
+</head>
+
+
+<body style="background-color:white !important">
+
+    <div id="Grid">
+
+
+
+
+        <table>
+            <tr>
+                @*<td> <img style="max-height:70px !important" src="~/assets/img/MyMint_Logo.png" alt="Logo"></td>*@
+                <td> <img style="max-height:70px !important" src="~/assets/img/Daily_Report_Pdf_Logo.png" alt="Logo"></td>
+                <td style="width:100% !important"><h2 style="font-weight:bold;float:right">Daily Transaction Detail Report</h2></td>
+            </tr>
+
+
+            <tr>
+            </tr>
+
+        </table>
+
+
+
+        <br />
+
+        @if (ViewBag.TerminalKey != "0")
+        {
+            <h4 style="font-weight:bold">Terminal: @ViewBag.TerminalKey</h4>
+        }
+
+
+
+        <h4 style="font-weight:bold">Date: @ViewBag.ReportDate</h4>
+
+
+
+
+
+
+
+
+
+
+        <br />
+
+
+        <table class="table">
+            <thead>
+                <tr style="background-color:#8dc745 !important;color:white !important">
+                    <th>Terminal</th>
+                    <th>SEQ&nbsp;NUM</th>
+                    <th>DATE&nbsp;TIME</th>
+                    <th>CARD#</th>
+                    <th>REQUESTED</th>
+                    <th>DISPENSED</th>
+                    <th>SURCHARGE</th>
+                    <th>TOTAL</th>
+                    <th>STATUS</th>
+
+                </tr>
+            </thead>
+
+            <tbody>
+                @{var DateTimes = "";}
+                @{var Time = "";}
+                @foreach (var item in ViewBag.ReportData)
+                {
+                    DateTimes = item.TransactionDate.ToString("yyyy-MM-dd");
+
+                    //Time = item.TransactionTime.Substring(, 2);
+
+                    Time = item.TransactionTime.Substring(0, 2) + ":" + item.TransactionTime.Substring(2, 2) + ":" + item.TransactionTime.Substring(4, 2);
+                    <tr>
+                        <td>@item.AtmTerminalKey</td>
+                        <td>@item.TransactionSequenceNumber</td>
+                        @*<td style="font-size:14px"> @item.HostDate.ToString("yyyy-MM-dd") </td>*@
+                        <td>
+                            <p style="font-size:15px !important">
+                                @*<a>@item.HostDate.ToString("yyyy-MM-dd")</a>*@
+                                @DateTimes <br />  @Time
+                            </p>
+                        </td>
+                        <td>@item.MaskedCardHolderCardNumber</td>
+                        <td>@item.RequestCashWithDrawlAmount.ToString("0.00")</td>
+                        <td>@item.DispensedCashAmount.ToString("0.00")</td>
+                        <td>@item.SurchargeFee.ToString("0.00")</td>
+                        <td>@{var RemaininAmount = item.RequestCashWithDrawlAmount + item.SurchargeFee;} @RemaininAmount.ToString("0.00")</td>
+                        <td>
+                            <p class="table-avatar">
+                                @*@if (item.TransactionResponseCode == "0")
+                                    {
+                                        <label>Approved</label>
+                                    }*@
+
+                                <label>@item.TransactionStatus</label>
+
+
+                            </p>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+
+            <tfoot style="background-color: #8dc745 !important;color:white !important;border:1px solid #8dc745 !important">
+                <tr>
+                    <th colspan="5"></th>
+                    <th id="total_Dispensed">@ViewBag.TotalDispensed</th>
+                    <th id="total_Surcharge">@ViewBag.TotalSurcharge</th>
+                    <th id="total_Sum">@ViewBag.TotalSum</th>
+                    <th id="total_Status">@ViewBag.TotalStatus</th>
+                </tr>
+                
+            </tfoot>
+        </table>
+
+
+
+
+
+
+
+
+
+    </div>
+
+
+
+
+</body>
+
+@*<script src="~/assets/js/jquery-3.5.1.js"></script>
+<script src="~/assets/js/sweetalert.min.js"></script>
+<script src="~/assets/js/datatable/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.7.0/js/dataTables.buttons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.print.min.js"></script>
+<script src="~/assets/js/datatable/dataTables.responsive.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        var ReportData = @Html.Raw(Json.Encode(ViewBag.ReportData));
+        //Loop through each of the admin users, if any of
+        //the admin users match the current user, hide the delete column.
+        var TotalDispensed = 0;
+        var TotalSurcharge = 0;
+        var TotalSum = 0;
+        var TotalStatus = 0;
+
+
+        for (var i = 0; i < ReportData.length; i++) {
+        TotalDispensed += ReportData[i].DispensedCashAmount;
+        TotalSurcharge += ReportData[i].SurchargeFee;
+        TotalSum += ReportData[i].DispensedCashAmount + ReportData[i].SurchargeFee;
+
+        if (ReportData[i].TransactionStatus == "Approved") {
+        TotalStatus = TotalStatus + 1;
+        }
+
+        }
+
+
+        $('#tblReportList').DataTable({
+            footer: true,
+        //dom: 'Bfrtip',
+        //buttons: [
+        //    { extend: 'pdf', text: 'Download PDF format' }
+        //],
+        searching: false, paging: false, sorting: false,
+        drawCallback: function () {
+        $('#total_Dispensed').html(TotalDispensed.toFixed(2));
+        $('#total_Surcharge').html(TotalSurcharge.toFixed(2));
+        $('#total_Sum').html(TotalSum.toFixed(2));
+        $('#total_Status').html(TotalStatus);
+
+        }
+        });
+
+
+        });
+</script>*@
